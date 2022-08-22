@@ -5,7 +5,7 @@
       <div class="col-lg-12">
         <div class="row">
           <!-- <div v-if=""></div> -->
-          <div class="col-lg-3 mb-lg-4" v-for="(formazione, index) in formazioni" :key="index">
+          <div class="col-lg-3 mb-4" v-for="(formazione, index) in formazioni" :key="index">
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex px-2 py-1">
@@ -73,20 +73,41 @@
                     <tr v-for="(giocatore, index2) in formazione[formazione.Mostra]" :key="index2">
                     <td style="padding: 0rem 0.5rem !important">
                       <div class="d-flex px-2 py-1">
-                        <div>
+                        <!-- Per i titolari mostra le sostituzioni -->
+                        <div v-if="formazione.Mostra == 'Titolari'" class="d-flex flex-column justify-content-center">
+                          <div v-if="giocatore.fv == 100 && giocatore.status == 4">
+                            <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">  
+                              <s >{{ giocatore.n }}</s>
+                            </h6>
+                            <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">
+                              {{ giocatore.sostituto.n }}
+                            </h6>
+                          </div>
+                          <div v-else>
+                            <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">  
+                              {{ giocatore.n }}
+                            </h6>
+                          </div>
+                          <p class="text-xxs text-secondary mb-0" style="padding: 0rem 0.5rem !important;">{{ mapping_roles[giocatore.r] }}</p>
                         </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">{{ giocatore.n }}</h6>
+                        <!-- Per i panchinari no -->
+                        <div v-else class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">  
+                              {{ giocatore.n }}
+                            </h6>
                           <p class="text-xxs text-secondary mb-0" style="padding: 0rem 0.5rem !important;">{{ mapping_roles[giocatore.r] }}</p>
                         </div>
                       </div>
                     </td>
                     <td class="align-middle text-left">
-                      <div v-if="giocatore.fv == 100"></div>
-                      <ArgonBadge v-else-if="giocatore.fv >= 8" size="sm" variant="gradient" color="info"> {{ giocatore.fv }} </ArgonBadge>
-                      <ArgonBadge v-else-if="giocatore.fv >= 6" size="sm" variant="gradient" color="success"> {{ giocatore.fv }} </ArgonBadge>
-                      <ArgonBadge v-else-if="giocatore.fv >= 5" size="sm" variant="gradient" color="warning"> {{ giocatore.fv }} </ArgonBadge>
-                      <ArgonBadge v-else size="sm" variant="gradient" color="danger"> {{ giocatore.fv }} </ArgonBadge>
+                      <div v-if="giocatore.voto_finale == 100 && formazione.Mostra == 'Panchinari' && giocatore.status==4">
+                        <ArgonBadge size="sm" variant="gradient" color="danger"> S.V. </ArgonBadge>
+                      </div>
+                      <div v-else-if="giocatore.voto_finale == 100"></div>
+                      <ArgonBadge v-else-if="giocatore.voto_finale >= 8" size="sm" variant="gradient" color="info"> {{ giocatore.voto_finale }} </ArgonBadge>
+                      <ArgonBadge v-else-if="giocatore.voto_finale >= 6" size="sm" variant="gradient" color="success"> {{ giocatore.voto_finale }} </ArgonBadge>
+                      <ArgonBadge v-else-if="giocatore.voto_finale >= 5" size="sm" variant="gradient" color="warning"> {{ giocatore.voto_finale }} </ArgonBadge>
+                      <ArgonBadge v-else size="sm" variant="gradient" color="danger"> {{ giocatore.voto_finale }} </ArgonBadge>
                     </td>
                       <!--<td class="text-sm align-middle">
                         <div class="text-center col">
@@ -102,10 +123,10 @@
               <div class="container-fluid pb-2">
                 <div class="row">
                   <div class="col-lg-6">
-                    <argon-button :class="'bottone_Titolari_' + index" color="success" size="sm" variant="outline" v-on:click="switch_tit_panca">Titolari</argon-button>
+                    <argon-button :class="'bottone_Titolari_' + index" color="success" size="xs" variant="outline" v-on:click="switch_tit_panca">Titolari</argon-button>
                   </div>
                   <div class="col-lg-6">
-                    <argon-button :class="'bottone_Panchinari_' + index" color="secondary" size="sm" variant="outline" v-on:click="switch_tit_panca">Panca</argon-button>
+                    <argon-button :class="'bottone_Panchinari_' + index" color="secondary" size="xs" variant="outline" v-on:click="switch_tit_panca">Panca</argon-button>
                   </div>
                 </div>
               </div>
@@ -122,6 +143,9 @@
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonBadge from "@/components/ArgonBadge.vue";
 import Cookies from 'js-cookie';
+import mod_difesa from "@/assets/js/modificatore_difesa.js";
+import cors_request from "@/assets/js/cors_request.js";
+
 
 export default {
   name: "Live",
@@ -137,93 +161,98 @@ export default {
         'D': 'Difensore',
         'C': 'Centrocampista',
         'A': 'Attaccante'
-      },
-      calciatori: {},
-      giornata: 1
+      }
     };
   },
   async created() {
-      // Utility function to send a CORS request
-      async function cors_request(url, params){
-        let cors_url = 'https://vast-forest-31073.herokuapp.com/' + url;
-        let response = await fetch(cors_url, params);
-        let data = await response.json();
-        return data;
+      // Headers
+      let overall_headers = {
+          'Content-Type': 'application/json',
+          'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef',
+          'lega_token': Cookies.get('lega_token'),
+          'user_token': Cookies.get('utente_token')
       };
-      // Timing
+      // Tutte le chiamata alle APIs
       let timer = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
-        { 
-          method: 'get', 
-          headers: {
-            'Content-Type': 'application/json',
-            'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef'
-          }
-        }
-      )
-      // API con squadre 
-      let squadre_url = 'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre';
-      let squadre_cors_url = 'https://vast-forest-31073.herokuapp.com/' + squadre_url;
-      let squadre_response = await fetch(squadre_cors_url, { 
-        method: 'get', 
-        headers: {
-          'Content-Type': 'application/json',
-          'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef',
-          'lega_token': Cookies.get('lega_token'),
-          'user_token': Cookies.get('utente_token')
-        }
-      });
-      let squadre_data = await squadre_response.json();
-      // API con formazioni
-      let formazioni_url = 'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + timer['data']['giornata'];
-      let formazioni_cors_url = 'https://vast-forest-31073.herokuapp.com/' + formazioni_url;
-      let formazioni_response = await fetch(formazioni_cors_url, { 
-        method: 'get', 
-        headers: {
-          'Content-Type': 'application/json',
-          'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef',
-          'lega_token': Cookies.get('lega_token'),
-          'user_token': Cookies.get('utente_token')
-        }
-      });
-      let formazioni_data = await formazioni_response.json();
-      if (formazioni_data['success']) {
-        let f = formazioni_data['data']['formazioni'];
-        for (var i = 0; i < f.length; i++) {
+        { method: 'get', headers: overall_headers }
+      );
+      let giornata = timer['data']['giornata'];
+      let squadre = await cors_request(
+        'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
+        { method: 'get', headers: overall_headers }
+      );
+      let formazioni = await cors_request(
+        'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
+        { method: 'get', headers: overall_headers }
+      );
+      let live_stream = await cors_request(
+        'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + giornata + '.json',
+        { method: 'get', headers: overall_headers }
+      );
+      // Punti giocatori
+      let status = {};
+      for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
+        status[live_stream['data']['inc'][i]['n_a'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
+        status[live_stream['data']['inc'][i]['n_b'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
+      }
+      // Popola APP
+      if (formazioni['success']) {
+        let f = formazioni['data']['formazioni'];
+        for (let i = 0; i < f.length; i++) {
           let s_id = f[i]['sq'][0]['id'];
-          let titolari = f[i]['sq'][0]['pl'].slice(0, 11);
-          let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['fv'] == 100 ? 6 : x['fv']), 0);
-          let media_difesa = 
-            titolari.filter(x => x.r == 'D').map(x => x.fv == 100 ? 6 : x.vt).sort().reverse().slice(0, 3).reduce((partialSum, x) => partialSum + x, 0) +
-            titolari.filter(x => x.r == 'P').map(x => x.fv == 100 ? 6 : x.vt)[0]
-          ;
-          let mod_difesa_punti;
-          if (media_difesa >= 28) {
-            mod_difesa_punti = 6
-          } else {
-            if (media_difesa >= 26) {
-              mod_difesa_punti = 3
-            } else {
-              if (media_difesa >= 24) {
-                mod_difesa_punti = 1
-              } else {
-                mod_difesa_punti = 0
+          
+          // Dividi titolari e panchinari
+          let giocatori = f[i]['sq'][0]['pl'];
+          for (let j = giocatori.length - 1; j >= 0; j--) {
+            giocatori[j]['status'] = status[giocatori[j]['t']];
+          }
+          let titolari = giocatori.slice(0, 11);
+          let panchinari = giocatori.slice(11, giocatori.length);
+
+          // Sostituzioni
+          let sostituzioni_fatte = 0;
+          for (let j = 0; j < titolari.length; j++) {
+            titolari[j]['voto_finale'] = titolari[j]['fv'];
+            panchinari[j]['voto_finale'] = panchinari[j]['fv'];
+            if (titolari[j].status == 4 && titolari[j].fv == 100) {
+              let possibili_sostituti = panchinari.filter(x => x.r == titolari[j]['r'] && x.status == 4 && x.fv != 100);
+              if (sostituzioni_fatte < 5) {
+                if (possibili_sostituti.length > 0) {
+                  titolari[j]['sostituto'] = possibili_sostituti[0];
+                  titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
+                  sostituzioni_fatte++;
+                }
+                else{
+                  titolari[j]['sostituto'] = {'n': 'Ufficio', 'fv': 4};
+                  titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
+                  sostituzioni_fatte++;
+                }
               }
+              else{
+                titolari[j]['sostituto'] = {'n': 'Sostituzioni Finite', 'fv': 0};
+                titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
+              }
+
             }
           }
-          let mod_difesa = titolari.filter(x => x.r == 'D').length >= 4 ? mod_difesa_punti : 0;
-          console.log(mod_difesa);
+          console.log(titolari);
+          
+          // Calculate expected points
+          let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['voto_finale'] == 100 ? 6 : x['voto_finale']), 0);
+          
+          // Popola dati puliti
           this.formazioni[s_id] = {
-            'Name': squadre_data['data'].filter(y => y.id == s_id)[0]['n'],
-            'Coach': squadre_data['data'].filter(y => y.id == s_id)[0]['nu'],
-            'Jersey': squadre_data['data'].filter(y => y.id == s_id)[0]['ms'],
-            'Modulo': f[i]['sq'][0]['m'].replace(';', ''),
+            'Name': squadre['data'].filter(y => y.id == s_id)[0]['n'],
+            'Coach': squadre['data'].filter(y => y.id == s_id)[0]['nu'],
+            'Jersey': squadre['data'].filter(y => y.id == s_id)[0]['ms'],
+            'Modulo': f[i]['sq'][0]['m'].split(';')[0],
             'Ultimo_Aggiornamento': Math.floor((Date.parse(Date()) - Date.parse(f[i]['sq'][0]['dt']))/(1000*60*60)),
             'Titolari': titolari,
-            'Panchinari': f[i]['sq'][0]['pl'].slice(11, f[i]['sq'][0]['pl'].length),
+            'Panchinari': panchinari,
             'Mostra': 'Titolari',
             'Punti': f[i]['sq'][0]['t'],
-            'Punti_Previsti': exp_points + mod_difesa
+            'Punti_Previsti': exp_points + mod_difesa(titolari)
           }
         }
       }
