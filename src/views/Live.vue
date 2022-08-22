@@ -26,11 +26,11 @@
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table align-items-center">
+                <table class="table align-items-center mb-0">
                 <thead>
                   <th></th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Punti</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Goals</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Punti</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Goal</th>
                 </thead>
                   
                   <tbody>
@@ -60,7 +60,7 @@
                 </table>
               </div>
               <div class="table-responsive">
-                <table class="table align-items-center">
+                <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giocatore</th>
@@ -77,10 +77,7 @@
                         <div v-if="formazione.Mostra == 'Titolari'" class="d-flex flex-column justify-content-center">
                           <div v-if="giocatore.fv == 100 && giocatore.status == 4">
                             <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">  
-                              <s >{{ giocatore.n }}</s>
-                            </h6>
-                            <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">
-                              {{ giocatore.sostituto.n }}
+                              <s >{{ giocatore.n }}</s> {{ giocatore.sostituto.n }}
                             </h6>
                           </div>
                           <div v-else>

@@ -2,8 +2,8 @@ export default function mod_difesa(t){
 	let difesa = t.filter(x => x.r == 'D').map(x => x.fv == 100 ? 6 : x.vt).sort().reverse().slice(0, 3).reduce((partialSum, x) => partialSum + x, 0)
 	let portiere = t.filter(x => x.r == 'P').map(x => x.fv == 100 ? 6 : x.vt)[0];
 	let media_difesa = difesa + portiere;
-    let mod_difesa_punti;
-    if (media_difesa >= 28) {
+	let mod_difesa_punti;
+	if (media_difesa >= 28) {
 		mod_difesa_punti = 6
 	} else {
 		if (media_difesa >= 26) {
