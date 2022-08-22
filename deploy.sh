@@ -19,9 +19,9 @@ cd dist
 
 git init
 git remote add origin git@github.com:RossiLorenzo/fantacalcio_bailando.git
-git branch gh-pages
 git add -A
 git commit -m 'deploy'
+git branch gh-pages
 
 # if you are deploying to https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
