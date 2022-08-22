@@ -2,10 +2,12 @@
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-0 col-md-0 col-sm-0">
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="row">
           <!-- <div v-if=""></div> -->
-          <div class="col-lg-3 mb-4" v-for="(formazione, index) in formazioni" :key="index">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 mb-4" v-for="(formazione, index) in formazioni" :key="index">
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex px-2 py-1">
@@ -21,9 +23,11 @@
                     <p class="text-xs text-secondary mb-0">{{ formazione.Coach }}</p>
                   </div>
                 </div>
+                <!-- 
                 <div class="d-flex flex-column justify-content-center">
                   <p class="text-secondary text-xs font-weight-bolder opacity-7">Modulo: <b>{{ formazione.Modulo }}</b> - Aggiornata: <b>{{ formazione.Ultimo_Aggiornamento }}H</b></p>
                 </div>
+              -->
               </div>
               <div class="table-responsive">
                 <table class="table align-items-center mb-0">
@@ -97,7 +101,10 @@
                       </div>
                     </td>
                     <td class="align-middle text-left">
-                      <div v-if="giocatore.voto_finale == 100 && formazione.Mostra == 'Panchinari' && giocatore.status==4">
+                      <div v-if="giocatore.in_calcolo">
+                        <ArgonBadge size="sm" variant="gradient" color="secondary"> {{ giocatore.voto_finale }}* </ArgonBadge>
+                      </div>
+                      <div v-else-if="giocatore.voto_finale == 100 && formazione.Mostra == 'Panchinari' && giocatore.status==4">
                         <ArgonBadge size="sm" variant="gradient" color="danger"> S.V. </ArgonBadge>
                       </div>
                       <div v-else-if="giocatore.voto_finale == 100"></div>
@@ -187,12 +194,18 @@ export default {
         'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + giornata + '.json',
         { method: 'get', headers: overall_headers }
       );
-      // Punti giocatori
+      // Controlla se squadre hanno giocato
       let status = {};
       for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
         status[live_stream['data']['inc'][i]['n_a'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
         status[live_stream['data']['inc'][i]['n_b'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
       }
+      // Crea un dizionario di voti live
+      let voti = {};
+      for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
+        voti[live_stream['data']['pl'][i]['id']] = live_stream['data']['pl'][i]['v']
+      }
+
       // Popola APP
       if (formazioni['success']) {
         let f = formazioni['data']['formazioni'];
@@ -205,35 +218,60 @@ export default {
             giocatori[j]['status'] = status[giocatori[j]['t']];
           }
           let titolari = giocatori.slice(0, 11);
+          let titolari_copy = titolari;
           let panchinari = giocatori.slice(11, giocatori.length);
+          let panchinari_disponibili = panchinari;
 
-          // Sostituzioni
+          // Sostituzioni e voti aggiornati
           let sostituzioni_fatte = 0;
-          for (let j = 0; j < titolari.length; j++) {
+          console.log(titolari_copy)
+          for (let j = 0; j < 11; j++) {
+            // Crea categoria voto finale
             titolari[j]['voto_finale'] = titolari[j]['fv'];
+            titolari[j]['in_calcolo'] = false;
             panchinari[j]['voto_finale'] = panchinari[j]['fv'];
+            panchinari[j]['in_calcolo'] = false;
+
+            // Aggiorna voti con live
             if (titolari[j].status == 4 && titolari[j].fv == 100) {
-              let possibili_sostituti = panchinari.filter(x => x.r == titolari[j]['r'] && x.status == 4 && x.fv != 100);
-              if (sostituzioni_fatte < 5) {
-                if (possibili_sostituti.length > 0) {
-                  titolari[j]['sostituto'] = possibili_sostituti[0];
-                  titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
-                  sostituzioni_fatte++;
+              if(voti[titolari[j]['id']] != undefined && voti[titolari[j]['id']] <= 10){
+                titolari[j]['voto_finale'] = voti[titolari[j]['id']];
+                titolari[j]['fv'] = voti[titolari[j]['id']];
+                titolari[j]['in_calcolo'] = true;
+              }
+            }
+            if (panchinari[j].status == 4 && panchinari[j].fv == 100) {
+              if(voti[panchinari[j]['id']] != undefined && voti[panchinari[j]['id']] <= 10){
+                console.log(panchinari[j]);
+                panchinari[j]['voto_finale'] = voti[panchinari[j]['id']];
+                panchinari[j]['fv'] = voti[panchinari[j]['id']];
+                panchinari[j]['in_calcolo'] = true;
+              }
+            }
+            
+            // Effettua sostituzioni
+            if (titolari[j].status == 4 && titolari[j].fv == 100) {
+                let possibili_sostituti = panchinari_disponibili.filter(x => x.r == titolari[j]['r'] && (x.fv != 100 || x.status != 4));
+                if (sostituzioni_fatte < 5) {
+                  if (possibili_sostituti.length > 0) {
+                    panchinari_disponibili = panchinari.filter(x => x.id != possibili_sostituti[0].id)
+                    titolari[j]['sostituto'] = possibili_sostituti[0];
+                    titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
+                    sostituzioni_fatte++;
+                  }
+                  else{
+                    titolari[j]['sostituto'] = {'n': 'Ufficio', 'fv': 4};
+                    titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
+                    sostituzioni_fatte++;
+                  }
                 }
                 else{
-                  titolari[j]['sostituto'] = {'n': 'Ufficio', 'fv': 4};
+                  titolari[j]['sostituto'] = {'n': 'Sostituzioni Finite', 'fv': 0};
                   titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
-                  sostituzioni_fatte++;
                 }
-              }
-              else{
-                titolari[j]['sostituto'] = {'n': 'Sostituzioni Finite', 'fv': 0};
-                titolari[j]['voto_finale'] = titolari[j]['sostituto']['fv'];
-              }
 
             }
           }
-          console.log(titolari);
           
           // Calculate expected points
           let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['voto_finale'] == 100 ? 6 : x['voto_finale']), 0);

@@ -19,19 +19,14 @@
     id="sidenav-main"
   >
     <div class="sidenav-header">
-      <i
-        class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
-        aria-hidden="true"
-        id="iconSidenav"
-      ></i>
-      <router-link class="m-0 navbar-brand" to="/">
+      <div class="m-0 navbar-brand" to="/">
         <img
           src="https://leghe.fantacalcio.it/favicon.png"
           class="navbar-brand-img h-100"
           alt="main_logo"
         />
         <span class="ms-2 font-weight-bold me-2">Fantacalcio 2022</span>
-      </router-link>
+      </div>
     </div>
     <hr class="mt-0 horizontal dark" />
     <sidenav-list :cardBg="custom_class" />
