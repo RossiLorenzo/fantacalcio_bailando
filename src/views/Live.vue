@@ -74,11 +74,6 @@
                     <td style="padding: 0rem 0.5rem !important">
                       <div class="d-flex px-2 py-1">
                         <div>
-                          <!--<img
-                            :src="'https://content.fantacalcio.it/web/campioncini/small/' + calciatori[giocatore.id].Image + '.png?v=12'"
-                            class="avatar avatar-xs me-3 circular"
-                            alt="user1"
-                          />-->
                         </div>
                         <div class="d-flex flex-column justify-content-center">
                           <h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">{{ giocatore.n }}</h6>
@@ -153,20 +148,8 @@ export default {
         let cors_url = 'https://vast-forest-31073.herokuapp.com/' + url;
         let response = await fetch(cors_url, params);
         let data = await response.json();
-        console.log(data);
         return data;
       };
-      // Calciatori
-      let calciatori_data = await cors_request(
-        'https://appleghe.fantacalcio.it/api/v1/v1_calciatori/lista',
-        { 
-          method: 'get', 
-          headers: {
-            'Content-Type': 'application/json',
-            'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef'
-          }
-        }
-      )
       // Timing
       let timer = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
@@ -178,15 +161,6 @@ export default {
           }
         }
       )
-      // API con calciatori
-      if (calciatori_data['success']) {
-        for (let i = 0; i < calciatori_data['data'].length; i++) {
-          let id = calciatori_data['data'][i]['id'];
-          this.calciatori[id] = {
-            'Image': calciatori_data['data'][i]['img']
-          }
-        }
-      }
       // API con squadre 
       let squadre_url = 'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre';
       let squadre_cors_url = 'https://vast-forest-31073.herokuapp.com/' + squadre_url;
@@ -219,6 +193,26 @@ export default {
           let s_id = f[i]['sq'][0]['id'];
           let titolari = f[i]['sq'][0]['pl'].slice(0, 11);
           let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['fv'] == 100 ? 6 : x['fv']), 0);
+          let media_difesa = 
+            titolari.filter(x => x.r == 'D').map(x => x.fv == 100 ? 6 : x.vt).sort().reverse().slice(0, 3).reduce((partialSum, x) => partialSum + x, 0) +
+            titolari.filter(x => x.r == 'P').map(x => x.fv == 100 ? 6 : x.vt)[0]
+          ;
+          let mod_difesa_punti;
+          if (media_difesa >= 28) {
+            mod_difesa_punti = 6
+          } else {
+            if (media_difesa >= 26) {
+              mod_difesa_punti = 3
+            } else {
+              if (media_difesa >= 24) {
+                mod_difesa_punti = 1
+              } else {
+                mod_difesa_punti = 0
+              }
+            }
+          }
+          let mod_difesa = titolari.filter(x => x.r == 'D').length >= 4 ? mod_difesa_punti : 0;
+          console.log(mod_difesa);
           this.formazioni[s_id] = {
             'Name': squadre_data['data'].filter(y => y.id == s_id)[0]['n'],
             'Coach': squadre_data['data'].filter(y => y.id == s_id)[0]['nu'],
@@ -229,7 +223,7 @@ export default {
             'Panchinari': f[i]['sq'][0]['pl'].slice(11, f[i]['sq'][0]['pl'].length),
             'Mostra': 'Titolari',
             'Punti': f[i]['sq'][0]['t'],
-            'Punti_Previsti': exp_points
+            'Punti_Previsti': exp_points + mod_difesa
           }
         }
       }
