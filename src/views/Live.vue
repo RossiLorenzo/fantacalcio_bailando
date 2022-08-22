@@ -218,13 +218,11 @@ export default {
             giocatori[j]['status'] = status[giocatori[j]['t']];
           }
           let titolari = giocatori.slice(0, 11);
-          let titolari_copy = titolari;
           let panchinari = giocatori.slice(11, giocatori.length);
           let panchinari_disponibili = panchinari;
 
           // Sostituzioni e voti aggiornati
           let sostituzioni_fatte = 0;
-          console.log(titolari_copy)
           for (let j = 0; j < 11; j++) {
             // Crea categoria voto finale
             titolari[j]['voto_finale'] = titolari[j]['fv'];
@@ -242,7 +240,6 @@ export default {
             }
             if (panchinari[j].status == 4 && panchinari[j].fv == 100) {
               if(voti[panchinari[j]['id']] != undefined && voti[panchinari[j]['id']] <= 10){
-                console.log(panchinari[j]);
                 panchinari[j]['voto_finale'] = voti[panchinari[j]['id']];
                 panchinari[j]['fv'] = voti[panchinari[j]['id']];
                 panchinari[j]['in_calcolo'] = true;
