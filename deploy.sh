@@ -9,7 +9,7 @@ npm run build
 # First commit the code
 git add -A
 git commit -m 'update code'
-git push -f origin master
+git push -f origin main
 
 # navigate into the build output directory
 cd dist
