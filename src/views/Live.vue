@@ -17,7 +17,7 @@
     </div>
   <div v-else class="py-4 container-fluid">
     <div class="row">
-      <div class="col-lg-6 col-md-7 col-sm-8 col-12">
+      <div class="col-lg-5 col-md-7 col-sm-6 col-12">
 
         <div class="mt-4 mb-3 card mt-lg-0">
           <div class="pb-0 card-body">
@@ -53,7 +53,7 @@
                            <i class="fas fa-arrow-alt-circle-down"></i>
                         </span>
                      </td>
-                        <td style="padding: 0rem 0.5rem !important">
+                        <td style="padding: 0rem 0.0rem !important">
                           <div class="d-flex px-2 py-1">
                             <div>
                               <img
@@ -68,11 +68,11 @@
                             </div>
                           </div>
                         </td>
-                        <td style="padding: 0rem 0.5rem !important">
+                        <td style="padding: 0rem 0.0rem !important">
                           <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
                         
                         </td>
-                        <td style="padding: 0rem 0.5rem !important">
+                        <td style="padding: 0rem 0.0rem !important">
                           <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
                          
                         </td>
@@ -100,7 +100,7 @@
                   <table class="table align-items-center">
                     
                     <tbody>
-                      <tr v-for="(inc, index4) in live_stream['data']['inc']" :key="index4">
+                      <tr v-for="(inc, index4) in played" :key="index4">
                         
                         <td style="padding: 0rem 0rem !important">
                           <div class="d-flex px-2 py-1">
@@ -168,73 +168,57 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-5 col-sm-4 d-none d-sm-block">
+      <div class="col-lg-4 col-md-5 col-sm-6 d-none d-sm-block">
 
         <div class="mt-4 mb-3 card mt-lg-0">
           <div class="pb-0 card-body">
 
             <div class="mb-1 row align-items-center">
-              <h6 class="mb-1 text-sm">Scontri Diretti (Coming Soon)</h6>
+              <h6 class="mb-1 text-sm">Scontri Diretti</h6>
             </div>
             <div class="mb-1 row align-items-center">
-              <div class="col-12">
+              <div v-for="(incontri, comp_name) in scontri_diretti" :key="incontri.id"  class="col-6">
                 
-                <!--<div class="table-responsive">
+                <div class="table-responsive">
+                  <h6 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">{{ comp_name }}</h6>
                   <table class="table align-items-center">
-                    
                     <tbody>
-                      <tr v-for="(inc, index4) in live_stream['data']['inc']" :key="index4">
-                        
-                        <td style="padding: 0rem 0.5rem !important">
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <img v-if="inc['n_a'] == 'Juventus'"
-                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
-                                class="avatar avatar-xs me-1"
-                                alt="user1"
-                              />
-                              <img v-else
-                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_a'].toLowerCase() + '.png'"
-                                class="avatar avatar-xs me-1"
-                                alt="user1"
-                              />
+                      <tr v-for="(inc, index5) in incontri" :key="index5">
 
-                            </div>
-                            <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-xs">{{ inc['g_a'] }} </h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td style="padding: 0rem 0.5rem !important">
+                        <td style="padding: 0rem 0.0rem !important">
                           <div class="d-flex px-2 py-1">
                             <div>
-                              <img v-if="inc['n_b'] == 'Juventus'"
-                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
-                                class="avatar avatar-xs me-1"
-                                alt="user1"
-                              />
-                              <img v-else
-                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_b'].toLowerCase() + '.png'"
+                              <img
+                                :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazioni[inc.ida].Jersey"
                                 class="avatar avatar-xs me-1"
                                 alt="user1"
                               />
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-xs">{{ inc['g_b'] }} </h6>
+                              <h6 class="mb-0 text-xs">{{ Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0) }} </h6>
                             </div>
                           </div>
                         </td>
 
-                        <td>
-                          
-                            <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-xs">{{ mapping_match_status[inc['sto']] }} </h6>
+                        <td style="padding: 0rem 0.0rem !important">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img
+                                :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazioni[inc.idb].Jersey"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
                             </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0) }} </h6>
+                            </div>
+                          </div>
                         </td>
+
                       </tr>
                     </tbody>
                   </table>
-                </div>-->
+                </div>
               </div>
             </div>
           </div>
@@ -388,6 +372,8 @@ import ArgonBadge from "@/components/ArgonBadge.vue";
 import Cookies from 'js-cookie';
 import mod_difesa from "@/assets/js/modificatore_difesa.js";
 import cors_request from "@/assets/js/cors_request.js";
+import async_cors_request from "@/assets/js/async_cors_request.js";
+import evaluate_promises from "@/assets/js/evaluate_promises.js";
 import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
 
@@ -419,10 +405,11 @@ export default {
       classifica: {},
       to_load: 'CARICAMENTO Giornata Attiva',
       giornata: 0,
-      live_stream: {}
+      played: {},
+      scontri_diretti: {}
     };
   },
-  async created() {
+  async beforeCreate() {
       // Headers
       let overall_headers = {
           'Content-Type': 'application/json',
@@ -431,57 +418,71 @@ export default {
           'user_token': Cookies.get('utente_token')
       };
       let completed = false;
-      // Tutte le chiamata alle APIs
-      let timer = await cors_request(
+      // Prima le chiamate che vanno aspettate per forza cosi da sapere la giornata da mostrare
+      this.to_load = "CARICAMENTO Opzioni Lega"
+      let timer = await async_cors_request(
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
         { method: 'get', headers: overall_headers }
       );
       let giornata = timer['data']['giornata'];
-      this.to_load = "CARICAMENTO Partecipanti"
-      let squadre = await cors_request(
-        'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
-        { method: 'get', headers: overall_headers }
-      );
       this.to_load = "CARICAMENTO Formazioni"
-      let formazioni = await cors_request(
+      let formazioni = await async_cors_request(
         'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
         { method: 'get', headers: overall_headers }
       );
       if (formazioni['data']['formazioni'][0]['sq'].length < 22) {
         completed = true;
         giornata = giornata - 1;
-        formazioni = await cors_request(
+        formazioni = await async_cors_request(
           'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
           { method: 'get', headers: overall_headers }
         );
       }
-      console.log(formazioni)
       this.giornata = giornata;
-      this.to_load = "CARICAMENTO Partite Live"
-      let live_stream = await cors_request(
-        'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + giornata + '.json',
-        { method: 'get', headers: overall_headers }
+      // Le altre chiamate possono essere fatte in parallelo
+      this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
+      let all_promises = [];
+      all_promises.push(
+        cors_request(
+          'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
+          { method: 'get', headers: overall_headers }
+        )
       );
-      this.live_stream = live_stream;
-      this.to_load = "CARICAMENTO Campionato"
-      let campionato = await cors_request(
-        'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=161999',
-        { method: 'get', headers: overall_headers }
+      all_promises.push(
+        cors_request(
+          'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + giornata + '.json',
+          { method: 'get', headers: overall_headers }
+        )
       );
-      this.to_load = "CALCOLO risultati live"
+      let competizioni = [161999, 162028, 162166, 162125, 162183];
+      for (let i = competizioni.length - 1; i >= 0; i--) {
+        all_promises.push(
+          cors_request(
+            'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=' + competizioni[i],
+            { method: 'get', headers: overall_headers }
+          )
+        )
+      }
+      let all_datasets = await evaluate_promises(all_promises);
+      let live_stream = all_datasets.filter(x => x.url.includes('d2lhpso9w1g8dk.cloudfront.net')).map(x => x.data)[0];
+      let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
+      let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
+      let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
+
+      this.to_load = "CALCOLO Risultati Live"
+
       // Controlla se squadre hanno giocato
       let status = {};
       for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
         status[live_stream['data']['inc'][i]['n_a'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
         status[live_stream['data']['inc'][i]['n_b'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
       }
-      console.log(status)
+      this.played = live_stream['data']['inc'];
       // Crea un dizionario di voti live
       let voti = {};
       for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
         voti[live_stream['data']['pl'][i]['id']] = live_stream['data']['pl'][i]['v']
-      }
-
+      };
       // Calcola formazioni aggiornate
       let f = formazioni['data']['formazioni'];
       for (let i = 0; i < f.length; i++) {
@@ -492,7 +493,6 @@ export default {
           for (let j = giocatori.length - 1; j >= 0; j--) {
             giocatori[j]['status'] = status[giocatori[j]['t'].toUpperCase()];
           }
-          console.log(giocatori);
           let titolari = giocatori.slice(0, 11);
           let panchinari = giocatori.slice(11, giocatori.length);
           let panchinari_disponibili = panchinari;
@@ -590,8 +590,20 @@ export default {
         classifica[i]['new_rank'] = i + 1;
       }
       this.classifica = classifica;
+      
+      // Calcolo scontri diretti
+      let scontri_diretti = {};
+      let coppe_filtered = coppe.filter(x => x.data['gi'] <= (this.giornata));
+      for (let i = coppe_filtered.length - 1; i >= 0; i--) {
+        let coppa_name = coppe_filtered[i]['data']['n'];
+        let incontri = coppe_filtered[i]['data']['cale']['cinc'].filter(x => x['ga'] <= (this.giornata))[0]['inc'];
+        scontri_diretti[coppa_name] = incontri;
+      }
+      this.scontri_diretti = scontri_diretti
+
+
       this.to_load = "Completato";
-      return;
+      return all_datasets;
     },
   methods: {
     switch_tit_panca (event) {
