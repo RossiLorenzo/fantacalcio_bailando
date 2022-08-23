@@ -17,7 +17,7 @@
     </div>
   <div v-else class="py-4 container-fluid">
     <div class="row">
-      <div class="col-lg-6 col-md-8 col-sm-8 col-12">
+      <div class="col-lg-6 col-md-7 col-sm-8 col-12">
 
         <div class="mt-4 mb-3 card mt-lg-0">
           <div class="pb-0 card-body">
@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
+      <div class="col-lg-3 d-none d-lg-block">
 
         <div class="mt-4 mb-3 card mt-lg-0">
           <div class="pb-0 card-body">
@@ -97,6 +97,89 @@
               <div class="col-12">
                 
                 <div class="table-responsive">
+                  <table class="table align-items-center">
+                    
+                    <tbody>
+                      <tr v-for="(inc, index4) in live_stream['data']['inc']" :key="index4">
+                        
+                        <td style="padding: 0rem 0rem !important">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img v-if="inc['n_a'] == 'Juventus'"
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                              <img v-else
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_a'].toLowerCase() + '.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ inc['g_a'] }} </h6>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="padding: 0rem 0rem !important">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img v-if="inc['n_b'] == 'Juventus'"
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                              <img v-else
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_b'].toLowerCase() + '.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ inc['g_b'] }} </h6>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td style="padding: 0rem 0rem !important">
+                          
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ mapping_match_status[inc['sto']] }} </h6>
+                            </div>
+                        </td>
+
+
+                        <!--
+                        <td style="padding: 0rem 0.5rem !important">
+                          <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
+                        
+                        </td>
+                        <td style="padding: 0rem 0.5rem !important">
+                          <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
+                         
+                        </td>-->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-5 col-sm-4 d-none d-sm-block">
+
+        <div class="mt-4 mb-3 card mt-lg-0">
+          <div class="pb-0 card-body">
+
+            <div class="mb-1 row align-items-center">
+              <h6 class="mb-1 text-sm">Scontri Diretti (Coming Soon)</h6>
+            </div>
+            <div class="mb-1 row align-items-center">
+              <div class="col-12">
+                
+                <!--<div class="table-responsive">
                   <table class="table align-items-center">
                     
                     <tbody>
@@ -148,21 +231,10 @@
                               <h6 class="mb-0 text-xs">{{ mapping_match_status[inc['sto']] }} </h6>
                             </div>
                         </td>
-
-
-                        <!--
-                        <td style="padding: 0rem 0.5rem !important">
-                          <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
-                        
-                        </td>
-                        <td style="padding: 0rem 0.5rem !important">
-                          <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
-                         
-                        </td>-->
                       </tr>
                     </tbody>
                   </table>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
