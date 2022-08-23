@@ -17,11 +17,12 @@
     </div>
   <div v-else class="py-4 container-fluid">
     <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-0">
+      <div class="col-lg-6 col-md-8 col-sm-8 col-12">
+
         <div class="mt-4 mb-3 card mt-lg-0">
           <div class="pb-0 card-body">
             <div class="mb-1 row align-items-center">
-              <h5 class="mb-1 text-uppercase text-lg">{{giornata}} Giornata</h5>
+              <!--<h5 class="mb-1 text-uppercase text-lg">{{giornata}} Giornata</h5>-->
               <h6 class="mb-2 text-sm">Classifica Campionato</h6>
             </div>
             <div class="mb-1 row align-items-center">
@@ -31,7 +32,8 @@
                   <table class="table align-items-center">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0"></th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Rank</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Squadra</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Fatti</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Previsti</th>
                     </tr>
@@ -39,6 +41,18 @@
                     
                     <tbody>
                       <tr v-for="(squadra, index3) in classifica" :key="index3">
+                     <td>
+                        {{squadra.new_rank}}
+                        <span v-if="squadra.new_rank < squadra.old_rank" style="color: green">
+                           <i class="fas fa-arrow-alt-circle-up"></i>
+                        </span>
+                        <span v-else-if="squadra.new_rank == squadra.old_rank">
+                           <i class="fas fa-equals"></i>
+                        </span>
+                        <span v-else style="color: red">
+                           <i class="fas fa-arrow-alt-circle-down"></i>
+                        </span>
+                     </td>
                         <td style="padding: 0rem 0.5rem !important">
                           <div class="d-flex px-2 py-1">
                             <div>
@@ -68,6 +82,14 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
+
+        <div class="mt-4 mb-3 card mt-lg-0">
+          <div class="pb-0 card-body">
+
             <div class="mb-1 row align-items-center">
               <h6 class="mb-1 text-sm">Partite Giocate</h6>
             </div>
@@ -146,10 +168,12 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-9 col-md-6 col-sm-12">
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
         <div class="row">
           <!-- <div v-if=""></div> -->
-          <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mb-4" v-for="(formazione, index) in formazioni" :key="index">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 mb-4" v-for="(formazione, index) in formazioni" :key="index">
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex px-2 py-1">
@@ -359,6 +383,7 @@ export default {
           { method: 'get', headers: overall_headers }
         );
       }
+      console.log(formazioni)
       this.giornata = giornata;
       this.to_load = "CARICAMENTO Partite Live"
       let live_stream = await cors_request(
@@ -484,7 +509,14 @@ export default {
           'Punti_Previsti': classifica_data[i]['pa'] + this.formazioni[classifica_data[i]['ida']].Punti_Previsti
         };
       }
+      classifica.sort((a, b) => { return b.Punti - a.Punti });
+      for (let i = 0; i < classifica.length; i++) {
+        classifica[i]['old_rank'] = i + 1;
+      }
       classifica.sort((a, b) => { return b.Punti_Previsti - a.Punti_Previsti });
+      for (let i = 0; i < classifica.length; i++) {
+        classifica[i]['new_rank'] = i + 1;
+      }
       this.classifica = classifica;
       this.to_load = "Completato";
       return;
