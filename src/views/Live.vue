@@ -1,53 +1,149 @@
 
 <template>
-  <div class="py-4 container-fluid">
+  <div v-if="to_load!='Completato'">
+    <div class="row">
+      <div class="col-4 mt-3">
+      </div>
+      <div class="col-4 mt-3">
+       <default-info-card
+          :title="to_load"
+          icon_bg='bg-gradient-success'
+          classIcon='fas fa-rocket'
+        />
+      </div>
+      <div class="col-4 mt-3">
+      </div>
+      </div>
+    </div>
+  <div v-else class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-3 col-md-6 col-sm-0">
-        <div class="card">
-              <div class="p-3 pb-0 card-header">
-                <div class="d-flex justify-content-between">
-                  <h6 class="mb-2">Classifica Campionato</h6>
+        <div class="mt-4 mb-3 card mt-lg-0">
+          <div class="pb-0 card-body">
+            <div class="mb-1 row align-items-center">
+              <h5 class="mb-1 text-uppercase text-lg">{{giornata}} Giornata</h5>
+              <h6 class="mb-2 text-sm">Classifica Campionato</h6>
+            </div>
+            <div class="mb-1 row align-items-center">
+              <div class="col-12">
+                
+                <div class="table-responsive">
+                  <table class="table align-items-center">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0"></th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Fatti</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Previsti</th>
+                    </tr>
+                  </thead>
+                    
+                    <tbody>
+                      <tr v-for="(squadra, index3) in classifica" :key="index3">
+                        <td style="padding: 0rem 0.5rem !important">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img
+                                :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ squadra.Name }}</h6>
+                              <p class="text-xs text-secondary mb-0">{{ squadra.Coach }}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="padding: 0rem 0.5rem !important">
+                          <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
+                        
+                        </td>
+                        <td style="padding: 0rem 0.5rem !important">
+                          <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
+                         
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <div class="table-responsive">
-                <table class="table align-items-center">
-                <thead>
-                  <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0"></th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Fatti</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Previsti</th>
-                  </tr>
-                </thead>
-                  
-                  <tbody>
-                    <tr v-for="(squadra, index3) in classifica" :key="index3">
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img
-                              :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
-                              class="avatar avatar-sm me-1"
-                              alt="user1"
-                            />
+            </div>
+            <div class="mb-1 row align-items-center">
+              <h6 class="mb-1 text-sm">Partite Giocate</h6>
+            </div>
+            <div class="mb-1 row align-items-center">
+              <div class="col-12">
+                
+                <div class="table-responsive">
+                  <table class="table align-items-center">
+                    
+                    <tbody>
+                      <tr v-for="(inc, index4) in live_stream['data']['inc']" :key="index4">
+                        
+                        <td style="padding: 0rem 0.5rem !important">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img v-if="inc['n_a'] == 'Juventus'"
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                              <img v-else
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_a'].toLowerCase() + '.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ inc['g_a'] }} </h6>
+                            </div>
                           </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-xs">{{ squadra.Name }}</h6>
-                            <p class="text-xs text-secondary mb-0">{{ squadra.Coach }}</p>
+                        </td>
+                        <td style="padding: 0rem 0.5rem !important">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img v-if="inc['n_b'] == 'Juventus'"
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                              <img v-else
+                                :src="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_b'].toLowerCase() + '.png'"
+                                class="avatar avatar-xs me-1"
+                                alt="user1"
+                              />
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ inc['g_b'] }} </h6>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
-                      
-                      </td>
-                      <td>
-                        <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
-                       
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        </td>
+
+                        <td>
+                          
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-xs">{{ mapping_match_status[inc['sto']] }} </h6>
+                            </div>
+                        </td>
+
+
+                        <!--
+                        <td style="padding: 0rem 0.5rem !important">
+                          <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
+                        
+                        </td>
+                        <td style="padding: 0rem 0.5rem !important">
+                          <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
+                         
+                        </td>-->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-lg-9 col-md-6 col-sm-12">
@@ -185,6 +281,7 @@
         </div>
       </div>
     </div>
+
   </div>
 
 </template>
@@ -195,13 +292,15 @@ import ArgonBadge from "@/components/ArgonBadge.vue";
 import Cookies from 'js-cookie';
 import mod_difesa from "@/assets/js/modificatore_difesa.js";
 import cors_request from "@/assets/js/cors_request.js";
+import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
 
 export default {
   name: "Live",
   components: {
     ArgonButton,
-    ArgonBadge
+    ArgonBadge,
+    DefaultInfoCard
   },
   data() {
     return {
@@ -212,7 +311,19 @@ export default {
         'C': 'Centrocampista',
         'A': 'Attaccante'
       },
-      classifica: {}
+      mapping_match_status: {
+        '0': 'Non Iniziata',
+        '1': 'Primo Tempo',
+        '2': 'Intervallo',
+        '3': 'Secondo Tempo',
+        '4': 'Finita',
+        '5': 'Sospesa',
+        '6': 'Rinviata'
+      },
+      classifica: {},
+      to_load: 'CARICAMENTO Giornata Attiva',
+      giornata: 0,
+      live_stream: {}
     };
   },
   async created() {
@@ -223,47 +334,51 @@ export default {
           'lega_token': Cookies.get('lega_token'),
           'user_token': Cookies.get('utente_token')
       };
+      let completed = false;
       // Tutte le chiamata alle APIs
       let timer = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
         { method: 'get', headers: overall_headers }
       );
-      console.log(timer);
       let giornata = timer['data']['giornata'];
-      console.log(giornata);
+      this.to_load = "CARICAMENTO Partecipanti"
       let squadre = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
         { method: 'get', headers: overall_headers }
       );
-      console.log(squadre);
+      this.to_load = "CARICAMENTO Formazioni"
       let formazioni = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
         { method: 'get', headers: overall_headers }
       );
       if (formazioni['data']['formazioni'][0]['sq'].length < 22) {
+        completed = true;
         giornata = giornata - 1;
         formazioni = await cors_request(
           'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
           { method: 'get', headers: overall_headers }
         );
       }
-      console.log(formazioni);
+      this.giornata = giornata;
+      this.to_load = "CARICAMENTO Partite Live"
       let live_stream = await cors_request(
         'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + giornata + '.json',
         { method: 'get', headers: overall_headers }
       );
-      console.log(live_stream);
+      this.live_stream = live_stream;
+      this.to_load = "CARICAMENTO Campionato"
       let campionato = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=161999',
         { method: 'get', headers: overall_headers }
       );
-      console.log(campionato);
+      this.to_load = "CALCOLO risultati live"
       // Controlla se squadre hanno giocato
       let status = {};
       for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
         status[live_stream['data']['inc'][i]['n_a'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
         status[live_stream['data']['inc'][i]['n_b'].split('').slice(0,3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
       }
+      console.log(status)
       // Crea un dizionario di voti live
       let voti = {};
       for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
@@ -278,8 +393,9 @@ export default {
           // Dividi titolari e panchinari
           let giocatori = f[i]['sq'][0]['pl'];
           for (let j = giocatori.length - 1; j >= 0; j--) {
-            giocatori[j]['status'] = status[giocatori[j]['t']];
+            giocatori[j]['status'] = status[giocatori[j]['t'].toUpperCase()];
           }
+          console.log(giocatori);
           let titolari = giocatori.slice(0, 11);
           let panchinari = giocatori.slice(11, giocatori.length);
           let panchinari_disponibili = panchinari;
@@ -311,7 +427,12 @@ export default {
             
             // Effettua sostituzioni
             if (titolari[j].status == 4 && titolari[j].fv == 100) {
-                let possibili_sostituti = panchinari_disponibili.filter(x => x.r == titolari[j]['r'] && (x.fv != 100 || x.status != 4));
+              let possibili_sostituti
+              if (completed) {
+                possibili_sostituti = panchinari_disponibili.filter(x => x.r == titolari[j]['r'] && x.fv != 100);
+              } else {
+                possibili_sostituti = panchinari_disponibili.filter(x => x.r == titolari[j]['r'] && (x.fv != 100 || x.status != 4));
+              }
                 if (sostituzioni_fatte < 5) {
                   if (possibili_sostituti.length > 0) {
                     panchinari_disponibili = panchinari.filter(x => x.id != possibili_sostituti[0].id)
@@ -363,8 +484,9 @@ export default {
           'Punti_Previsti': classifica_data[i]['pa'] + this.formazioni[classifica_data[i]['ida']].Punti_Previsti
         };
       }
-      console.log(classifica.sort((a, b) => { return b.Punti_Previsti - a.Punti_Previsti }))
+      classifica.sort((a, b) => { return b.Punti_Previsti - a.Punti_Previsti });
       this.classifica = classifica;
+      this.to_load = "Completato";
       return;
     },
   methods: {

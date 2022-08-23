@@ -80,7 +80,7 @@ export default {
     return {
       title: "Argon Dashboard 2",
       controls: "dashboardsExamples",
-      isActive: "active"
+      isActive: "false"
     };
   },
   components: {

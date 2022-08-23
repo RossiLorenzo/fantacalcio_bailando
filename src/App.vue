@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
     v-show="this.$store.state.layout === 'landing'"
     class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
   ></div>
+  <!--<navbar></navbar>-->
   <sidenav
     :custom_class="this.$store.state.mcolor"
     :class="[
@@ -35,11 +36,13 @@ Coded by www.creative-tim.com
 </template>
 <script>
 import Sidenav from "./examples/Sidenav";
+//import navbar from "./examples/Navbar.vue";
 
 export default {
   name: "App",
   components: {
-    Sidenav
+    Sidenav,
+    //navbar
   },
   computed: {
     navClasses() {

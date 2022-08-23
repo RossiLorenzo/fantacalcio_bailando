@@ -4,16 +4,12 @@ export default function mod_difesa(t){
 	let media_difesa = difesa + portiere;
 	let mod_difesa_punti;
 	if (media_difesa >= 28) {
-		mod_difesa_punti = 6
+		mod_difesa_punti = 5
 	} else {
 		if (media_difesa >= 26) {
 			mod_difesa_punti = 3
 		} else {
-			if (media_difesa >= 24) {
-				mod_difesa_punti = 1
-			} else {
-				mod_difesa_punti = 0
-			}
+			mod_difesa_punti = 1
 		}
 	}
 	let mod_difesa = t.filter(x => x.r == 'D').length >= 4 ? mod_difesa_punti : 0;
