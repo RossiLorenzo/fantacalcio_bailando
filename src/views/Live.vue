@@ -2,19 +2,65 @@
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
-      <div class="col-lg-0 col-md-0 col-sm-0">
+      <div class="col-lg-3 col-md-6 col-sm-0">
+        <div class="card">
+              <div class="p-3 pb-0 card-header">
+                <div class="d-flex justify-content-between">
+                  <h6 class="mb-2">Classifica Campionato</h6>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0"></th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Fatti</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Previsti</th>
+                  </tr>
+                </thead>
+                  
+                  <tbody>
+                    <tr v-for="(squadra, index3) in classifica" :key="index3">
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img
+                              :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
+                              class="avatar avatar-sm me-1"
+                              alt="user1"
+                            />
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs">{{ squadra.Name }}</h6>
+                            <p class="text-xs text-secondary mb-0">{{ squadra.Coach }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
+                      
+                      </td>
+                      <td>
+                        <p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
+                       
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="col-lg-9 col-md-6 col-sm-12">
         <div class="row">
           <!-- <div v-if=""></div> -->
-          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 mb-4" v-for="(formazione, index) in formazioni" :key="index">
+          <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 mb-4" v-for="(formazione, index) in formazioni" :key="index">
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex px-2 py-1">
                           <div>
                             <img
                               :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazione.Jersey"
-                              class="avatar avatar-sm me-3"
+                              class="avatar avatar-sm me-1"
                               alt="user1"
                             />
                           </div>
@@ -165,7 +211,8 @@ export default {
         'D': 'Difensore',
         'C': 'Centrocampista',
         'A': 'Attaccante'
-      }
+      },
+      classifica: {}
     };
   },
   async created() {
@@ -181,19 +228,36 @@ export default {
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
         { method: 'get', headers: overall_headers }
       );
+      console.log(timer);
       let giornata = timer['data']['giornata'];
+      console.log(giornata);
       let squadre = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
         { method: 'get', headers: overall_headers }
       );
+      console.log(squadre);
       let formazioni = await cors_request(
         'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
         { method: 'get', headers: overall_headers }
       );
+      if (formazioni['data']['formazioni'][0]['sq'].length < 22) {
+        giornata = giornata - 1;
+        formazioni = await cors_request(
+          'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + giornata,
+          { method: 'get', headers: overall_headers }
+        );
+      }
+      console.log(formazioni);
       let live_stream = await cors_request(
         'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + giornata + '.json',
         { method: 'get', headers: overall_headers }
       );
+      console.log(live_stream);
+      let campionato = await cors_request(
+        'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=161999',
+        { method: 'get', headers: overall_headers }
+      );
+      console.log(campionato);
       // Controlla se squadre hanno giocato
       let status = {};
       for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
@@ -206,10 +270,9 @@ export default {
         voti[live_stream['data']['pl'][i]['id']] = live_stream['data']['pl'][i]['v']
       }
 
-      // Popola APP
-      if (formazioni['success']) {
-        let f = formazioni['data']['formazioni'];
-        for (let i = 0; i < f.length; i++) {
+      // Calcola formazioni aggiornate
+      let f = formazioni['data']['formazioni'];
+      for (let i = 0; i < f.length; i++) {
           let s_id = f[i]['sq'][0]['id'];
           
           // Dividi titolari e panchinari
@@ -286,8 +349,22 @@ export default {
             'Punti': f[i]['sq'][0]['t'],
             'Punti_Previsti': exp_points + mod_difesa(titolari)
           }
-        }
       }
+
+      // Calcola classifica aggiornata
+      let classifica_data = campionato['data']['cale']['cinc'][giornata-2]['inc'];
+      let classifica = [];
+      for (var i = classifica_data.length - 1; i >= 0; i--) {
+        classifica[i] = {
+          'Name': squadre['data'].filter(y => y.id == classifica_data[i]['ida'])[0]['n'],
+          'Coach': squadre['data'].filter(y => y.id == classifica_data[i]['ida'])[0]['nu'],
+          'Jersey': squadre['data'].filter(y => y.id == classifica_data[i]['ida'])[0]['ms'],
+          'Punti': classifica_data[i]['pa'],
+          'Punti_Previsti': classifica_data[i]['pa'] + this.formazioni[classifica_data[i]['ida']].Punti_Previsti
+        };
+      }
+      console.log(classifica.sort((a, b) => { return b.Punti_Previsti - a.Punti_Previsti }))
+      this.classifica = classifica;
       return;
     },
   methods: {

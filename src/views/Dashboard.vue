@@ -33,8 +33,7 @@
                           <div>
                             <img
                               :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
-                              class="avatar avatar-sm me-3"
-                              alt="user1"
+                              class="avatar avatar-xs me-3"
                             />
                           </div>
                           <div class="d-flex flex-column justify-content-center">
