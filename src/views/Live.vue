@@ -2,16 +2,16 @@
 <template>
   <div v-if="to_load!='Completato'">
     <div class="row">
-      <div class="col-4 mt-3">
+      <div class="col-2 mt-3">
       </div>
-      <div class="col-4 mt-3">
+      <div class="col-8 mt-3">
        <default-info-card
           :title="to_load"
           icon_bg='bg-gradient-success'
           classIcon='fas fa-rocket'
         />
       </div>
-      <div class="col-4 mt-3">
+      <div class="col-2 mt-3">
       </div>
       </div>
     </div>
