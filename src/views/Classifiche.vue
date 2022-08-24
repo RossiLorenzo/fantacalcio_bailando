@@ -16,6 +16,7 @@
  </div>
  <div v-else class="py-4 container-fluid">
   <div class="row">
+
     <!-- Premio Montero -->
     <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
       <div class="card">
@@ -29,9 +30,9 @@
         <!-- https://c.tenor.com/4Zl464BlTSUAAAAM/football-haiti.gif --> 
         <div class="pb-0 pt-2 card-body">
           <LorenzoImageText 
-            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadre.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards })[0].Jersey"
-            :text="squadre.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards })[0].Name" 
-            :secondary_text="squadre.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards })[0].Coach"
+            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + montero[0].Jersey"
+            :text="montero[0].Name" 
+            :secondary_text="montero[0].Coach"
           />
           <div class="mb-1 mt-3 row align-items-center">
             <div class="table-responsive">
@@ -43,7 +44,7 @@
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">TOTALE</th>
                 </thead>
                 <tbody>
-                  <tr v-for="(squadra, index) in squadre.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards })" :key="index" >
+                  <tr v-for="(squadra, index) in montero" :key="index" >
                     <td style="padding: 0rem 0.5rem !important">
                       <LorenzoImageText 
                       :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
@@ -74,9 +75,9 @@
         <!-- https://c.tenor.com/4Zl464BlTSUAAAAM/football-haiti.gif --> 
         <div class="pb-0 pt-2 card-body">
           <LorenzoImageText 
-            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadre.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards })[0].Jersey"
-            :text="squadre.sort((a, b) => { return b.penaltiesScored - b.penaltiesNotScored - a.penaltiesScored + a.penaltiesNotScored })[0].Name" 
-            :secondary_text="squadre.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards })[0].Coach"
+            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + totti[0].Jersey"
+            :text="totti[0].Name" 
+            :secondary_text="totti[0].Coach"
           />
           <div class="mb-1 mt-3 row align-items-center">
             <div class="table-responsive">
@@ -88,7 +89,7 @@
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">TOTALE</th>
                 </thead>
                 <tbody>
-                  <tr v-for="(squadra, index) in squadre.sort((a, b) => { return b.penaltiesScored - b.penaltiesNotScored - a.penaltiesScored + a.penaltiesNotScored })" :key="index" >
+                  <tr v-for="(squadra, index) in totti" :key="index" >
                     <td style="padding: 0rem 0.5rem !important">
                       <LorenzoImageText 
                       :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
@@ -119,9 +120,9 @@
         <!-- https://c.tenor.com/4Zl464BlTSUAAAAM/football-haiti.gif --> 
         <div class="pb-0 pt-2 card-body">
           <LorenzoImageText 
-            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadre.sort((a, b) => { return b.Panca.reduce((partialSum, x) => partialSum + x, 0) - a.Panca.reduce((partialSum, x) => partialSum + x, 0) })[0].Jersey"
-            :text="squadre.sort((a, b) => { return b.Panca.reduce((partialSum, x) => partialSum + x, 0) - a.Panca.reduce((partialSum, x) => partialSum + x, 0) })[0].Name" 
-            :secondary_text="squadre.sort((a, b) => { return b.Panca.reduce((partialSum, x) => partialSum + x, 0) - a.Panca.reduce((partialSum, x) => partialSum + x, 0) })[0].Coach"
+            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + muriel[0].Jersey"
+            :text="muriel[0].Name" 
+            :secondary_text="muriel[0].Coach"
           />
           <div class="mb-1 mt-3 row align-items-center">
             <div class="table-responsive">
@@ -133,7 +134,7 @@
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">ERRORI</th>
                 </thead>
                 <tbody>
-                  <tr v-for="(squadra, index) in squadre.sort((a, b) => { return b.Panca.reduce((partialSum, x) => partialSum + x, 0) - a.Panca.reduce((partialSum, x) => partialSum + x, 0) })" :key="index" >
+                  <tr v-for="(squadra, index) in muriel" :key="index" >
                     <td style="padding: 0rem 0.5rem !important">
                       <LorenzoImageText 
                       :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
@@ -150,6 +151,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
 </template>
@@ -174,7 +176,9 @@
     data() {
       return {
         to_load: 'CARICAMENTO Statistiche',
-        squadre: {}
+        montero: {},
+        totti: {},
+        muriel: {}
       };
     },
     async beforeCreate (){
@@ -264,7 +268,6 @@
       for (let i = tutte_giornate.length - 1; i >= 0; i--) {
         // Formazioni
         let sq = tutte_giornate[i].data.data.formazioni.map(x => x.sq);
-        console.log(sq)
         for (let j = sq.length - 1; j >= 0; j--) {
           // Formazioni
           let giocatori = sq[j][0].pl;
@@ -282,7 +285,12 @@
         }
       }
 
-      this.squadre = squadre_con_statistica;
+      // Crea datasets cosi da semplificare HTML
+      this.montero = squadre_con_statistica.sort((a, b) => { return 2 * b.redCards + b.yellowCards - 2 * a.redCards - a.yellowCards });
+      this.totti = squadre_con_statistica.sort((a, b) => { return b.penaltiesScored - b.penaltiesNotScored - a.penaltiesScored + a.penaltiesNotScored });
+      console.log(squadre_con_statistica);
+      this.muriel = squadre_con_statistica.sort((a, b) => { return b.Panca.reduce((partialSum, x) => partialSum + x, 0) - a.Panca.reduce((partialSum, x) => partialSum + x, 0)});
+
       this.to_load = 'Completato';
     }
   };
