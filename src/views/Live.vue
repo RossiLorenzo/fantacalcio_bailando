@@ -168,7 +168,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-5 col-sm-6 d-none d-sm-block">
+      <div class="col-lg-4 col-md-5 col-sm-6">
 
         <div class="mt-4 mb-3 card mt-lg-0">
           <div class="pb-0 card-body">
