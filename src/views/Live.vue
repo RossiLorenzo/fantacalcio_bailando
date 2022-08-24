@@ -20,12 +20,14 @@
     <!-- Classifica Campionato-->
     <div class="col-lg-5 col-md-7 col-sm-6 col-12">
       <div class="mt-4 mb-3 card mt-lg-0">
-        <div class="pb-0 card-body">
+        <div class="p-3 pb-0 card-header">
           <div class="mb-1 row align-items-center">
-            <h6 class="mb-2 text-sm">Classifica Campionato</h6>
+            <h6 class="mb-0 text-sm">Classifica Campionato</h6>
           </div>
+        </div>
+        <div class="pb-0 pt-2 card-body">
           <div class="mb-1 row align-items-center">
-            <div class="col-12">
+            
               <div class="table-responsive">
                 <table class="table align-items-center">
                   <thead>
@@ -63,18 +65,19 @@
                 </table>
               </div>
             </div>
-          </div>
+          
         </div>
       </div>
     </div>
     <div class="col-lg-3 d-none d-lg-block">
 
       <div class="mt-4 mb-3 card mt-lg-0">
-        <div class="pb-0 card-body">
-
+        <div class="p-3 pb-0 card-header">
           <div class="mb-1 row align-items-center">
-            <h6 class="mb-1 text-sm">Partite Giocate</h6>
+            <h6 class="mb-0 text-sm">Partite Giocate</h6>
           </div>
+        </div>
+        <div class="pb-0 pt-2 card-body">
           <div class="mb-1 row align-items-center">
 
             <div class="table-responsive">
@@ -118,11 +121,12 @@
     <div class="col-lg-4 col-md-5 col-sm-6">
 
       <div class="mt-4 mb-3 card mt-lg-0">
-        <div class="pb-0 card-body">
-
+        <div class="p-3 pb-0 card-header">
           <div class="mb-1 row align-items-center">
-            <h6 class="mb-1 text-sm">Scontri Diretti</h6>
+            <h6 class="mb-0 text-sm">Scontri Diretti</h6>
           </div>
+        </div>
+        <div class="pb-0 pt-2 card-body">
           <div class="mb-1 row align-items-center">
             <div v-for="(incontri, comp_name) in scontri_diretti" :key="incontri.id"  class="col-6">
 
@@ -289,9 +293,10 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
+
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonBadge from "@/components/ArgonBadge.vue";
-import Cookies from 'js-cookie';
 import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
 import mod_difesa from "@/assets/js/modificatore_difesa.js";
@@ -436,7 +441,7 @@ export default {
                 giocatori[j]['status'] = status[giocatori[j]['t'].toUpperCase()];
             }
             let titolari = giocatori.slice(0, 11);
-            let panchinari = giocatori.slice(11, giocatori.length);
+            let panchinari = giocatori.slice(11, 22);
 
             // Aggiorna voti
             for (let j = 0; j < 11; j++) {

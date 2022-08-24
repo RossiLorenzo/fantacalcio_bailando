@@ -30,18 +30,18 @@
           </template>
         </sidenav-item>
       </li>
-      <!--
       <li class="nav-item">
         <sidenav-item
-          url="/formazioni"
-          :class="getRoute() === 'formazioni' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Formazioni'"
+          url="/classifiche"
+          :class="getRoute() === 'classifiche' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Classifiche Speciali'"
         >
           <template v-slot:icon>
-            <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
+            <i class="ni ni-trophy text-success text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
+      <!--
       <li class="nav-item">
         <sidenav-item
           url="/profile"
