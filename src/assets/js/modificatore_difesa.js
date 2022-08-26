@@ -1,7 +1,5 @@
 export default function mod_difesa(t){
-	console.log(t);
 	let difesa = t.filter(x => x.r == 'D').map(x => x.voto_finale == 100 ? 6 : x.voto_finale).sort().reverse().slice(0, 3).reduce((partialSum, x) => partialSum + x, 0)
-	console.log(difesa);
 	let portiere = t.filter(x => x.r == 'P').map(x => x.voto_finale == 100 ? 6 : x.voto_finale)[0];
 	let media_difesa = difesa + portiere;
 	let mod_difesa_punti;

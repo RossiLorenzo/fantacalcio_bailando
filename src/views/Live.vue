@@ -139,14 +139,14 @@
                       <td style="padding: 0rem 0.0rem !important">
                         <LorenzoImageText 
                         :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazioni[inc.ida].Jersey"
-                        :text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0)" 
+                        :text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()" 
                         />
                       </td>
 
                       <td style="padding: 0rem 0.0rem !important">
                         <LorenzoImageText 
                         :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazioni[inc.idb].Jersey"
-                        :text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0)" 
+                        :text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()" 
                         />
                       </td>
 
@@ -368,7 +368,6 @@ export default {
                 headers: overall_headers
             }
         );
-        console.log(formazioni['data']['formazioni'][0]['sq'])
         if (formazioni['data']['formazioni'][0]['sq'][0]['pl'].length < 22) {
             completed = true;
             giornata = giornata - 1;
@@ -491,15 +490,32 @@ export default {
         }
 
         // Calcola classifica aggiornata
-        let classifica_data = campionato['data']['cale']['cinc'][giornata - 2]['inc'];
+        let squadre_con_classifica = {};
+        for (let i = squadre.data.length - 1; i >= 0; i--) {
+          let s = squadre.data[i];
+          squadre_con_classifica[s.id] = {
+            'Id': s.id,
+            'Name': s.n,
+            'Coach': s.nu,
+            'Jersey': s.ms,
+            'Punti': []
+          }
+        }
+        for (let i = 0; i < (giornata-1); i++) {
+          let dati_giornata = campionato['data']['cale']['cinc'][i]['inc'];
+          for (let j = dati_giornata.length - 1; j >= 0; j--) {
+            squadre_con_classifica[dati_giornata[j]['ida']].Punti.push(dati_giornata[j]['pa'])
+          }
+        }
         let classifica = [];
-        for (var i = classifica_data.length - 1; i >= 0; i--) {
+        for (let i = squadre.data.length - 1; i >= 0; i--) {
+          let s = squadre.data[i];
             classifica[i] = {
-                'Name': squadre['data'].filter(y => y.id == classifica_data[i]['ida'])[0]['n'],
-                'Coach': squadre['data'].filter(y => y.id == classifica_data[i]['ida'])[0]['nu'],
-                'Jersey': squadre['data'].filter(y => y.id == classifica_data[i]['ida'])[0]['ms'],
-                'Punti': classifica_data[i]['pa'],
-                'Punti_Previsti': classifica_data[i]['pa'] + this.formazioni[classifica_data[i]['ida']].Punti_Previsti
+                'Name': squadre_con_classifica[s.id].Name,
+                'Coach': squadre_con_classifica[s.id].Coach,
+                'Jersey': squadre_con_classifica[s.id].Jersey,
+                'Punti': squadre_con_classifica[s.id].Punti.reduce((partialSum, x) => partialSum + x, 0),
+                'Punti_Previsti': squadre_con_classifica[s.id].Punti.reduce((partialSum, x) => partialSum + x, 0) + this.formazioni[squadre_con_classifica[s.id].Id].Punti_Previsti
             };
         }
         classifica.sort((a, b) => {
