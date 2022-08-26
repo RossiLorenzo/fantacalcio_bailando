@@ -398,6 +398,15 @@ export default {
                 }
             )
         );
+        all_promises.push(
+            cors_request(
+                'https://api.fantacalcio.it/v1/mt/17/matches/votes/' + giornata + '.json?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9hcGkuZmFudGFjYWxjaW8uaXQvdjEvbXQvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTY2MTc2OTk3Mn19fV19&Signature=Ze4qi~EXAhTOQQ-8k3teuwlGiJjDDwKjBJ53JlEqjDJu3Bz8hDwwEP~mKv7fjJ9h9ycKI2~HNmVCsuoAvglDjB~0cOi8A3CrVML0iWFf1q-F5ytfNHM8G4bLS47acUn-WomzFDyz-BZ7-uTIHIZV8ymAnvZBuxzr51flW2FByvyrmLjrrhSpL6Olgpa41j9L~TTbyfIfKf~mSySj8XTuKKS4OumtJ~uCFZRHmPY9Lb9vq9xcmPCGq1Vqp-n4G6mN0J7a3xpYyDzpPdSk9tE82LIhPtTGiBUGv4LZsFhMXWgHKNl4TkHbb01YCFLjWuIDY270c95tQ8H9mGuNDwDIjA__&Key-Pair-Id=KFXFJHYKWQRF1', { 
+                    method: 'get',
+                    headers: overall_headers
+                }
+            )
+
+        )
         let competizioni = [161999, 162028, 162166, 162125, 162183];
         for (let i = competizioni.length - 1; i >= 0; i--) {
             all_promises.push(
@@ -411,10 +420,11 @@ export default {
         }
         let all_datasets = await evaluate_promises(all_promises);
         let live_stream = all_datasets.filter(x => x.url.includes('d2lhpso9w1g8dk.cloudfront.net')).map(x => x.data)[0];
+        let live_votes = all_datasets.filter(x => x.url.includes('matches/votes')).map(x => x.data)[0];
         let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
         let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
         let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
-
+        console.log(live_votes)
         this.to_load = "CALCOLO Risultati Live"
 
         // Controlla se squadre hanno giocato
@@ -427,8 +437,19 @@ export default {
         // Crea un dizionario di voti live
         let voti = {};
         for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
-            voti[live_stream['data']['pl'][i]['id']] = live_stream['data']['pl'][i]['v']
+          voti[live_stream['data']['pl'][i]['id']] = live_stream['data']['pl'][i]['v']
         };
+        if (live_votes != undefined) {
+          for (let i = live_votes.length - 1; i >= 0; i--) {
+            let t = live_votes[i].players;
+            for (let j = t.length - 1; j >= 0; j--) {
+              let p = t[j];
+              voti[p.id] = voti[p.id] + (p.sourceFantacalcio.fantaVote-p.sourceFantacalcio.vote)
+            }
+            
+          };
+        }
+        console.log(live_votes);
 
         // Calcola formazioni aggiornate
         let f = formazioni['data']['formazioni'];
@@ -442,8 +463,6 @@ export default {
             }
             let titolari = giocatori.slice(0, 11);
             let panchinari = giocatori.slice(11, 22);
-
-            console.log(titolari)
 
             // Aggiorna voti
             for (let j = 0; j < 11; j++) {
