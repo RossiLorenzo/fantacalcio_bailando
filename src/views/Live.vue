@@ -424,7 +424,6 @@ export default {
         let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
         let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
         let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
-        console.log(live_votes)
         this.to_load = "CALCOLO Risultati Live"
 
         // Controlla se squadre hanno giocato
@@ -437,19 +436,21 @@ export default {
         // Crea un dizionario di voti live
         let voti = {};
         for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
-          voti[live_stream['data']['pl'][i]['id']] = live_stream['data']['pl'][i]['v']
+          voti[live_stream['data']['pl'][i]['id']] = {
+            'vt': live_stream['data']['pl'][i]['v'],
+            'fv': live_stream['data']['pl'][i]['v']
+          }
         };
         if (live_votes != undefined) {
           for (let i = live_votes.length - 1; i >= 0; i--) {
             let t = live_votes[i].players;
             for (let j = t.length - 1; j >= 0; j--) {
               let p = t[j];
-              voti[p.id] = voti[p.id] + (p.sourceFantacalcio.fantaVote-p.sourceFantacalcio.vote)
+              voti[p.id].fv = voti[p.id].fv + (p.sourceFantacalcio.fantaVote-p.sourceFantacalcio.vote)
             }
             
           };
         }
-        console.log(live_votes);
 
         // Calcola formazioni aggiornate
         let f = formazioni['data']['formazioni'];
@@ -469,21 +470,26 @@ export default {
 
                 // Crea categoria voto finale
                 titolari[j]['voto_finale'] = titolari[j]['fv'];
+                titolari[j]['voto_iniziale'] = titolari[j]['vt'];
                 titolari[j]['in_calcolo'] = false;
                 panchinari[j]['voto_finale'] = panchinari[j]['fv'];
+                panchinari[j]['voto_iniziale'] = panchinari[j]['vt'];
                 panchinari[j]['in_calcolo'] = false;
 
                 // Aggiorna voti con live
                 if (titolari[j].status > 0 && titolari[j].fv == 100) {
-                    if (voti[titolari[j]['id']] != undefined && voti[titolari[j]['id']] <= 10) {
-                        titolari[j]['voto_finale'] = voti[titolari[j]['id']];
+                    if (voti[titolari[j]['id']] != undefined && voti[titolari[j]['id']].vt <= 10) {
+                      
+                        titolari[j]['voto_finale'] = voti[titolari[j]['id']].fv;
+                        titolari[j]['voto_iniziale'] = voti[titolari[j]['id']].vt;
                         titolari[j]['fv'] = voti[titolari[j]['id']];
                         titolari[j]['in_calcolo'] = true;
                     }
                 }
                 if (panchinari[j].status > 0 && panchinari[j].fv == 100) {
-                    if (voti[panchinari[j]['id']] != undefined && voti[panchinari[j]['id']] <= 10) {
-                        panchinari[j]['voto_finale'] = voti[panchinari[j]['id']];
+                    if (voti[panchinari[j]['id']] != undefined && voti[panchinari[j]['id']].vt <= 10) {
+                        panchinari[j]['voto_finale'] = voti[panchinari[j]['id']].fv;
+                        panchinari[j]['voto_finale'] = voti[panchinari[j]['id']].vt;
                         panchinari[j]['fv'] = voti[panchinari[j]['id']];
                         panchinari[j]['in_calcolo'] = true;
                     }
