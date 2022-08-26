@@ -88,21 +88,21 @@
                     <td style="padding: 0rem 0rem !important">
                       <LorenzoImageText v-if="inc['n_a'] == 'Juventus'"
                       :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
-                      :text="inc['g_a']" 
+                      :text="inc['g_a'].toString()" 
                       />
                       <LorenzoImageText v-else
                       :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_a'].toLowerCase() + '.png'"
-                      :text="inc['g_a']" 
+                      :text="inc['g_a'].toString()" 
                       />
                     </td>
                     <td style="padding: 0rem 0rem !important">
                       <LorenzoImageText v-if="inc['n_b'] == 'Juventus'"
                       :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
-                      :text="inc['g_b']" 
+                      :text="inc['g_b'].toString()" 
                       />
                       <LorenzoImageText v-else
                       :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_b'].toLowerCase() + '.png'"
-                      :text="inc['g_b']" 
+                      :text="inc['g_b'].toString()" 
                       />
                     </td>
                     <td style="padding: 0rem 0rem !important">
