@@ -465,6 +465,7 @@ export default {
             let titolari = giocatori.slice(0, 11);
             let panchinari = giocatori.slice(11, 22);
 
+            console.log(panchinari)
             // Aggiorna voti
             for (let j = 0; j < 11; j++) {
 
@@ -479,7 +480,6 @@ export default {
                 // Aggiorna voti con live
                 if (titolari[j].status > 0 && titolari[j].fv == 100) {
                     if (voti[titolari[j]['id']] != undefined && voti[titolari[j]['id']].vt <= 10) {
-                      
                         titolari[j]['voto_finale'] = voti[titolari[j]['id']].fv;
                         titolari[j]['voto_iniziale'] = voti[titolari[j]['id']].vt;
                         titolari[j]['fv'] = voti[titolari[j]['id']];
@@ -489,7 +489,7 @@ export default {
                 if (panchinari[j].status > 0 && panchinari[j].fv == 100) {
                     if (voti[panchinari[j]['id']] != undefined && voti[panchinari[j]['id']].vt <= 10) {
                         panchinari[j]['voto_finale'] = voti[panchinari[j]['id']].fv;
-                        panchinari[j]['voto_finale'] = voti[panchinari[j]['id']].vt;
+                        panchinari[j]['voto_iniziale'] = voti[panchinari[j]['id']].vt;
                         panchinari[j]['fv'] = voti[panchinari[j]['id']];
                         panchinari[j]['in_calcolo'] = true;
                     }
@@ -569,7 +569,6 @@ export default {
             scontri_diretti[coppa_name] = incontri;
         }
         this.scontri_diretti = scontri_diretti
-
 
         this.to_load = "Completato";
         return all_datasets;
