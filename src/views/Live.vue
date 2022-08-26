@@ -443,8 +443,11 @@ export default {
             let titolari = giocatori.slice(0, 11);
             let panchinari = giocatori.slice(11, 22);
 
+            console.log(titolari)
+
             // Aggiorna voti
             for (let j = 0; j < 11; j++) {
+
                 // Crea categoria voto finale
                 titolari[j]['voto_finale'] = titolari[j]['fv'];
                 titolari[j]['in_calcolo'] = false;
@@ -452,14 +455,14 @@ export default {
                 panchinari[j]['in_calcolo'] = false;
 
                 // Aggiorna voti con live
-                if (titolari[j].status == 4 && titolari[j].fv == 100) {
+                if (titolari[j].status > 0 && titolari[j].fv == 100) {
                     if (voti[titolari[j]['id']] != undefined && voti[titolari[j]['id']] <= 10) {
                         titolari[j]['voto_finale'] = voti[titolari[j]['id']];
                         titolari[j]['fv'] = voti[titolari[j]['id']];
                         titolari[j]['in_calcolo'] = true;
                     }
                 }
-                if (panchinari[j].status == 4 && panchinari[j].fv == 100) {
+                if (panchinari[j].status > 0 && panchinari[j].fv == 100) {
                     if (voti[panchinari[j]['id']] != undefined && voti[panchinari[j]['id']] <= 10) {
                         panchinari[j]['voto_finale'] = voti[panchinari[j]['id']];
                         panchinari[j]['fv'] = voti[panchinari[j]['id']];
