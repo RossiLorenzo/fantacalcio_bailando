@@ -368,7 +368,8 @@ export default {
                 headers: overall_headers
             }
         );
-        if (formazioni['data']['formazioni'][0]['sq'].length < 22) {
+        console.log(formazioni['data']['formazioni'][0]['sq'])
+        if (formazioni['data']['formazioni'][0]['sq'][0]['pl'].length < 22) {
             completed = true;
             giornata = giornata - 1;
             formazioni = await async_cors_request(
