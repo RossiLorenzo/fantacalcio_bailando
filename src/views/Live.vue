@@ -424,6 +424,10 @@
 						)
 					);
 				let all_datasets = await evaluate_promises(all_promises);
+				let all_players = all_datasets.filter(x => x.url.includes('players/playersStat')).map(x => x.data)[0];
+				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
+				let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
+				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
@@ -431,13 +435,14 @@
 				this.played = l_and_s.played
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
-				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, all_datasets)
+				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players);
+				console.log(this.formazioni)
 
 				// Aggiorna la classifica di campionato
-				this.classifica = calcolo_classifica_lega(all_datasets, giornata, this.formazioni)
+				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 				
 				// Infine aggiorna gli scontri diretti della giornata
-				this.scontri_diretti = scontri_diretti(all_datasets, giornata)
+				this.scontri_diretti = scontri_diretti(coppe, giornata)
 
 				// Reload the data every minute
 				setInterval(async () => {
@@ -463,10 +468,11 @@
 					);
 					// Aggiorna tutto
 					l_and_s = live_votes_status(all_datasets);
+					// console.log(all_players)
 					this.played = l_and_s.played
-					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, all_datasets)
-					this.classifica = calcolo_classifica_lega(all_datasets, giornata, this.formazioni)
-					this.scontri_diretti = scontri_diretti(all_datasets, giornata)
+					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players)
+					this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
+					this.scontri_diretti = scontri_diretti(coppe, giornata)
 				}, completed ? 120000 : 30000)
 
 				this.to_load = "Completato";

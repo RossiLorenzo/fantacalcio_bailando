@@ -1,7 +1,5 @@
-export default function calcolo_classifica_lega(all_datasets, giornata, formazioni){
-	let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
-	let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
-	
+export default function calcolo_classifica_lega(squadre, campionato, giornata, formazioni){
+
 	// Crea dizionario con squadre e array dei punti
 	let squadre_con_classifica = {};
 	for (let i = squadre.data.length - 1; i >= 0; i--) {

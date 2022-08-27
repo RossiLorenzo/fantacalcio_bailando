@@ -1,11 +1,9 @@
 import mod_difesa from "@/assets/js/modificatore_difesa.js";
 import sostituzioni from "@/assets/js/sostituzioni.js";
 
-export default function aggiorna_formazioni(formazioni, l_and_s, completed, all_datasets){
+export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats){
 	// Calcola formazioni aggiornate
 	let f = formazioni['data']['formazioni'];
-	let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
-	let p_stats = all_datasets.filter(x => x.url.includes('players/playersStat')).map(x => x.data)[0];
 	
 	let f_u = {};
 	for (let i = 0; i < f.length; i++) {

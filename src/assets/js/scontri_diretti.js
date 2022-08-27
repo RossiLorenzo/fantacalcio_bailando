@@ -1,6 +1,4 @@
-export default function scontri_diretti(all_datasets, giornata){
-	
-	let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
+export default function scontri_diretti(coppe, giornata){
 
 	// Calcolo scontri diretti
 	let scontri_diretti = {};
