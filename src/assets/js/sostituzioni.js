@@ -28,7 +28,7 @@ export default function sostituzioni(t, p, c) {
                 }
             } else {
                 t[j]['sostituto'] = {
-                    'n': 'Sostituzioni Finite',
+                    'n': 'Finite',
                     'fv': 0
                 };
                 t[j]['voto_finale'] = t[j]['sostituto']['fv'];
