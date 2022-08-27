@@ -1,7 +1,7 @@
-export default function live_votes_status(d){
+export default function live_votes_status(d, e){
 	// Materialize datasets
 	let live_stream = d.filter(x => x.url.includes('d2lhpso9w1g8dk.cloudfront.net')).map(x => x.data)[0];
-	let live_votes = d.filter(x => x.url.includes('matches/votes')).map(x => x.data)[0];
+	// let live_votes = d.filter(x => x.url.includes('matches/votes')).map(x => x.data)[0];
 	
 	// Status delle partite
 	let status = {};
@@ -13,20 +13,18 @@ export default function live_votes_status(d){
 	// Crea un dizionario di voti live
 	let voti = {};
 	for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
+		let p = live_stream['data']['pl'][i];
+		let bonus = 0;
+		for (let j = p.bm.length - 1; j >= 0; j--) {
+			if (e[p.bm[j]] != undefined) {
+				bonus = bonus + e[p.bm[j]].Bonus;
+			}
+		}
 		voti[live_stream['data']['pl'][i]['id']] = {
 			'vt': live_stream['data']['pl'][i]['v'],
-			'fv': live_stream['data']['pl'][i]['v']
+			'fv': live_stream['data']['pl'][i]['v'] + bonus
 		}
 	};
-	if (live_votes != undefined) {
-		for (let i = live_votes.length - 1; i >= 0; i--) {
-			let t = live_votes[i].players;
-			for (let j = t.length - 1; j >= 0; j--) {
-				let p = t[j];
-				voti[p.id].fv = voti[p.id].fv + (p.sourceFantacalcio.fantaVote-p.sourceFantacalcio.vote)
-			}
-		};
-	}
 
 	return({
 		'played': live_stream['data']['inc'],

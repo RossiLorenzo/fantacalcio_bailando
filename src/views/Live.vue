@@ -358,6 +358,17 @@
 					'5': 'Sospesa',
 					'6': 'Rinviata'
 				},
+				mapping_match_events: {
+					'1': {'Event_Name': 'Giallo', 'Bonus': -0.5},
+					'2': {'Event_Name': 'Rosso', 'Bonus': -1},
+					'3': {'Event_Name': 'Goal', 'Bonus': 3},
+					'4': {'Event_Name': 'Goal Subito', 'Bonus': -1},
+					'7': {'Event_Name': 'Rigore Parato', 'Bonus': 3},
+					'8': {'Event_Name': 'Rigore Sbagliato', 'Bonus': -3},
+					'9': {'Event_Name': 'Rigore Segnato', 'Bonus': 0},
+					'10': {'Event_Name': 'Autogoal', 'Bonus': -2},
+					'22': {'Event Name': 'Assist', 'Bonus': 1}
+				},
 				classifica: {},
 				to_load: 'CARICAMENTO Giornata Attiva',
 				played: {},
@@ -431,12 +442,11 @@
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
-				let l_and_s = live_votes_status(all_datasets);
+				let l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
 				this.played = l_and_s.played
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players);
-				console.log(this.formazioni)
 
 				// Aggiorna la classifica di campionato
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
