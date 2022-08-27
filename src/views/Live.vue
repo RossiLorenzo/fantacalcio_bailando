@@ -447,7 +447,7 @@
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players);
-
+				console.log(this.formazioni);
 				// Aggiorna la classifica di campionato
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 				

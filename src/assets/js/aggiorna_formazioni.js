@@ -37,7 +37,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 				if (l_and_s.voti[titolari[j]['id']] != undefined && l_and_s.voti[titolari[j]['id']].vt <= 10) {
 					titolari[j]['voto_finale'] = l_and_s.voti[titolari[j]['id']].fv;
 					titolari[j]['voto_iniziale'] = l_and_s.voti[titolari[j]['id']].vt;
-					titolari[j]['fv'] = l_and_s.voti[titolari[j]['id']];
+					titolari[j]['fv'] = l_and_s.voti[titolari[j]['id']].fv;
 					titolari[j]['in_calcolo'] = true;
 				}
 			}
@@ -46,7 +46,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 				if (l_and_s.voti[panchinari[j]['id']] != undefined && l_and_s.voti[panchinari[j]['id']].vt <= 10) {
 					panchinari[j]['voto_finale'] = l_and_s.voti[panchinari[j]['id']].fv;
 					panchinari[j]['voto_iniziale'] = l_and_s.voti[panchinari[j]['id']].vt;
-					panchinari[j]['fv'] = l_and_s.voti[panchinari[j]['id']];
+					panchinari[j]['fv'] = l_and_s.voti[panchinari[j]['id']].fv;
 					panchinari[j]['in_calcolo'] = true;
 				}
 			}
