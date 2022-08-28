@@ -367,7 +367,9 @@
 					'8': {'Event_Name': 'Rigore Sbagliato', 'Bonus': -3},
 					'9': {'Event_Name': 'Rigore Segnato', 'Bonus': 0},
 					'10': {'Event_Name': 'Autogoal', 'Bonus': -2},
-					'22': {'Event Name': 'Assist', 'Bonus': 1}
+					'21': {'Event Name': 'Assist', 'Bonus': 1},
+					'22': {'Event Name': 'Assist', 'Bonus': 1},
+					'23': {'Event Name': 'Assist', 'Bonus': 1}	
 				},
 				classifica: {},
 				to_load: 'CARICAMENTO Giornata Attiva',
@@ -428,12 +430,6 @@
 						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
 						)
 					);
-				all_promises.push(
-					fantacalcio_apis(
-						'voti_live', 
-						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
-						)
-					);
 				let all_datasets = await evaluate_promises(all_promises);
 				let all_players = all_datasets.filter(x => x.url.includes('players/playersStat')).map(x => x.data)[0];
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
@@ -447,7 +443,6 @@
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players);
-				console.log(this.formazioni);
 				// Aggiorna la classifica di campionato
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 				
@@ -464,12 +459,6 @@
 							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
 							)
 						);
-					all_promises.push(
-						fantacalcio_apis(
-							'voti_live', 
-							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
-							)
-						);
 					all_datasets = await evaluate_promises(all_promises);
 					// E chiama anche le formazioni
 					formazioni = await fantacalcio_apis(
@@ -477,8 +466,7 @@
 						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
 					);
 					// Aggiorna tutto
-					l_and_s = live_votes_status(all_datasets);
-					// console.log(all_players)
+					l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
 					this.played = l_and_s.played
 					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players)
 					this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
