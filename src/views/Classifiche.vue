@@ -65,8 +65,10 @@
   
   import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
+  import fantacalcio_apis from "@/assets/js/fantacalcio_apis.js";
   import cors_request from "@/assets/js/cors_request.js";
   import evaluate_promises from "@/assets/js/evaluate_promises.js";
+  // import async_cors_request from "@/assets/js/async_cors_request.js";
 
   import LorenzoSpecialPrize from "@/views/components/LorenzoSpecialPrize.vue";
 
@@ -96,29 +98,23 @@
       // Get stats for the players, teams and giornata
       let all_promises = [];
       all_promises.push(
-        cors_request(
-          'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre', {
-            method: 'get',
-            headers: overall_headers
-          }
-          )
-        );
+        fantacalcio_apis(
+          'timer', 
+          new Map([['function', cors_request], ['method', 'get']])
+        )
+      );
       all_promises.push(
-        cors_request(
-          'https://api.fantacalcio.it/v1/mt/17/players/playersStat.json?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9hcGkuZmFudGFjYWxjaW8uaXQvdjEvbXQvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTY2MTc2OTk3Mn19fV19&Signature=Ze4qi~EXAhTOQQ-8k3teuwlGiJjDDwKjBJ53JlEqjDJu3Bz8hDwwEP~mKv7fjJ9h9ycKI2~HNmVCsuoAvglDjB~0cOi8A3CrVML0iWFf1q-F5ytfNHM8G4bLS47acUn-WomzFDyz-BZ7-uTIHIZV8ymAnvZBuxzr51flW2FByvyrmLjrrhSpL6Olgpa41j9L~TTbyfIfKf~mSySj8XTuKKS4OumtJ~uCFZRHmPY9Lb9vq9xcmPCGq1Vqp-n4G6mN0J7a3xpYyDzpPdSk9tE82LIhPtTGiBUGv4LZsFhMXWgHKNl4TkHbb01YCFLjWuIDY270c95tQ8H9mGuNDwDIjA__&Key-Pair-Id=KFXFJHYKWQRF1', {
-            method: 'get',
-            headers: overall_headers
-          }
-          )
-        );
+        fantacalcio_apis(
+          'stats_calciatori', 
+          new Map([['function', cors_request], ['method', 'get']])
+        )
+      );
       all_promises.push(
-        cors_request(
-          'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer', {
-            method: 'get',
-            headers: overall_headers
-          }
-          )
-        );
+        fantacalcio_apis(
+          'squadre', 
+          new Map([['function', cors_request], ['method', 'get']])
+        )
+      );
       let all_datasets = await evaluate_promises(all_promises);
       let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
       let giornata = all_datasets.filter(x => x.url.includes('timer')).map(x => x.data)[0].data.giornata;

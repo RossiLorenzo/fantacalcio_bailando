@@ -41,6 +41,17 @@
           </template>
         </sidenav-item>
       </li>
+      <li class="nav-item">
+        <sidenav-item
+          url="/giocatori"
+          :class="getRoute() === 'giocatori' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Giocatori'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-user-run text-info text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
       <!--
       <li class="nav-item">
         <sidenav-item

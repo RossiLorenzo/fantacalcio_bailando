@@ -1,7 +1,7 @@
 import mod_difesa from "@/assets/js/modificatore_difesa.js";
 import sostituzioni from "@/assets/js/sostituzioni.js";
 
-export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats){
+export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats, prev_f){
 	// Calcola formazioni aggiornate
 	let f = formazioni['data']['formazioni'];
 	
@@ -57,7 +57,6 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 
 		// Calculate expected points
 		let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['voto_finale'] == 100 ? 6 : x['voto_finale']), 0);
-		
 		// Popola dati puliti
 		f_u[s_id] = {
 			'Name': squadre['data'].filter(y => y.id == s_id)[0]['n'],
@@ -67,9 +66,9 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 			'Ultimo_Aggiornamento': Math.floor((Date.parse(Date()) - Date.parse(f[i]['sq'][0]['dt'])) / (1000 * 60 * 60)),
 			'Titolari': titolari,
 			'Panchinari': panchinari,
-			'Mostra': 'Titolari',
 			'Punti': f[i]['sq'][0]['t'],
-			'Punti_Previsti': exp_points + mod_difesa(titolari)
+			'Punti_Previsti': exp_points + mod_difesa(titolari),
+			'Mostra': prev_f == undefined ? 'Titolari' : prev_f[i]['Mostra'] 
 		}
 	}
 	return(f_u);

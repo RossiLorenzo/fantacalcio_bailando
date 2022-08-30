@@ -1,5 +1,4 @@
 export default function live_votes_status(d, e){
-	console.log(e);
 	// Materialize datasets
 	let live_stream = d.filter(x => x.url.includes('d2lhpso9w1g8dk.cloudfront.net')).map(x => x.data)[0];
 	

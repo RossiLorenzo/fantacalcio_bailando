@@ -442,7 +442,7 @@
 				this.played = l_and_s.played
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
-				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players);
+				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, undefined);
 				// Aggiorna la classifica di campionato
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 				
@@ -468,7 +468,8 @@
 					// Aggiorna tutto
 					l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
 					this.played = l_and_s.played
-					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players)
+					let prev_formazioni = this.formazioni;
+					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, prev_formazioni);
 					this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 					this.scontri_diretti = scontri_diretti(coppe, giornata)
 				}, completed ? 120000 : 30000)
