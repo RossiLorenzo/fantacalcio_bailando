@@ -41,6 +41,7 @@
           </template>
         </sidenav-item>
       </li>
+      <!--
       <li class="nav-item">
         <sidenav-item
           url="/giocatori"
@@ -52,6 +53,7 @@
           </template>
         </sidenav-item>
       </li>
+    -->
       <!--
       <li class="nav-item">
         <sidenav-item

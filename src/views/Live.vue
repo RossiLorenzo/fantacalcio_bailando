@@ -274,11 +274,7 @@
 											<div v-else-if="giocatore.voto_finale == 100 && formazione.Mostra == 'Panchinari' && giocatore.status==4">
 												<ArgonBadge size="sm" variant="gradient" color="danger"> S.V. </ArgonBadge>
 											</div>
-											<div v-else-if="giocatore.voto_finale == 100"></div>
-											<ArgonBadge v-else-if="giocatore.voto_finale >= 8" size="sm" variant="gradient" color="info"> {{ giocatore.voto_finale }} </ArgonBadge>
-											<ArgonBadge v-else-if="giocatore.voto_finale >= 6" size="sm" variant="gradient" color="success"> {{ giocatore.voto_finale }} </ArgonBadge>
-											<ArgonBadge v-else-if="giocatore.voto_finale >= 5" size="sm" variant="gradient" color="warning"> {{ giocatore.voto_finale }} </ArgonBadge>
-											<ArgonBadge v-else size="sm" variant="gradient" color="danger"> {{ giocatore.voto_finale }} </ArgonBadge>
+											<LorenzoColorPagella v-else :voto="giocatore.voto_finale"/>
 										</td>
 											<!--<td class="text-sm align-middle">
 												<div class="text-center col">
@@ -328,6 +324,7 @@
 
 	import LorenzoImageText from "@/views/components/LorenzoImageText.vue";
 	import LorenzoRankingArrows from "@/views/components/LorenzoRankingArrows.vue";
+	import LorenzoColorPagella from "@/views/components/LorenzoColorPagella.vue";
 
 	import ban from "@/assets/img/ban-xxl.png";
 
@@ -338,7 +335,8 @@
 			ArgonBadge,
 			DefaultInfoCard,
 			LorenzoImageText,
-			LorenzoRankingArrows
+			LorenzoRankingArrows,
+			LorenzoColorPagella
 		},
 		data() {
 			return {

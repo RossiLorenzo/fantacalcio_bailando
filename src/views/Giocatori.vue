@@ -23,42 +23,46 @@
           </div>
           <div class="pb-0 pt-2 card-body">
             <div class="mb-1 row align-items-center">
-
               <div class="table-responsive">
-                <vue-good-table class="table align-items-center" id="giocatori" 
-                  styleClass="vgt-table condensed"
-                  :columns="columns" 
-                  :rows="rows"
-                  :sort-options="{
-                    enabled: true,
-                    initialSortBy: {field: 'Giocatore', type: 'asc'}
-                  }"
-                >
-                  <template v-slot:table-row="props">                    
-                    <span v-if="props.column.field == 'Giocatore'">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giocatore</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ruolo</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Squadra</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Presenze</th>
+                  </tr>
+                  <tr>
+                    <th><input v-model="all_filters.Nome" /></th>
+                    <th><Slider v-model="all_filters.Presenze" :max="giornata"></Slider></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(giocatore, index) in calciatori_con_filtro" :key="index">
+                    <td> 
                       <LorenzoImageText 
-                        :image="props.row.Giocatore.Immagine" 
-                        :text="props.row.Giocatore.Nome" 
+                        :image="giocatore.Giocatore.Immagine" 
+                        :text="giocatore.Giocatore.Nome" 
                       />
-                    </span>
-                    <span v-else-if="props.column.field == 'Squadra_Reale'">
+                    </td>
+                    <td>
+                      
+                    </td>
+                    <td> 
                       <LorenzoImageText 
-                        :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + props.row.Squadra_Reale.Logo" 
-                        :text="props.row.Squadra_Reale.Nome_Corto" 
+                        :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + giocatore.Squadra_Reale.Logo" 
+                        :text="giocatore.Squadra_Reale.Nome_Corto" 
                       />
-                    </span>
-                    <span v-else-if="props.column.field == 'Squadra_Fantacalcio'">
+                    </td>
+                    <td> 
                       <LorenzoImageText 
-                        :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + props.row.Squadra_Fantacalcio.Jersey" 
-                        :text="props.row.Squadra_Fantacalcio.Squadra" 
-                        :secondary_text="props.row.Squadra_Fantacalcio.Coach" 
+                        :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + giocatore.Squadra_Fantacalcio.Jersey" 
+                        :text="giocatore.Squadra_Fantacalcio.Squadra" 
+                        :secondary_text="giocatore.Squadra_Fantacalcio.Coach" 
                       />
-                    </span>
-                    <span v-else>
-                      {{props.formattedRow[props.column.field]}}
-                    </span>
-                  </template>
-                </vue-good-table>
+                    </td>
+                    <td> {{ giocatore.Giocatore.Caps }} </td>
+                  </tr>
+                </tbody>
               </div>
             </div>
 
@@ -75,38 +79,49 @@
 
 <script>
 
-//import DataTable from 'datatables.net-vue3';
-import 'vue-good-table-next/dist/vue-good-table-next.css'
-import { VueGoodTable } from 'vue-good-table-next';
+import Slider from '@vueform/slider'
 
 import fantacalcio_apis from "@/assets/js/fantacalcio_apis.js";
 import cors_request from "@/assets/js/cors_request.js";
 import evaluate_promises from "@/assets/js/evaluate_promises.js";
+import aggiorna_filtri_giocatori from "@/assets/js/aggiorna_filtri_giocatori.js";
 // import async_cors_request from "@/assets/js/async_cors_request.js";
 
 import LorenzoImageText from "@/views/components/LorenzoImageText.vue";
-import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
+//import LorenzoColorPagella from "@/views/components/LorenzoColorPagella.vue";
+//import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
 export default {
   name: "Giocatori",
   components: {
+    Slider,
     //DataTable,
-    VueGoodTable,
-    LorenzoImageText,
-    DefaultInfoCard
+    //VueGoodTable,
+    LorenzoImageText
+    //LorenzoColorPagella,
+    //DefaultInfoCard
   },
   data() {
     return {
       to_load: 'CALCOLO Giocatori',
       squadre_serie_a: {},
       calciatori: {},
-      columns: {},
-      rows: {}
+      all_filters: {
+        'Nome': '',
+        'Presenze': [0, 38]
+      },
+      giornata: 0
     };
   },
   async beforeCreate() {
     // API Calls
     let all_promises = [];
+    all_promises.push(
+      fantacalcio_apis(
+        'timer', 
+        new Map([['function', cors_request], ['method', 'get']])
+      )
+    );
     all_promises.push(
       fantacalcio_apis(
         'stats_calciatori', 
@@ -122,7 +137,8 @@ export default {
     let all_datasets = await evaluate_promises(all_promises);
     let calciatori = all_datasets.filter(x => x.url.includes('players/playersStat')).map(x => x.data)[0];
     let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
-    
+    this.giornata = all_datasets.filter(x => x.url.includes('timer')).map(x => x.data)[0].data.giornata;
+
     // Dizionario di fantasquadre
     let fantacalciatori = {};
     for (let i = squadre.data.length - 1; i >= 0; i--) {
@@ -168,15 +184,15 @@ export default {
           'Immagine': c.img,
           'Ruolo_Corto': mapping_roles[c.position].Corto,
           'Ruolo': mapping_roles[c.position].Lungo,
-          'Valore_Mercato_Iniziale': c.initialValue,
-          'Valore_Mercato_Ora': c.currentValue,
-          'Caps': c.italia.played,
-          'Average_V': c.italia.averageRating,
-          'Average_FV': c.italia.averageFantaRating,
-          'GoalsScored': c.goalsScored,
-          'Assists': c.assists,
-          'Gialli': c.yellowCards,
-          'Rossi': c.redCards
+          'Valore_Mercato_Iniziale': parseInt(c.initialValue),
+          'Valore_Mercato_Ora': parseInt(c.currentValue),
+          'Caps': parseInt(c.italia.played),
+          'Average_V': parseInt(c.italia.averageRating),
+          'Average_FV': parseInt(c.italia.averageFantaRating),
+          'GoalsScored': parseInt(c.goalsScored),
+          'Assists': parseInt(c.assists),
+          'Gialli': parseInt(c.yellowCards),
+          'Rossi': parseInt(c.redCards)
         },
         'Squadra_Reale': {
           'Nome_Completo': c.teamName,
@@ -187,116 +203,27 @@ export default {
       })
     }
 
-    // Uniques
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
+    this.calciatori = calciatori_con_fanta;
+    this.calciatori_con_filtro = calciatori_con_fanta;
 
-    // Crea tavola
-    this.to_load = 'CARICAMENTO Listone'
-    this.rows = calciatori_con_fanta;
-    this.columns = [
-        {
-          label: 'Giocatore',
-          field: 'Giocatore',
-          sortFn: this.sortGiocatore,
-          filterOptions: {
-              enabled: true, 
-              placeholder: ' ',
-              filterFn: this.filterGiocatore, 
-          },
-        },
-        {
-          label: 'Ruolo',
-          field: 'Giocatore.Ruolo_Corto',
-          firstSortType: 'desc',
-          filterOptions: {
-              enabled: true, 
-              placeholder: ' ',
-              filterDropdownItems: ['POR', 'DIF', 'CEN', 'ATT']
-          },
-        },
-        {
-          label: 'Squadra',
-          field: 'Squadra_Reale',
-          sortFn: this.sortSquadra_R,
-          filterOptions: {
-              enabled: true, 
-              placeholder: ' ',
-              filterDropdownItems: squadre_serie_a.filter(onlyUnique).sort(),
-              filterFn: this.filterSquadra_R, 
-          },
-        },
-        {
-          label: 'Presidente',
-          field: 'Squadra_Fantacalcio',
-          sortFn: this.sortSquadra_F,
-          filterOptions: {
-              enabled: true, 
-              filterDropdownItems: squadre.data.map(x => x.n).sort().concat(['Svincolato']),
-              placeholder: ' ',
-              filterFn: this.filterSquadra_F, 
-          },
-        },
-        {
-          label: 'Costo Asta',
-          field: 'Squadra_Fantacalcio.Costo',
-          type: 'number',
-          firstSortType: 'desc'
-        },
-        {
-          label: 'Presenze',
-          field: 'Giocatore.Caps',
-          type: 'number',
-          firstSortType: 'desc'
-        },
-        {
-          label: 'Goal Segnati',
-          field: 'Giocatore.GoalsScored',
-          type: 'number',
-          firstSortType: 'desc'
-        },
-        {
-          label: 'Assists',
-          field: 'Giocatore.Assists',
-          type: 'number',
-          firstSortType: 'desc'
-        },
-        {
-          label: 'Gialli',
-          field: 'Giocatore.Gialli',
-          type: 'number',
-          firstSortType: 'desc'
-        },
-        {
-          label: 'Rossi',
-          field: 'Giocatore.Rossi',
-          type: 'number',
-          firstSortType: 'desc'
-        },
-    ];
+    // Uniques
+    //function onlyUnique(value, index, self) {
+    //  return self.indexOf(value) === index;
+    //}
+
+    
 
     this.to_load = 'Completato';
   },
-  methods: {
-    sortGiocatore(x, y) {
-      return (x.Nome < y.Nome ? -1 : (x.Nome > y.Nome ? 1 : 0));
-    },
-    filterGiocatore(data, filterString) {
-      return data.Nome.toLowerCase().includes(filterString.toLowerCase());
-    },
-    sortSquadra_R(x, y) {
-      return (x.Nome_Corto < y.Nome_Corto ? -1 : (x.Nome_Corto > y.Nome_Corto ? 1 : 0));
-    },
-    filterSquadra_R(data, filterString) {
-      return data.Nome_Corto == filterString;
-    },
-    sortSquadra_F(x, y) {
-      return (x.Squadra < y.Squadra ? -1 : (x.Squadra > y.Squadra ? 1 : 0));
-    },
-    filterSquadra_F(data, filterString) {
-      return data.Squadra == filterString;
-    },
+  watch: {
+    all_filters: {
+      handler(newValue) {
+        this.calciatori_con_filtro = aggiorna_filtri_giocatori(this.calciatori, newValue);
+      },
+      deep: true
+    }
   }
 };
 </script>
+
+<style src="@vueform/slider/themes/default.css"></style>

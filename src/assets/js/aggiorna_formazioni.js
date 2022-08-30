@@ -68,7 +68,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 			'Panchinari': panchinari,
 			'Punti': f[i]['sq'][0]['t'],
 			'Punti_Previsti': exp_points + mod_difesa(titolari),
-			'Mostra': prev_f == undefined ? 'Titolari' : prev_f[i]['Mostra'] 
+			'Mostra': prev_f == undefined ? 'Titolari' : prev_f[s_id]['Mostra'] 
 		}
 	}
 	return(f_u);
