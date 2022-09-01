@@ -23,17 +23,53 @@
           </div>
           <div class="pb-0 pt-2 card-body">
             <div class="mb-1 row align-items-center">
-              <div class="table-responsive">
+              <div class="table-responsive" style="min-height:800px">
                 <thead>
-                  <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giocatore</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ruolo</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Squadra</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Presenze</th>
+                  <!-- Filtri -->
+                  <tr >
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px"><input v-model="all_filters.Nome" /></th>
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px">
+                      <v-select v-model="all_filters.Ruolo" 
+                        :options="['POR', 'DIF', 'CEN', 'ATT']">
+                      </v-select>
+                    </th>
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px">
+                      <v-select :options="squadre_serie_a" label="Code" v-model="all_filters.Squadra_Reale">
+                        <template v-slot:option="option">
+                          <LorenzoImageText 
+                            :image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + option.Logo" 
+                            :text="option.Code" 
+                          />
+                        </template>
+                        <template v-slot:selection="option">
+                          <!-- HTML that describe how select should render selected items -->
+                          {{ option.n.split('').slice(0,3).join('').toUpperCase() }}
+                        </template>
+                      </v-select>
+                    </th>
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px">
+                      <v-select :options="squadre_fantacalcio" label="n" v-model="all_filters.Squadra_Fantacalcio">
+                        <template v-slot:option="option">
+                          <LorenzoImageText 
+                            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + option.ms" 
+                            :text="option.n" 
+                            :secondary_text="option.nu" 
+                          />
+                        </template>
+                      </v-select>
+                    </th>
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px"><Slider v-model="all_filters.Presenze" :max="giornata"></Slider></th>
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px"><Slider v-model="all_filters.Voto"></Slider></th>
+                    <th style="padding-right: 8px; padding-bottom: 4px; padding-top: 30px"><Slider v-model="all_filters.FantaVoto"></Slider></th>
                   </tr>
                   <tr>
-                    <th><input v-model="all_filters.Nome" /></th>
-                    <th><Slider v-model="all_filters.Presenze" :max="giornata"></Slider></th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giocatore</th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ruolo</th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Squadra</th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Presidente</th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Presenze</th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Voto</th>
+                    <th class="pb-2 text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FantaVoto</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,8 +80,8 @@
                         :text="giocatore.Giocatore.Nome" 
                       />
                     </td>
-                    <td>
-                      
+                    <td> 
+                      <h6 class="mb-0 text-xs">{{giocatore.Giocatore.Ruolo_Corto}}</h6>                      
                     </td>
                     <td> 
                       <LorenzoImageText 
@@ -61,6 +97,12 @@
                       />
                     </td>
                     <td> {{ giocatore.Giocatore.Caps }} </td>
+                    <td>
+                      <LorenzoColorPagella :voto="giocatore.Giocatore.Average_V"/>
+                    </td>
+                    <td>
+                      <LorenzoColorPagella :voto="giocatore.Giocatore.Average_FV"/>
+                    </td>
                   </tr>
                 </tbody>
               </div>
@@ -80,6 +122,8 @@
 <script>
 
 import Slider from '@vueform/slider'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 import fantacalcio_apis from "@/assets/js/fantacalcio_apis.js";
 import cors_request from "@/assets/js/cors_request.js";
@@ -88,27 +132,32 @@ import aggiorna_filtri_giocatori from "@/assets/js/aggiorna_filtri_giocatori.js"
 // import async_cors_request from "@/assets/js/async_cors_request.js";
 
 import LorenzoImageText from "@/views/components/LorenzoImageText.vue";
-//import LorenzoColorPagella from "@/views/components/LorenzoColorPagella.vue";
+import LorenzoColorPagella from "@/views/components/LorenzoColorPagella.vue";
 //import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
 export default {
   name: "Giocatori",
   components: {
     Slider,
+    vSelect,
     //DataTable,
     //VueGoodTable,
-    LorenzoImageText
-    //LorenzoColorPagella,
+    LorenzoImageText,
+    LorenzoColorPagella,
     //DefaultInfoCard
   },
   data() {
     return {
       to_load: 'CALCOLO Giocatori',
       squadre_serie_a: {},
+      squadre_fantacalcio: {},
       calciatori: {},
       all_filters: {
         'Nome': '',
-        'Presenze': [0, 38]
+        'Ruolo': [],
+        'Presenze': [0, 38],
+        'Voto': [0, 10],
+        'FantaVoto': [0, 10]
       },
       giornata: 0
     };
@@ -177,7 +226,10 @@ export default {
           'Costo': 0
         }
       }
-      squadre_serie_a.push(c.teamCode);
+      squadre_serie_a.push({
+        'Logo': c.teamName == 'Juventus' ? 'juventus_black.png' : c.teamName.toLowerCase() + '.png',
+        'Code': c.teamCode
+      });
       calciatori_con_fanta.push({
         'Giocatore': {
           'Nome': c.name,
@@ -205,13 +257,8 @@ export default {
 
     this.calciatori = calciatori_con_fanta;
     this.calciatori_con_filtro = calciatori_con_fanta;
-
-    // Uniques
-    //function onlyUnique(value, index, self) {
-    //  return self.indexOf(value) === index;
-    //}
-
-    
+    this.squadre_serie_a = [...new Map(squadre_serie_a.map((item) => [item["Code"], item])).values()].sort((a,b) => (a.Code > b.Code) ? 1 : ((b.Code > a.Code) ? -1 : 0));
+    this.squadre_fantacalcio = squadre.data;
 
     this.to_load = 'Completato';
   },

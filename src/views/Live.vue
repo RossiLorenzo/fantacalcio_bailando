@@ -428,15 +428,24 @@
 						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
 						)
 					);
+				// E le chiamate per la gazzetta
+				all_promises.push(
+					fantacalcio_apis(
+						'live_gazzetta', 
+						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
+						)
+					);
 				let all_datasets = await evaluate_promises(all_promises);
 				let all_players = all_datasets.filter(x => x.url.includes('players/playersStat')).map(x => x.data)[0];
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
 				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
+				let live_gazzetta = all_datasets.filter(x => x.url.includes('gazzetta.it/api')).map(x => x.data)[0];
+				console.log(live_gazzetta);
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
-				let l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
+				let l_and_s = live_votes_status(all_datasets, this.mapping_match_events, live_gazzetta);
 				this.played = l_and_s.played
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
@@ -464,7 +473,7 @@
 						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
 					);
 					// Aggiorna tutto
-					l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
+					l_and_s = live_votes_status(all_datasets, this.mapping_match_events, live_gazzetta);
 					this.played = l_and_s.played
 					let prev_formazioni = this.formazioni;
 					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, prev_formazioni);

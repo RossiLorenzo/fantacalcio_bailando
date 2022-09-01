@@ -12,7 +12,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 		// Dividi titolari e panchinari
 		let giocatori = f[i]['sq'][0]['pl'];
 		for (let j = giocatori.length - 1; j >= 0; j--) {
-			giocatori[j].status = l_and_s.status[giocatori[j].t.toUpperCase()];
+			giocatori[j].status = l_and_s.status[giocatori[j].t.toUpperCase()].status;
 		}
 		let titolari = giocatori.slice(0, 11);
 		let panchinari = giocatori.slice(11, 22);

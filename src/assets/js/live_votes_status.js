@@ -1,12 +1,19 @@
-export default function live_votes_status(d, e){
+export default function live_votes_status(d, e, g){
+	console.log(g)
 	// Materialize datasets
 	let live_stream = d.filter(x => x.url.includes('d2lhpso9w1g8dk.cloudfront.net')).map(x => x.data)[0];
 	
 	// Status delle partite
 	let status = {};
 	for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
-		status[live_stream['data']['inc'][i]['n_a'].split('').slice(0, 3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
-		status[live_stream['data']['inc'][i]['n_b'].split('').slice(0, 3).join('').toUpperCase()] = live_stream['data']['inc'][i]['sto'];
+		let id_a = live_stream['data']['inc'][i]['n_a'].split('').slice(0, 3).join('').toUpperCase();
+		let id_b = live_stream['data']['inc'][i]['n_b'].split('').slice(0, 3).join('').toUpperCase();
+		status[id_a] = {
+			'status': live_stream['data']['inc'][i]['sto']
+		};
+		status[id_b] = {
+			'status': live_stream['data']['inc'][i]['sto']
+		};
 	}
 
 	// Crea un dizionario di voti live
