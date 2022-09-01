@@ -441,7 +441,7 @@
 				let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
 				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
 				let live_gazzetta = all_datasets.filter(x => x.url.includes('gazzetta.it/api')).map(x => x.data)[0];
-				console.log(live_gazzetta);
+				console.log(all_datasets)
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
