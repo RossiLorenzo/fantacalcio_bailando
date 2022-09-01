@@ -363,7 +363,7 @@
 					'4': {'Event_Name': 'Goal Subito', 'Bonus': -1},
 					'7': {'Event_Name': 'Rigore Parato', 'Bonus': 3},
 					'8': {'Event_Name': 'Rigore Sbagliato', 'Bonus': -3},
-					'9': {'Event_Name': 'Rigore Segnato', 'Bonus': 0},
+					'9': {'Event_Name': 'Rigore Segnato', 'Bonus': 3},
 					'10': {'Event_Name': 'Autogoal', 'Bonus': -2},
 					'21': {'Event Name': 'Assist', 'Bonus': 1},
 					'22': {'Event Name': 'Assist', 'Bonus': 1},
