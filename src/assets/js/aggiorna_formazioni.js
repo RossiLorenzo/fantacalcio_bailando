@@ -4,7 +4,6 @@ import sostituzioni from "@/assets/js/sostituzioni.js";
 export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats, prev_f){
 	// Calcola formazioni aggiornate
 	let f = formazioni['data']['formazioni'];
-	console.log(p_stats['data']);
 	
 	let f_u = {};
 	for (let i = 0; i < f.length; i++) {

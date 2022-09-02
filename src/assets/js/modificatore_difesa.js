@@ -1,7 +1,21 @@
 export default function mod_difesa(t){
-	let difesa = t.filter(x => x.r == 'D').map(x => x.voto_inziale == 100 ? 6 : x.voto_inziale).sort().reverse().slice(0, 3).reduce((partialSum, x) => partialSum + x, 0)
-	let portiere = t.filter(x => x.r == 'P').map(x => x.voto_inziale == 100 ? 6 : x.voto_inziale)[0];
-	let media_difesa = difesa + portiere;
+
+	function remove_nulls(v){
+		if (v == 100) { return 6 }
+		if (v == 56) { return 4 }
+		if (v == 55) { return 4 }
+		return v;
+	}
+	let difesa_all = t.filter(x => x.r == 'D');
+	if (difesa_all.length < 4) {
+		return 0;
+	}
+	let difesa = t.filter(x => x.r == 'D').map(x => remove_nulls(x.voto_iniziale)).sort().reverse().slice(0, 3);
+
+	
+	let portiere = t.filter(x => x.r == 'P').map(x => remove_nulls(x.voto_iniziale))[0];
+	let media_difesa = difesa.reduce((partialSum, x) => partialSum + x, 0) + portiere;
+	console.log(media_difesa)
 	let mod_difesa_punti;
 	if (media_difesa >= 28) {
 		mod_difesa_punti = 5
@@ -12,6 +26,5 @@ export default function mod_difesa(t){
 			mod_difesa_punti = 1
 		}
 	}
-	let mod_difesa = t.filter(x => x.r == 'D').length >= 4 ? mod_difesa_punti : 0;
-	return(mod_difesa);
+	return(mod_difesa_punti);
 }

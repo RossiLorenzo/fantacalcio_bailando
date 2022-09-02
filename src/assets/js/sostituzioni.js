@@ -15,15 +15,15 @@ export default function sostituzioni(t, p, c) {
                     p_d = p.filter(x => x.id != p_s[0].id)
                     t[j]['sostituto'] = p_s[0];
                     t[j]['voto_finale'] = t[j]['sostituto']['fv'];
-                    t[j]['voto_inziale'] = t[j]['sostituto']['vt'];
+                    t[j]['voto_iniziale'] = t[j]['sostituto']['vt'];
                     sostituzioni_fatte++;
                 } else {
                     t[j]['sostituto'] = {
                         'n': 'Ufficio',
                         'fv': 4
                     };
-                    t[j]['voto_finale'] = t[j]['sostituto']['fv'];
-                    t[j]['voto_inziale'] = t[j]['sostituto']['vt'];
+                    t[j]['voto_finale'] = 4;
+                    t[j]['voto_iniziale'] = 4;
                     sostituzioni_fatte++;
                 }
             } else {
@@ -32,7 +32,7 @@ export default function sostituzioni(t, p, c) {
                     'fv': 0
                 };
                 t[j]['voto_finale'] = t[j]['sostituto']['fv'];
-                t[j]['voto_inziale'] = t[j]['sostituto']['vt'];
+                t[j]['voto_iniziale'] = t[j]['sostituto']['vt'];
             }
 
         }
