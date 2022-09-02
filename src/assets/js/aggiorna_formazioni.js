@@ -4,6 +4,7 @@ import sostituzioni from "@/assets/js/sostituzioni.js";
 export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats, prev_f){
 	// Calcola formazioni aggiornate
 	let f = formazioni['data']['formazioni'];
+	console.log(p_stats['data']);
 	
 	let f_u = {};
 	for (let i = 0; i < f.length; i++) {
@@ -29,8 +30,8 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 			panchinari[j]['in_calcolo'] = false;
 
 			// Aggiungi immagine
-			titolari[j]['immagine'] = p_stats.filter(x => x.id == titolari[j].id)[0].img;
-			panchinari[j]['immagine'] = p_stats.filter(x => x.id == panchinari[j].id)[0].img;
+			titolari[j]['immagine'] = p_stats.data.filter(x => x.id == titolari[j].id)[0].img;
+			panchinari[j]['immagine'] = p_stats.data.filter(x => x.id == panchinari[j].id)[0].img;
 					
 			// Aggiorna voti con live
 			if (titolari[j].status > 0 && titolari[j].fv == 100) {

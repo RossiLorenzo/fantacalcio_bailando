@@ -61,7 +61,6 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie';
   
   import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
 
@@ -84,17 +83,21 @@
         to_load: 'CARICAMENTO Statistiche',
         montero: {},
         totti: {},
-        muriel: {}
+        muriel: {},
+        mapping_match_events: {
+          '1': {'Event_Name': 'yellowCards', 'Bonus': -0.5},
+          '2': {'Event_Name': 'redCards', 'Bonus': -1},
+          '3': {'Event_Name': 'goalsScored', 'Bonus': 3},
+          '8': {'Event_Name': 'penaltiesNotScored', 'Bonus': -3},
+          '9': {'Event_Name': 'penaltiesScored', 'Bonus': 3},
+          '21': {'Event Name': 'assist', 'Bonus': 1},
+          '22': {'Event Name': 'assist', 'Bonus': 1},
+          '23': {'Event Name': 'assist', 'Bonus': 1}  
+        },
       };
     },
+
     async beforeCreate (){
-      // Headers
-      let overall_headers = {
-        'Content-Type': 'application/json',
-        'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef',
-        'lega_token': Cookies.get('lega_token'),
-        'user_token': Cookies.get('utente_token')
-      };
       // Get stats for the players, teams and giornata
       let all_promises = [];
       all_promises.push(
@@ -105,10 +108,10 @@
       );
       all_promises.push(
         fantacalcio_apis(
-          'stats_calciatori', 
+          'lista_calciatori', 
           new Map([['function', cors_request], ['method', 'get']])
-        )
-      );
+          )
+        );
       all_promises.push(
         fantacalcio_apis(
           'squadre', 
@@ -117,25 +120,68 @@
       );
       let all_datasets = await evaluate_promises(all_promises);
       let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
-      let giornata = all_datasets.filter(x => x.url.includes('timer')).map(x => x.data)[0].data.giornata;
-      let season_stats = all_datasets.filter(x => x.url.includes('playersStat')).map(x => x.data)[0];
+      let season_stats = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0].data;
+
+      let timer = all_datasets.filter(x => x.url.includes('timer')).map(x => x.data)[0].data;
+      let giornata = timer.giornata;
+        if (new Date(timer.data_inizio_turno) > new Date()) {
+          giornata = giornata - 1;
+        }
+
       // Ora che sappiamo la giornata carichiamo tutte le formazioni schierate in ogni giornata
       this.to_load = 'CARICAMENTO Tutte formazioni schierate';
       all_promises = []
       for (let i = 1; i <= giornata; i++) {
         all_promises.push(
-          cors_request(
-            'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + i, {
-              method: 'get',
-              headers: overall_headers
-            }
-            )
-          ); 
+          fantacalcio_apis(
+            'formazioni', 
+            new Map([['function', cors_request], ['method', 'get'], ['giornata', i]])
+          )
+        );
       }
       let tutte_giornate = await evaluate_promises(all_promises);
-      this.to_load = 'CALCOLO classifiche';
+      
+      // E Caricamento tutti i risultati live
+      this.to_load = 'CARICAMENTO Tutti risultati';
+      all_promises = []
+      for (let i = 1; i <= giornata; i++) {
+        all_promises.push(
+          fantacalcio_apis(
+            'giornata_live', 
+            new Map([['function', cors_request], ['method', 'get'], ['giornata', i]])
+          )
+        );
+      }
+      let tutti_risultati = await evaluate_promises(all_promises);
+      
+
+      // Dataset di ogni giocatore con statistiche stagionali
+      for (let i = season_stats.length - 1; i >= 0; i--) {
+        let tmp_player = season_stats[i];
+        tmp_player.yellowCards = 0;
+        tmp_player.redCards = 0;
+        tmp_player.penaltiesScored = 0;
+        tmp_player.penaltiesNotScored = 0;
+        tmp_player.goalsScored = 0;
+        tmp_player.assist = 0;
+        let e = this.mapping_match_events;
+        for (let j = tutti_risultati.length - 1; j >= 0; j--) {
+          let tmp_giornata = tutti_risultati[j].data.data;
+          let tmp_player_giornata = tmp_giornata.pl.filter(x => x.id == tmp_player.id);
+          if (tmp_player_giornata.length != 0) {
+            let bonus_points = tmp_player_giornata[0].bm;
+            for (let k = bonus_points.length - 1; k >= 0; k--) {
+              if (e[bonus_points[k]] != undefined) {
+                tmp_player[e[bonus_points[k]].Event_Name]++;
+              }
+            }
+          }
+        }
+        season_stats[i] = tmp_player
+      }
 
       // Combina squadre con statistiche
+      this.to_load = 'CALCOLO classifiche';
       let squadre_con_statistica = [];
       for (let i = squadre.data.length - 1; i >= 0; i--) {
         let s = squadre.data[i];
@@ -171,12 +217,6 @@
         for (let j = sq.length - 1; j >= 0; j--) {
           // Formazioni
           let giocatori = sq[j][0].pl;
-          //let titolari = giocatori.slice(0, 11);
-          //let panchinari = giocatori.slice(11, 22);
-
-          // Sostituzioni
-          //titolari = sostituzioni(titolari, panchinari, completed);
-
 
           let played = sq[j][0].pl == null ? 0 : giocatori.slice(0, 11).reduce((partialSum, x) => partialSum + x.b[2] + x.b[6], 0);
           squadre_con_statistica.filter(x => x.Id == sq[j][0].id)[0].Titolari.push(played);

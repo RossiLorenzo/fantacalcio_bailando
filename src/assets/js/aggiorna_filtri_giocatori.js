@@ -1,7 +1,6 @@
 export default function aggiorna_filtri_giocatori(g, f){
 	// Filtrato
 	let g_f = g;
-	console.log(f)
 	
 	// Nome Giocatore
 	g_f = g_f.filter(x => x.Giocatore.Nome.includes(f.Nome));

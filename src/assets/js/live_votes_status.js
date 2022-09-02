@@ -19,9 +19,6 @@ export default function live_votes_status(d, e){
 	let voti = {};
 	for (let i = live_stream['data']['pl'].length - 1; i >= 0; i--) {
 		let p = live_stream['data']['pl'][i];
-		if(p.id == '5685'){
-			console.log(p)
-		}
 		let bonus = 0;
 		for (let j = p.bm.length - 1; j >= 0; j--) {
 			if (e[p.bm[j]] != undefined) {

@@ -230,7 +230,7 @@
 													<div v-if="giocatore.fv == 100 && giocatore.status == 4">
 														<div class="d-flex flex-row justify-content-left">
 														<LorenzoImageText 
-														:image="giocatore.immagine"
+														:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n"
 														:sub="true"
 														:secondary_text="mapping_roles[giocatore.r]"/>
@@ -242,7 +242,7 @@
 														</div>
 														<div v-else>
 															<LorenzoImageText 
-																:image="giocatore.sostituto.immagine"
+																:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.sostituto.immagine + '.png'"
 																:text="giocatore.sostituto.n"
 																:secondary_text="mapping_roles[giocatore.r]"
 															/>
@@ -253,7 +253,7 @@
 
 													<div v-else>
 														<LorenzoImageText 
-														:image="giocatore.immagine"
+														:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n" 
 														:secondary_text="mapping_roles[giocatore.r]"/>
 													</div>
@@ -394,7 +394,6 @@
 					'formazioni', 
 					new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
 				);
-				
 
 				// Poi le chiamate per i dati statici
 				this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
@@ -416,7 +415,7 @@
 					);
 				all_promises.push(
 					fantacalcio_apis(
-						'stats_calciatori', 
+						'lista_calciatori', 
 						new Map([['function', cors_request], ['method', 'get']])
 						)
 					);
@@ -428,24 +427,15 @@
 						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
 						)
 					);
-				// E le chiamate per la gazzetta
-				all_promises.push(
-					fantacalcio_apis(
-						'live_gazzetta', 
-						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
-						)
-					);
 				let all_datasets = await evaluate_promises(all_promises);
-				let all_players = all_datasets.filter(x => x.url.includes('players/playersStat')).map(x => x.data)[0];
+				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
 				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
-				let live_gazzetta = all_datasets.filter(x => x.url.includes('gazzetta.it/api')).map(x => x.data)[0];
-				console.log(all_datasets)
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
-				let l_and_s = live_votes_status(all_datasets, this.mapping_match_events, live_gazzetta);
+				let l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
 				this.played = l_and_s.played
 
 				// Con i voti aggiornati calcoliamo le formazioni aggiornate
@@ -473,7 +463,7 @@
 						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
 					);
 					// Aggiorna tutto
-					l_and_s = live_votes_status(all_datasets, this.mapping_match_events, live_gazzetta);
+					l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
 					this.played = l_and_s.played
 					let prev_formazioni = this.formazioni;
 					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, prev_formazioni);
