@@ -261,7 +261,7 @@
 												<!-- Per i panchinari no -->
 												<div v-else class="d-flex flex-column justify-content-center">
 														<LorenzoImageText 
-														:image="giocatore.immagine"
+														:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n" 
 														:secondary_text="mapping_roles[giocatore.r]"/>
 												</div>
