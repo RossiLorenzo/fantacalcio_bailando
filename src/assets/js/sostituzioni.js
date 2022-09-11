@@ -16,6 +16,7 @@ export default function sostituzioni(t, p, c) {
                     t[j]['sostituto'] = p_s[0];
                     t[j]['voto_finale'] = t[j]['sostituto']['fv'];
                     t[j]['voto_iniziale'] = t[j]['sostituto']['vt'];
+                    t[j]['in_calcolo'] = t[j]['sostituto']['in_calcolo'];
                     sostituzioni_fatte++;
                 } else {
                     t[j]['sostituto'] = {
