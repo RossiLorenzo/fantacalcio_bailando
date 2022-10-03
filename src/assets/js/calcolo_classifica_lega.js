@@ -30,6 +30,7 @@ export default function calcolo_classifica_lega(squadre, campionato, giornata, f
 			'Coach': squadre_con_classifica[s.id].Coach,
 			'Jersey': squadre_con_classifica[s.id].Jersey,
 			'Punti': squadre_con_classifica[s.id].Punti.reduce((partialSum, x) => partialSum + x, 0),
+			'Punti_Live': formazioni[squadre_con_classifica[s.id].Id].Punti_Previsti,
 			'Punti_Previsti': squadre_con_classifica[s.id].Punti.reduce((partialSum, x) => partialSum + x, 0) + formazioni[squadre_con_classifica[s.id].Id].Punti_Previsti
 		};
 	}

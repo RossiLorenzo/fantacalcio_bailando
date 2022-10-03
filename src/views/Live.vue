@@ -35,6 +35,7 @@
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Rank</th>
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Squadra</th>
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Fatti</th>
+											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Live</th>
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-0">Previsti</th>
 										</tr>
 									</thead>
@@ -55,6 +56,10 @@
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
 												<p class="text-xs text-secondary mb-0 " style="padding: 0rem 0.5rem !important;">{{ squadra.Punti }} </p>
+											</td>
+
+											<td style="padding: 0rem 0.0rem !important">
+												<ArgonBadge size="sm" variant="gradient" color="secondary"> {{ squadra.Punti_Live }} </ArgonBadge>
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
 												<p class="text-xs text-secondary mb-0 font-weight-bolder" style="padding: 0rem 0.5rem !important;">{{ squadra.Punti_Previsti }}  </p>
@@ -442,6 +447,7 @@
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, undefined);
 				// Aggiorna la classifica di campionato
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
+				console.log(this.classifica)
 				
 				// Infine aggiorna gli scontri diretti della giornata
 				this.scontri_diretti = scontri_diretti(coppe, giornata)
