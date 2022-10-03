@@ -15,7 +15,6 @@ export default function mod_difesa(t){
 	
 	let portiere = t.filter(x => x.r == 'P').map(x => remove_nulls(x.voto_iniziale))[0];
 	let media_difesa = difesa.reduce((partialSum, x) => partialSum + x, 0) + portiere;
-	console.log(media_difesa)
 	let mod_difesa_punti;
 	if (media_difesa >= 28) {
 		mod_difesa_punti = 5

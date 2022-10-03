@@ -1,5 +1,6 @@
 export default function sostituzioni(t, p, c) {
     let sostituzioni_fatte = 0;
+    let entrati = [];
     let p_d = p;
     for (let j = 0; j < 11; j++) {
         // Effettua sostituzioni
@@ -10,9 +11,10 @@ export default function sostituzioni(t, p, c) {
             } else {
                 p_s = p_d.filter(x => x.r == t[j]['r'] && (x.fv != 100 || x.status != 4));
             }
+            p_s = p_s.filter(x => !entrati.includes(x.id) )
             if (sostituzioni_fatte < 5) {
                 if (p_s.length > 0) {
-                    p_d = p.filter(x => x.id != p_s[0].id)
+                    entrati.push(p_s[0].id);
                     t[j]['sostituto'] = p_s[0];
                     t[j]['voto_finale'] = t[j]['sostituto']['fv'];
                     t[j]['voto_iniziale'] = t[j]['sostituto']['vt'];
