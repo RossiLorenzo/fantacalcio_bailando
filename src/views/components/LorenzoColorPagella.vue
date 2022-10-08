@@ -20,3 +20,77 @@
     }
   };
 </script>
+
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/STN/PSA/cheapestPerDay?currency=GBP&outboundMonthOfDate={{now().strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_stn_psa_month_0
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/STN/PSA/cheapestPerDay?currency=GBP&outboundMonthOfDate={{strptime((now() + timedelta(days=31)).year|string + '-' + (now() + timedelta(days=31)).month|string + '-01', '%Y-%m-%d').strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_stn_psa_month_1
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/STN/PSA/cheapestPerDay?currency=GBP&outboundMonthOfDate={{strptime((now() + timedelta(days=61)).year|string + '-' + (now() + timedelta(days=61)).month|string + '-01', '%Y-%m-%d').strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_stn_psa_month_2
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/STN/PSA/cheapestPerDay?currency=GBP&outboundMonthOfDate={{strptime((now() + timedelta(days=91)).year|string + '-' + (now() + timedelta(days=91)).month|string + '-01', '%Y-%m-%d').strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_stn_psa_month_3
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/PSA/STN/cheapestPerDay?currency=GBP&outboundMonthOfDate={{now().strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_psa_stn_month_0
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/PSA/STN/cheapestPerDay?currency=GBP&outboundMonthOfDate={{strptime((now() + timedelta(days=31)).year|string + '-' + (now() + timedelta(days=31)).month|string + '-01', '%Y-%m-%d').strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_psa_stn_month_1
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/PSA/STN/cheapestPerDay?currency=GBP&outboundMonthOfDate={{strptime((now() + timedelta(days=61)).year|string + '-' + (now() + timedelta(days=61)).month|string + '-01', '%Y-%m-%d').strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_psa_stn_month_2
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares
+- resource_template: https://services-api.ryanair.com/farfnd/v4/oneWayFares/PSA/STN/cheapestPerDay?currency=GBP&outboundMonthOfDate={{strptime((now() + timedelta(days=91)).year|string + '-' + (now() + timedelta(days=91)).month|string + '-01', '%Y-%m-%d').strftime('%Y-%m-%d')}}
+  scan_interval: 86400
+  method: GET
+  sensor:
+    - name: ryanair_psa_stn_month_3
+      value_template: "OK"
+      json_attributes_path: "$.outbound"
+      json_attributes:
+        - fares

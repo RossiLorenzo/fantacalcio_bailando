@@ -447,7 +447,6 @@
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, undefined);
 				// Aggiorna la classifica di campionato
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
-				console.log(this.classifica)
 				
 				// Infine aggiorna gli scontri diretti della giornata
 				this.scontri_diretti = scontri_diretti(coppe, giornata)
