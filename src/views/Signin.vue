@@ -133,7 +133,7 @@ export default {
     async auth () {
       this.loading = true; 
       let url = 'https://appleghe.fantacalcio.it/api/v1/v1_utente/login';
-      let cors_url = 'https://sheltered-tor-74618.herokuapp.com/' + url;
+      let cors_url = 'https://cors-anywhere-lorenzo.herokuapp.com/' + url;
       let form_data = {
         username: this.email,
         password: this.password
