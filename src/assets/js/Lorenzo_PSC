@@ -1,0 +1,49 @@
+# Short TL; DR 
+
+TL;DR are always hard but it's particularly tricky when trying to summarize an entire full year of work, in 2 orgs and with many results and areas of focus. But I'll give it a go with an extreme TL;DR here, a longer more detailed after and then a full-details view at the end of this self-review.
+
+* WP
+* PREQ Framework
+* H1 Goals
+* Battery/Crashes
+* Expand Framework
+* H2 Goals
+
+
+Battery reach goal, 
+
+# Long TL; DR 
+
+* [Workplace]: 
+	* I started 2022 in the Workplace org, where I was responsible for the ecosystem view, tackling all the most important and strategic problems. 
+	* Just before leaving, at the end of 2021 and for all Q1-22, I worked with WP leadership to ideate and set up a new measurement accompanying the new product strategy, eventually shipping a composed metric that has been adopted as top metric not only by the product team but for the first time also by the parternship teams for H1-22. 
+	* The work I have done in that space has highly influenced WP also after I had left, with the metric that has been used as the top priority in H2-22, it has been used to inform re-orgs and that will still be, in only a slighthly reshaped form, the success critieria for the WP org also in 2023. 
+
+* [Team-Change] 
+	* After 4 years in WP and having working on the above, it felt like a good time for the next challenge and I transitioned to a new role in RL, not only changing org but also area of expertise - from a very growth/marketing and B2B focused role to a foundational PREQ role. 
+	* I managed to do so with a fast turn-around and a short ramp-up period, estabilishing myself quickly as the trusted expert and owner of multiple areas, from battery health to SAD/crashes and the overall PREQ ecosystem story.
+
+* [PREQ Framework and Goaling] 
+	* I helped the VROS team uplevel the thinking around the framing and reporting of what PREQ means, by setting up a new framework of how to 
+	* With the help of the above framework I led the leadership discussions so to inform them and convince them on the importance of expanding our set of committed goals away from just one metric (%SAD) to a more comprehensive view.
+	* This resulted in H2-22, for the first time ever, on moving away from just the single %SAD metric as a VR-Org goal to committing engineering resources and efforts to fix the top 3 most important issues to our users, with 3 VR-Org goals: Crashes, Battery and Tracking. 
+	* I kept working on this during the half, expanding and distributing broadly the framework, working on causal links of bad UXs to actual engagement drops (ie: OOM and App Updates) and helping frame methods to rank UX issues against each other.
+	* The success of the multiple metrics adopted in H2, together with the extra work mentioned above means that approach will be repeated for the upcoming H1-23 and leadership approval has already been reached on almost every single area and detail for again 3 focus areas as Org goals. 
+  	* A lot of work is still needed here, from operationalizing the PREQ framework and metrics to more precisely stack-rank areas in order of importance but I'm very proud of the progress made in this year.
+
+* [Battery/Crashes] 
+	* For all H2 I also fully owned the work in the power and in the crashes spaces (2 of the 3 org goals) and estabilsehd myself as the expert in those areas. To do so, I built strong relationship with product XFNs to deeply understand the spaces and I worked on both the big strategic questions but also all the more operational aspects. There's a detailed view of this work in the next section but in a nutshell the work I am most proud of is:
+		* The large wins we had on the battery space. 
+			* In here I helped highlight and find a large UX bug that when fixed made the UX significantly better for our users, improving by ~2X inactive battery life and helping us reach the H2 goal. 
+			* But I also helped to identify and fix our telemetry, largely increasing the quality of it and giving us the ability to finally extract much more meaningful insights from the data. This is already unlocking a much more comprehensive metric, as H1-23 VR-Org goal, that will reward work not only on inactive battery life but also charging behaviors and active draining, making us fully focus on improving UXs without having to worry too much about data quality.
+		* For the first time, I created a clear and transparent view of what %SAD really is and what is included in it and what not. 
+			* This helped in the identification of gaps in the current %SAD metric in terms of both 1st and 3rd party crashes. 
+			* The 1st party part will be fully tackled in a new version of %SAD as a VR-Org goal H1-23, with OOM within bounds, ANRs, Data and System Server crashes all introduced into the calculation. 
+			* In terms of 3rd party crashes, the work in this space started many leadership discussions and more awareness around the importance of 3rd party developers code quality. As an org we are now starting to think how to scalably improve UXs not only on 1st party code but also external 3rd party code. 
+			* In particular, I led the discussion with leadership across the VROS org but also on adjacent orgs, as the dev-relationship team, on how to move forward for 3rd party crashes. This resulted in us already having the agreeement, for the first time ever, in 2023 to have a shared goal, a ship goal for better reporting and education around the very important OOM crashes.
+
+* [Org] Last but not least, I have tried to help as much as possible the Meta-Org, by running plenty of interviews before the hiring freeze, 
+
+
+BROOKE
+KEN'S POST ON SAD BEING UNDERREPORTED

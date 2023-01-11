@@ -131,6 +131,7 @@ export default {
   },
   methods: {
     async auth () {
+      // Fill form
       this.loading = true; 
       let url = 'https://appleghe.fantacalcio.it/api/v1/v1_utente/login';
       let cors_url = 'https://cors-anywhere-lorenzo.herokuapp.com/' + url;
@@ -138,6 +139,9 @@ export default {
         username: this.email,
         password: this.password
       };
+      Cookies.set('fanta_username', this.email);
+      Cookies.set('fanta_password', this.password);
+      // Send request 
       let response = await fetch(cors_url, { 
         method: 'post', 
         headers: {
@@ -148,6 +152,7 @@ export default {
       });
       let data = await response.json();
       this.loading = false; 
+      // Save cookie
       if (data['success']) {
         this.is_bailando_league = data['data']['leghe'].map(y => y.id).includes(1113631);
         if (this.is_bailando_league) {
