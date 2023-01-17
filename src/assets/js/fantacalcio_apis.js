@@ -10,7 +10,8 @@ export default async function fantacalcio_apis(resource, params = new Map()){
 		'competizioni': 'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=' + params.get('competizione'),
 		'stats_calciatori': 'https://api.fantacalcio.it/v1/mt/17/players/playersStat.json?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9hcGkuZmFudGFjYWxjaW8uaXQvdjEvbXQvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTY2MjQ4Nzc2NX19fV19&Signature=M8EgLbncZ3DKPZjzostTYYuja4087pmOYW1KXs2fbSDEn1Ak8BzwDM2As5neVJMXny77lA~a41251sZvpLX6XBnuohehXZUtXe6SJ6rbqlC1lr-p2XHW7EdmwzG6S6aD7BY8cwtx191v9bVgihuMQqC5x9PvA3B3QoeLCz81Mi2DdRz6GShU-EH2O5qDyJnHPHFrKCeh9cGkAlB-jI~hShbs53fcD73DC~8r3Ye4DPIVVB3myg9fUpPTT5NVgK7RTv8ZM38VO0DA8t8wtCIEyJar4PldSejuqByHlTAowviCyHemP6k~n6IkiIlVBTLnyOlpeFtP7i5irAG~kJKDaw__&Key-Pair-Id=KFXFJHYKWQRF1',
 		'lista_calciatori': 'https://appleghe.fantacalcio.it/api/v1/v1_calciatori/lista',
-		'live_gazzetta': 'https://api2-mtc.gazzetta.it/api/v1/sports/calendar?day=' + params.get('giornata') + '&sportId=1&competitionId=21'
+		'live_gazzetta': 'https://api2-mtc.gazzetta.it/api/v1/sports/calendar?day=' + params.get('giornata') + '&sportId=1&competitionId=21',
+		'login': 'https://appleghe.fantacalcio.it/api/v1/v1_utente/login'
 		
 	}
 	// Headers used in the requests
@@ -20,12 +21,25 @@ export default async function fantacalcio_apis(resource, params = new Map()){
 		'lega_token': Cookies.get('lega_token'),
 		'user_token': Cookies.get('utente_token')
     };
-    // Create the requests
-    let request = params.get('function')(
-    	mapping[resource], {
-    		method: params.get('method'),
-    		headers: overall_headers
-        }
-    )
+    // Create the requests - GET
+    let request
+    if (params.get('method') == 'get') {
+	    request = params.get('function')(
+	    	mapping[resource], {
+	    		method: 'get',
+	    		headers: overall_headers
+	        }
+	    )
+    } else {
+	    request = params.get('function')(
+	    	mapping[resource], {
+	    		method: 'post',
+	    		headers: overall_headers,
+	    		body: JSON.stringify(params.get('body'))
+	        }
+	    )
+    }
+
+    // Create the requests - POST
 	return request;
 }

@@ -41,7 +41,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <sidenav-item
           url="/giocatori"
           :class="getRoute() === 'giocatori' ? 'active' : ''"
@@ -51,7 +51,7 @@
             <i class="ni ni-user-run text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li>-->
       <!--
       <li class="nav-item">
         <sidenav-item

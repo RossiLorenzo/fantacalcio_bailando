@@ -98,6 +98,8 @@ import Cookies from 'js-cookie';
 import router from "@/router/index.js"
 const body = document.getElementsByTagName("body")[0];
 
+import login from "@/assets/js/login.js";
+
 export default {
   name: "signin",
   components: {
@@ -133,44 +135,14 @@ export default {
     async auth () {
       // Fill form
       this.loading = true; 
-      let url = 'https://appleghe.fantacalcio.it/api/v1/v1_utente/login';
-      let cors_url = 'https://cors-anywhere-lorenzo.herokuapp.com/' + url;
-      let form_data = {
-        username: this.email,
-        password: this.password
-      };
       Cookies.set('fanta_username', this.email, {expires: 31});
       Cookies.set('fanta_password', this.password, {expires: 31});
       // Send request 
-      let response = await fetch(cors_url, { 
-        method: 'post', 
-        headers: {
-          'Content-Type': 'application/json',
-          'app_key': 'c3885bc5a83a16e6366083570a0a576d9eda44ef'
-        },
-        body: JSON.stringify(form_data) 
-      });
-      let data = await response.json();
+      let successful_login = await login(this.email, this.password);
       this.loading = false; 
-      // Save cookie
-      if (data['success']) {
-        this.is_bailando_league = data['data']['leghe'].map(y => y.id).includes(1113631);
-        if (this.is_bailando_league) {
-          Cookies.set('utente_token', data['data']['utente']['utente_token'], {expires: 31});
-          Cookies.set('lega_token', data['data']['leghe'][0]['token'], {expires: 31});
-          router.push('/live')
-        }
-        else { 
-          this.failed = true;  
-        }
-      }
-      else { 
-        this.failed = true;  
-      }
-      return;
+      if(successful_login){ router.push('/live') };
+      if(!successful_login){ console.log('Failed') };
     }
-
   }
-
 };
 </script>
