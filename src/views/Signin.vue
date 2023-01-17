@@ -139,8 +139,8 @@ export default {
         username: this.email,
         password: this.password
       };
-      Cookies.set('fanta_username', this.email);
-      Cookies.set('fanta_password', this.password);
+      Cookies.set('fanta_username', this.email, {expires: 31});
+      Cookies.set('fanta_password', this.password, {expires: 31});
       // Send request 
       let response = await fetch(cors_url, { 
         method: 'post', 
@@ -156,8 +156,8 @@ export default {
       if (data['success']) {
         this.is_bailando_league = data['data']['leghe'].map(y => y.id).includes(1113631);
         if (this.is_bailando_league) {
-          Cookies.set('utente_token', data['data']['utente']['utente_token']);
-          Cookies.set('lega_token', data['data']['leghe'][0]['token']);
+          Cookies.set('utente_token', data['data']['utente']['utente_token'], {expires: 31});
+          Cookies.set('lega_token', data['data']['leghe'][0]['token'], {expires: 31});
           router.push('/live')
         }
         else { 

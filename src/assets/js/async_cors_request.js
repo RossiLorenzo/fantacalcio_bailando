@@ -34,8 +34,8 @@ export default async function async_cors_request(url, options){
         			this.is_bailando_league = auth_response_data['data']['leghe'].map(y => y.id).includes(1113631);
         			// Login rieffettuato con successo.
         			if (this.is_bailando_league) {
-          				Cookies.set('utente_token', auth_response_data['data']['utente']['utente_token']);
-          				Cookies.set('lega_token', auth_response_data['data']['leghe'][0]['token']);
+          				Cookies.set('utente_token', auth_response_data['data']['utente']['utente_token'], {expires: 31});
+          				Cookies.set('lega_token', auth_response_data['data']['leghe'][0]['token'], {expires: 31});
 
           				response = await fetch(cors_url, options);
           				data = await response.json();
