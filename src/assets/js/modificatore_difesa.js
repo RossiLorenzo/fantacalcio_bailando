@@ -11,11 +11,11 @@ export default function mod_difesa(t){
 	if (difesa_all.length < 4) {
 		return 0;
 	}
-	let difesa = t.filter(x => x.r == 'D').map(x => remove_nulls(x.voto_finale)).sort().reverse().slice(0, 3);
+	let difesa = t.filter(x => x.r == 'D').map(x => remove_nulls(x.voto_iniziale)).sort().reverse().slice(0, 3);
 	//console.log(difesa);
 
 	
-	let portiere = t.filter(x => x.r == 'P').map(x => remove_nulls(x.voto_finale))[0];
+	let portiere = t.filter(x => x.r == 'P').map(x => remove_nulls(x.voto_iniziale))[0];
 	//console.log(portiere);
 	let media_difesa = difesa.reduce((partialSum, x) => partialSum + x, 0) + portiere;
 	//console.log(media_difesa)
