@@ -124,10 +124,12 @@
 
       let timer = all_datasets.filter(x => x.url.includes('timer')).map(x => x.data)[0].data;
       let giornata = timer.giornata;
-        if (new Date(timer.data_inizio_turno) > new Date()) {
+      if (new Date(timer.data_inizio_turno) > new Date()) {
           giornata = giornata - 1;
+      }
+      if (giornata == 99) {
+          giornata = 38;
         }
-
       // Ora che sappiamo la giornata carichiamo tutte le formazioni schierate in ogni giornata
       this.to_load = 'CARICAMENTO Tutte formazioni schierate';
       all_promises = []

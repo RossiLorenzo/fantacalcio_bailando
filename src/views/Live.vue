@@ -394,6 +394,9 @@
 				if (new Date(timer.data.data_inizio_turno) > new Date()) {
 					giornata = giornata - 1;
 				}
+				if (giornata == 99) {
+					giornata = 38;
+				}
 				this.to_load = "CARICAMENTO Formazioni"
 				let formazioni = await fantacalcio_apis(
 					'formazioni', 
