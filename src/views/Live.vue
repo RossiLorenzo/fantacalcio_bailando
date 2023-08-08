@@ -397,6 +397,7 @@
 				if (giornata == 99) {
 					giornata = 38;
 				}
+				let year = timer['data']['id_stagione'];
 				this.to_load = "CARICAMENTO Formazioni"
 				let formazioni = await fantacalcio_apis(
 					'formazioni', 
@@ -432,7 +433,7 @@
 				all_promises.push(
 					fantacalcio_apis(
 						'giornata_live', 
-						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
+						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata], ['year', year]])
 						)
 					);
 				let all_datasets = await evaluate_promises(all_promises);

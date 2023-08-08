@@ -6,9 +6,8 @@ export default async function fantacalcio_apis(resource, params = new Map()){
 		'timer': 'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
 		'formazioni': 'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=161999&giornata=' + params.get('giornata'),
 		'squadre': 'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
-		'giornata_live': 'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/17/live_' + params.get('giornata') + '.json',
+		'giornata_live': 'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/' + params.get('year') + '/live_' + params.get('giornata') + '.json',
 		'competizioni': 'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=' + params.get('competizione'),
-		'stats_calciatori': 'https://api.fantacalcio.it/v1/mt/17/players/playersStat.json?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9hcGkuZmFudGFjYWxjaW8uaXQvdjEvbXQvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTY2MjQ4Nzc2NX19fV19&Signature=M8EgLbncZ3DKPZjzostTYYuja4087pmOYW1KXs2fbSDEn1Ak8BzwDM2As5neVJMXny77lA~a41251sZvpLX6XBnuohehXZUtXe6SJ6rbqlC1lr-p2XHW7EdmwzG6S6aD7BY8cwtx191v9bVgihuMQqC5x9PvA3B3QoeLCz81Mi2DdRz6GShU-EH2O5qDyJnHPHFrKCeh9cGkAlB-jI~hShbs53fcD73DC~8r3Ye4DPIVVB3myg9fUpPTT5NVgK7RTv8ZM38VO0DA8t8wtCIEyJar4PldSejuqByHlTAowviCyHemP6k~n6IkiIlVBTLnyOlpeFtP7i5irAG~kJKDaw__&Key-Pair-Id=KFXFJHYKWQRF1',
 		'lista_calciatori': 'https://appleghe.fantacalcio.it/api/v1/v1_calciatori/lista',
 		'live_gazzetta': 'https://api2-mtc.gazzetta.it/api/v1/sports/calendar?day=' + params.get('giornata') + '&sportId=1&competitionId=21',
 		'login': 'https://appleghe.fantacalcio.it/api/v1/v1_utente/login'

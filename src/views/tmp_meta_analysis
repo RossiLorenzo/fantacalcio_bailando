@@ -1,0 +1,479 @@
+# This is the config you should modify to run a meta-analysis.  Address the TODOs at minimum.
+# The recommended way to run this is to use nbackfill, but tester/data workbench will work fine.
+# We suggest nbackfill because it makes it easier to track DIRCU usage.
+# You can run the backfill like this:
+# 1. Commit your local changes (or amend if you have a local commit already)
+# 2. cd ~/fbsource/fbcode/dataswarm-pipelines && ./nbackfill -c dataswarmadhoc -t '.*' -sd 'tasks_adhoc/measurementsystems/ecosystem/meta_analysis' -s '2022-09-07' -b 'test_eg_ifr_friend_' -l
+# Parameters
+
+DATA_PROJECT_ACL = "xros_de"  # TODO: Change this to your project
+USER = "lorenzorossi"  # TODO: Change this to your unixname
+ONCALL = "vros_de"  # TODO: Change this to your oncall
+
+RUN_NAME = f"lorenzorossi_oculus_meta_analysis_"  # TODO: Name your run
+NAMESPACE = (
+    "oculus"  # TODO: if you edit this to something other than measurementsystems,
+    # Run cd ~/fbsource/fbcode/dataswarm-pipelines && ./linter --adhoc --update-schema ./tasks_adhoc/measurementsystems/ecosystem/meta_analysis.py
+)
+FRAMEWORKS = [
+    "qe",
+    "gk",
+]  # TODO: Select the frameworks you want to include in your experiment set
+EXPOSURE_TYPE = "UID"  # Select between UID versus RID exposure tables, defaults to UID
+
+# Metric parameters
+ROLLUP = 7  # TODO: how many many days your metric will be rolled up over
+WINS_THRESH = 0.9995  # TODO: set winsorization threshold
+
+# Metrics
+# NOTE: This pipeline file is in measurementsystems namespace and uses *FBIDs* instead of RIDs
+# The input format to this map always starts with a metric name (key).
+# The value can vary, depending on how you want to specify your metric.
+# Method1:
+# * Provide a key "sql" and a value which is a simple SQL statement that outputs columns (userid, value)
+# Method 2 (multiple output metrics):
+# * Provide a key "sql" and a value which is an SQL statement returning columns (userid, {numeric cols})
+# * Provide a list "metric_list" which has the metric column names
+
+METRIC_NAMES = {
+    "ipauai": {
+        "sql": f"""
+        SELECT
+            userid,
+            IF(SUM(v2_l1) > 0, 1, 0) AS v2_l1,
+            IF(SUM(payment_l1) > 0, 1, 0) AS payment_l1,
+            IF(SUM(entitlement_l1) > 0, 1, 0) AS entitlement_l1,
+            IF(SUM(v2_time_spent_sec_1d) > (60 * 5), 1, 0)
+                AS v2_time_spent_sec_1d_more_5min,
+            IF(SUM(v2_time_spent_sec_1d) > (60 * 10), 1, 0)
+                AS v2_time_spent_sec_1d_more_10min,
+            IF(SUM(v2_time_spent_sec_1d) > (60 * 30), 1, 0)
+                AS v2_time_spent_sec_1d_more_30min,
+            IF(SUM(v2_time_spent_sec_1d) > (60 * 60), 1, 0)
+                AS v2_time_spent_sec_1d_more_60min,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category = 'GAMES'
+                ) > (60 * 5),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_5min_games,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category = 'GAMES'
+                ) > (60 * 10),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_10min_games,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category = 'GAMES'
+                ) > (60 * 30),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_30min_games,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category = 'GAMES'
+                ) > (60 * 60),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_60min_games,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category != 'HOME'
+                ) > (60 * 5),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_5min_nonhome,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category != 'HOME'
+                ) > (60 * 10),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_10min_nonhome,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category != 'HOME'
+                ) > (60 * 30),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_30min_nonhome,
+            IF(
+                SUM(v2_time_spent_sec_1d) FILTER(
+                    WHERE
+                        pa_category != 'HOME'
+                ) > (60 * 60),
+                1,
+                0
+            ) AS v2_time_spent_sec_1d_more_60min_nonhome
+        FROM core_oculus_ipauai
+        WHERE
+            ds BETWEEN '<DATEID-{ROLLUP-1}>' AND '<DATEID>'
+            AND interface = 'oculus_miramar'
+        GROUP BY
+            1
+        """,
+        "metric_list": [
+            "v2_l1",
+            "payment_l1",
+            "entitlement_l1",
+            "v2_time_spent_sec_1d_more_5min",
+            "v2_time_spent_sec_1d_more_10min",
+            "v2_time_spent_sec_1d_more_30min",
+            "v2_time_spent_sec_1d_more_60min",
+            "v2_time_spent_sec_1d_more_5min_games",
+            "v2_time_spent_sec_1d_more_10min_games",
+            "v2_time_spent_sec_1d_more_30min_games",
+            "v2_time_spent_sec_1d_more_60min_games",
+            "v2_time_spent_sec_1d_more_5min_nonhome",
+            "v2_time_spent_sec_1d_more_10min_nonhome",
+            "v2_time_spent_sec_1d_more_30min_nonhome",
+            "v2_time_spent_sec_1d_more_60min_nonhome",
+        ],
+    },
+    "guardian": {
+        "sql": f"""
+        SELECT
+            oculus_userid AS userid,
+            IF(SUM(gnf_events) > 0, 1, 0) AS gnf_events,
+            IF(SUM(gnf_creations) > 0, 1, 0) AS gnf_creations,
+            IF(SUM(gnf_impressions) > 0, 1, 0) AS gnf_impressions,
+            IF(SUM(overall_creations) > 0, 1, 0) AS gnf_overall_creations
+        FROM guardian_not_found_events
+        WHERE
+            ds BETWEEN '<DATEID-{ROLLUP-1}>' AND '<DATEID>'
+            AND interface = 'oculus_miramar'
+        GROUP BY
+            1
+        """,
+        "metric_list": [
+            "gnf_events",
+            "gnf_creations",
+            "gnf_impressions",
+            "gnf_overall_creations",
+        ],
+    },
+    "battery": {
+        "sql": f"""
+        SELECT
+            oculus_userid AS userid,
+            IF(
+                COUNT_IF(
+                    event = 'BatteryLow' AND previous_state_name = 'inactive_draining'
+                        AND previous_state_duration_seconds > 1
+                        AND previous_state_starting_battery_level > 10
+                ) > 0,
+                1,
+                0
+            ) AS low_inactive,
+            IF(
+                COUNT_IF(
+                    event = 'BatteryLow' AND previous_state_name = 'active_draining'
+                        AND previous_state_duration_seconds > 1
+                        AND previous_state_starting_battery_level > 10
+                ) > 0,
+                1,
+                0
+            ) AS low_active,
+            IF(
+                COUNT_IF(
+                    event = 'BatteryFull' AND previous_state_duration_seconds > 1
+                        AND previous_state_starting_battery_level < 90
+                ) > 0,
+                1,
+                0
+            ) AS fully_charged
+        FROM fct_vros_battery
+        WHERE
+            ds BETWEEN '<DATEID-{ROLLUP-1}>' AND '<DATEID>'
+            AND interface = 'oculus_miramar'
+            AND build_type = 'user'
+        GROUP BY
+            1
+        """,
+        "metric_list": [
+            "low_inactive",
+            "low_active",
+            "fully_charged",
+        ],
+    },
+    "sad": {
+        "sql": f"""
+        SELECT
+            userid,
+            IF(COUNT(1) > 0, 1, 0) AS overall,
+            IF(COUNT_IF(source_table = 'errorreporting_vros_anrs') > 0, 1, 0) AS anr,
+            IF(
+                COUNT_IF(source_table = 'oculus_mobile_lmk_kill_events') > 0,
+                1,
+                0
+            ) AS oom,
+            IF(
+                COUNT_IF(
+                    NOT source_table IN (
+                        'errorreporting_vros_anrs',
+                        'oculus_mobile_lmk_kill_events'
+                    )
+                ) > 0,
+                1,
+                0
+            ) AS os
+        FROM fct_oculus_reliability_crashes_raw_signal
+        WHERE
+            ds BETWEEN '<DATEID-{ROLLUP-1}>' AND '<DATEID>'
+            AND interface = 'oculus_miramar'
+            AND COALESCE(is_test_account, 0) = 0
+            AND build_type = 'user'
+        GROUP BY
+            1
+        """,
+        "metric_list": ["overall", "anr", "oom", "os"],
+    },
+    "stale_frames": {
+        "sql": f"""
+        SELECT
+            oculus_userid AS userid,
+            IF(
+                VALUE_AT_QUANTILE(
+                    MERGE(CAST(stale_frames_72hz AS TDIGEST(DOUBLE))),
+                    0.5
+                ) > 0.5,
+                1,
+                0
+            ) AS median_72hz_more_zerofive,
+            IF(
+                VALUE_AT_QUANTILE(
+                    MERGE(CAST(stale_frames_90hz AS TDIGEST(DOUBLE))),
+                    0.5
+                ) > 0.5,
+                1,
+                0
+            ) AS median_90hz_more_zerofive,
+            IF(
+                ARRAY_AVERAGE(
+                    ARRAY[
+                        VALUE_AT_QUANTILE(
+                            MERGE(CAST(stale_frames_72hz AS TDIGEST(DOUBLE))),
+                            0.5
+                        ),
+                        VALUE_AT_QUANTILE(
+                            MERGE(CAST(stale_frames_90hz AS TDIGEST(DOUBLE))),
+                            0.5
+                        )
+                    ]
+                ) > 0.5,
+                1,
+                0
+            ) AS median_overall_more_zerofive,
+            IF(
+                VALUE_AT_QUANTILE(
+                    MERGE(CAST(stale_frames_72hz AS TDIGEST(DOUBLE))),
+                    0.5
+                ) > 1,
+                1,
+                0
+            ) AS median_72hz_more_one,
+            IF(
+                VALUE_AT_QUANTILE(
+                    MERGE(CAST(stale_frames_90hz AS TDIGEST(DOUBLE))),
+                    0.5
+                ) > 1,
+                1,
+                0
+            ) AS median_90hz_more_one,
+            IF(
+                ARRAY_AVERAGE(
+                    ARRAY[
+                        VALUE_AT_QUANTILE(
+                            MERGE(CAST(stale_frames_72hz AS TDIGEST(DOUBLE))),
+                            0.5
+                        ),
+                        VALUE_AT_QUANTILE(
+                            MERGE(CAST(stale_frames_90hz AS TDIGEST(DOUBLE))),
+                            0.5
+                        )
+                    ]
+                ) > 1,
+                1,
+                0
+            ) AS median_overall_more_one,
+            IF(
+                VALUE_AT_QUANTILE(
+                    MERGE(CAST(stale_frames_72hz AS TDIGEST(DOUBLE))),
+                    0.5
+                ) > 2,
+                1,
+                0
+            ) AS median_72hz_more_two,
+            IF(
+                VALUE_AT_QUANTILE(
+                    MERGE(CAST(stale_frames_90hz AS TDIGEST(DOUBLE))),
+                    0.5
+                ) > 2,
+                1,
+                0
+            ) AS median_90hz_more_two,
+            IF(
+                ARRAY_AVERAGE(
+                    ARRAY[
+                        VALUE_AT_QUANTILE(
+                            MERGE(CAST(stale_frames_72hz AS TDIGEST(DOUBLE))),
+                            0.5
+                        ),
+                        VALUE_AT_QUANTILE(
+                            MERGE(CAST(stale_frames_90hz AS TDIGEST(DOUBLE))),
+                            0.5
+                        )
+                    ]
+                ) > 2,
+                1,
+                0
+            ) AS median_overall_more_two
+        FROM stg_stale_frames_core_digest_vros_iudbbt
+        WHERE
+            ds BETWEEN '<DATEID-{ROLLUP-1}>' AND '<DATEID>'
+            AND interface = 'oculus_miramar'
+        GROUP BY
+            1
+        """,
+        "metric_list": [
+            "median_72hz_more_zerofive",
+            "median_90hz_more_zerofive",
+            "median_overall_more_zerofive",
+            "median_72hz_more_one",
+            "median_90hz_more_one",
+            "median_overall_more_one",
+            "median_72hz_more_two",
+            "median_90hz_more_two",
+            "median_overall_more_two",
+        ],
+    },
+    "ttrc": {
+        "sql": f"""
+        SELECT
+            userid,
+            IF(MAX(bad_user) = TRUE, 1, 0) AS bad_user,
+            IF(COUNT(1) > 0, 1, 0) AS active_user
+        FROM digest_vr_app_ttrc
+        WHERE
+            ds BETWEEN '<DATEID-{ROLLUP-1}>' AND '<DATEID>'
+            AND interface = 'oculus_miramar'
+            AND app_name = 'STORE'
+        GROUP BY
+            1
+        """,
+        "metric_list": ["bad_user", "active_user"],
+    },
+}
+
+# Parallelism/bounds on total data processing
+EXPT_BUCKET_SIZE = 5  # TODO: How many jobs to break your exposures into. Recommended 50-100 experiments per job.
+
+####  Experiment selection parameters ####
+EXPERIMENT_SELECTION_DATE = "<DATEID>"  # Hard code this as a date (e.g. 2022-12-09) if you want to compute metric
+# deltas on multiple dates for the same set of experiments/exposures. We'll pull the latest partition of
+# the exposure tables regardless, this just fixes that set of exposures to the current LATEST_DS.
+INCLUDE_FB_APP_HOLDOUTS = (
+    False  # Whether to add all FB app holdouts to your experiment selection
+)
+MAX_EXPERIMENTS = 500  # TODO: Maximum number of experiments to meta-analyze
+MIN_EXPOSURES = (
+    100000  # TODO: Set minimum number of exposures for an experiment to be selected
+)
+MAX_EXPOSURES_PER_GROUP = (
+    100000000  # Currently unused but could help limit cost for very large experiments
+)
+
+# Recipes to select experiments
+EXPERIMENTS_STARTED_AFTER = "2023-01-01"
+EXPERIMENTS_STARTED_BEFORE = "2023-05-30"
+
+# It can be useful to filter on team/team_group/pillar, here is a way to tabulate
+# these fields: https://fburl.com/daiquery/u3nh37qe
+# TODO: Remove the 1=2 line here before use.
+LONG_RUNNING_RECIPE = f"""
+    True
+    AND CAST(DATE(FROM_UNIXTIME(creation_time)) AS VARCHAR) BETWEEN '{EXPERIMENTS_STARTED_AFTER}'
+        AND '{EXPERIMENTS_STARTED_BEFORE}'
+        AND NOT imbalanced_check_failed
+        AND experiment NOT LIKE 'ig_%'
+        AND allocation_area IN ('VR', 'XR', 'Metaverse')
+    AND (
+        (
+            framework = 'qe'
+            AND qe_active_in_production -- Holdouts still running
+            AND qe_user_marked_state = 'RUNNING'
+            AND cumulative_exposure_count > {MIN_EXPOSURES}
+        )
+        OR (
+            framework = 'gk'
+            AND deltoid_queries_lifetime > 0
+        )
+    )
+"""
+
+# Add other common recipes here and commit them (e.g. IG)
+
+####  User attribute arguments. ####
+#### Note we will likely not select the same partition ###
+#### As the deltoid UI ###
+USE_USER_ATTRIBUTES = False
+# TODO: In order to use user_attributes, you also need to supply the source table for the user attributes.
+# See the main pipeline file, meta_analysis.py
+USER_ATTRIBUTE_NAMES = ["us_ca_ya"]
+
+# There are known correctness bugs in LTA_USER_ATTRIBUTES. You likely do not want to use this. TODO debug, see D41814108
+USE_LTA_USER_ATTRIBUTES = False  # TODO: Experimental feature that allows you to use pre-treatment lness data for FB users
+LTA_DIM_SELECT = """
+MAP(
+    ARRAY['lness_bucket'], ARRAY[
+        IF(
+            LENGTH(
+                REPLACE(
+                    SUBSTR(
+                        REVERSE(
+                            SUBSTR(
+                                ELEMENT_AT(dim, 'datelist_str'),
+                                1,
+                                DATE_DIFF(
+                                    'day',
+                                    date(
+                                        ELEMENT_AT(dim, 'first_action_date')
+                                    ),
+                                    DATE(start_ds)
+                                ) + 1
+                            )
+                        ),
+                        1,
+                        28
+                    ),
+                    '0',
+                    ''
+                )
+            ) >= 25,
+            '>=25',
+            '<25'
+        )
+    ]
+)
+"""  # TODO: Extract from the lness string given experiment start date (start_ds)
+YA_FILTER = """
+INNER JOIN (
+    SELECT
+        userid
+    FROM young_adults:bi
+    WHERE
+        ds = '<DATEID>'
+        AND age_bracket_18_29 = 'US/CA/WE, 18-29'
+) ya
+    ON s.userid = ya.userid
+"""
