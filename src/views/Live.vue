@@ -407,7 +407,7 @@
 				// Poi le chiamate per i dati statici
 				this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
 				let all_promises = [];
-				let competizioni = [161999, 162028, 162166, 162125, 162183];
+				let competizioni = [224135, 224383, 224349, 224299, 224369, 224337];
 				for (let i = competizioni.length - 1; i >= 0; i--) {
 					all_promises.push(
 						fantacalcio_apis(
@@ -439,8 +439,8 @@
 				let all_datasets = await evaluate_promises(all_promises);
 				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
-				let campionato = all_datasets.filter(x => x.url.includes('161999')).map(x => x.data)[0];
-				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('161999')).map(x => x.data);
+				let campionato = all_datasets.filter(x => x.url.includes('224135')).map(x => x.data)[0];
+				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('224135')).map(x => x.data);
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
