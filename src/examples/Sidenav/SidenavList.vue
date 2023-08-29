@@ -30,7 +30,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <sidenav-item
           url="/classifiche"
           :class="getRoute() === 'classifiche' ? 'active' : ''"
@@ -40,7 +40,8 @@
             <i class="ni ni-trophy text-success text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li>-->
+      <!--
       <li class="nav-item">
         <sidenav-item
           url="/giocatori"
@@ -52,6 +53,7 @@
           </template>
         </sidenav-item>
       </li>
+    -->
       <!--
       <li class="nav-item">
         <sidenav-item

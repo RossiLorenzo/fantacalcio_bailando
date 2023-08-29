@@ -9,7 +9,6 @@ export default function scontri_diretti(coppe, giornata){
 		if (coppa_schedule.length > 0) {
 			scontri_diretti[coppa_name] = coppa_schedule[0]['inc'];	
 		}
-		
 	}
 	
 	return(scontri_diretti)

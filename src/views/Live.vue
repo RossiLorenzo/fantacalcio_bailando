@@ -50,7 +50,7 @@
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
 												<LorenzoImageText 
-												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey" 
+												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + squadra.Jersey" 
 												:text="squadra.Name" 
 												:secondary_text="squadra.Coach"/>
 											</td>
@@ -143,14 +143,14 @@
 
 												<td style="padding: 0rem 0.0rem !important">
 													<LorenzoImageText 
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazioni[inc.ida].Jersey"
+													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + formazioni[inc.ida].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()" 
 													/>
 												</td>
 
 												<td style="padding: 0rem 0.0rem !important">
 													<LorenzoImageText 
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazioni[inc.idb].Jersey"
+													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + formazioni[inc.idb].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()" 
 													/>
 												</td>
@@ -173,7 +173,7 @@
 						<div class="card">
 							<div class="p-3 pb-0 card-header">
 								<LorenzoImageText 
-								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + formazione.Jersey"
+								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + formazione.Jersey"
 								:text="formazione.Name" 
 								:secondary_text="formazione.Coach"/>
 								<!-- 
@@ -191,7 +191,7 @@
 								</thead>
 
 								<tbody>
-									<tr>
+									<!--<tr>
 										<td style="padding: 0rem 0.5rem !important">
 											<h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">Fatti</h6>
 										</td>
@@ -201,7 +201,7 @@
 										<td class="align-middle text-left">
 											<ArgonBadge size="sm" variant="gradient" color="secondary"> {{ Math.max(Math.floor((formazione.Punti- 66)/4)+1, 0) }} </ArgonBadge>
 										</td>
-									</tr>
+									</tr>-->
 									<tr>
 										<td style="padding: 0rem 0.5rem !important">
 											<h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">Previsti</h6>
@@ -350,7 +350,8 @@
 					'P': 'Portiere',
 					'D': 'Difensore',
 					'C': 'Centrocampista',
-					'A': 'Attaccante'
+					'A': 'Attaccante',
+					'NA': 'NA'
 				},
 				mapping_match_status: {
 					'0': 'Non Iniziata',
@@ -390,12 +391,12 @@
 					'timer', 
 					new Map([['function', async_cors_request], ['method', 'get']])
 					);
-				let giornata = timer['data']['giornata'];
+				let giornata = timer['data']['giornata'] - 1; // adding the -1 since we started 1 week after 
 				if (new Date(timer.data.data_inizio_turno) > new Date()) {
 					giornata = giornata - 1;
 				}
 				if (giornata == 99) {
-					giornata = 38;
+					giornata = 37;
 				}
 				let year = timer['data']['id_stagione'];
 				this.to_load = "CARICAMENTO Formazioni"
@@ -407,7 +408,7 @@
 				// Poi le chiamate per i dati statici
 				this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
 				let all_promises = [];
-				let competizioni = [224135, 224383, 224349, 224299, 224369, 224337];
+				let competizioni = [224135, 224383, 224299, 224369];
 				for (let i = competizioni.length - 1; i >= 0; i--) {
 					all_promises.push(
 						fantacalcio_apis(
@@ -433,7 +434,7 @@
 				all_promises.push(
 					fantacalcio_apis(
 						'giornata_live', 
-						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata], ['year', year]])
+						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+1], ['year', year]])
 						)
 					);
 				let all_datasets = await evaluate_promises(all_promises);
@@ -441,6 +442,7 @@
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				let campionato = all_datasets.filter(x => x.url.includes('224135')).map(x => x.data)[0];
 				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('224135')).map(x => x.data);
+				console.log(campionato)
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
@@ -453,7 +455,8 @@
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 				
 				// Infine aggiorna gli scontri diretti della giornata
-				this.scontri_diretti = scontri_diretti(coppe, giornata)
+				this.scontri_diretti = scontri_diretti(coppe, giornata+1)
+
 
 				// Reload the data every minute
 				setInterval(async () => {
@@ -462,7 +465,7 @@
 					all_promises.push(
 						fantacalcio_apis(
 							'giornata_live', 
-							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata]])
+							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+1], ['year', year]])
 							)
 						);
 					all_datasets = await evaluate_promises(all_promises);
@@ -477,7 +480,7 @@
 					let prev_formazioni = this.formazioni;
 					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, prev_formazioni);
 					this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
-					this.scontri_diretti = scontri_diretti(coppe, giornata)
+					this.scontri_diretti = scontri_diretti(coppe, giornata+1)
 				}, completed ? 120000 : 30000)
 
 				this.to_load = "Completato";
