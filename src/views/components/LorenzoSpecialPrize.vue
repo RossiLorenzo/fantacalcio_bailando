@@ -10,7 +10,7 @@
     <!-- https://c.tenor.com/4Zl464BlTSUAAAAM/football-haiti.gif --> 
     <div class="pb-0 pt-2 card-body">
       <LorenzoImageText 
-      :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + dataset[0].Jersey"
+      :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + dataset[0].Jersey"
       :text="dataset[0].Name" 
       :secondary_text="dataset[0].Coach"
       />
@@ -27,7 +27,7 @@
               <tr v-for="(squadra, index) in dataset" :key="index" >
                 <td style="padding: 0rem 0.5rem !important">
                   <LorenzoImageText 
-                  :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
+                  :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + squadra.Jersey"
                   />
                 </td>
                 <td style="padding: 0rem 0.5rem !important"> {{ squadra.Col1 }} </td>

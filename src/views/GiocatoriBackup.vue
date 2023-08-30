@@ -49,7 +49,7 @@
                     </span>
                     <span v-else-if="props.column.field == 'Squadra_Fantacalcio'">
                       <LorenzoImageText 
-                        :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + props.row.Squadra_Fantacalcio.Jersey" 
+                        :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + props.row.Squadra_Fantacalcio.Jersey" 
                         :text="props.row.Squadra_Fantacalcio.Squadra" 
                         :secondary_text="props.row.Squadra_Fantacalcio.Coach" 
                       />

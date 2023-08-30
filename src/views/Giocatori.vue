@@ -52,7 +52,7 @@
                       <v-select :options="squadre_fantacalcio" label="n" v-model="all_filters.Squadra_Fantacalcio">
                         <template v-slot:option="option">
                           <LorenzoImageText 
-                            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + option.ms" 
+                            :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + option.ms" 
                             :text="option.n" 
                             :secondary_text="option.nu" 
                           />
@@ -92,7 +92,7 @@
                     </td>
                     <td> 
                       <LorenzoImageText 
-                        :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + giocatore.Squadra_Fantacalcio.Jersey" 
+                        :image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + giocatore.Squadra_Fantacalcio.Jersey" 
                         :text="giocatore.Squadra_Fantacalcio.Squadra" 
                         :secondary_text="giocatore.Squadra_Fantacalcio.Coach" 
                       />

@@ -32,7 +32,7 @@
                         <div class="d-flex px-2 py-1">
                           <div>
                             <img
-                              :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2022/' + squadra.Jersey"
+                              :src="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + squadra.Jersey"
                               class="avatar avatar-xs me-3"
                             />
                           </div>
