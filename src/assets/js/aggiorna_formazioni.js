@@ -15,6 +15,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 		let s_id = ids[i];
 		let s_f = f.filter(x => x['sq'][0]['id'] == s_id);
 
+		console.log(s_f)
 		// Metti dummy per squadre senza formazione
 		let giocatori
 		if (s_f.length == 0) {
@@ -33,8 +34,24 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 			giocatori = non_schierata;
 		} else {
 			giocatori = s_f[0]['sq'][0]['pl'];
-			for (let j = giocatori.length - 1; j >= 0; j--) {
-				giocatori[j].status = l_and_s.status[giocatori[j].t.toUpperCase()].status;
+			if(giocatori == null){
+				let non_schierata = [];
+				for (let k = 0; k < 22; k++) {
+					non_schierata.push({
+						id: 219,
+						fv: 0,
+						vt: 0,
+						r: 'NA', 
+						n: 'Non Schierato',
+						t: null,
+						status: 4
+					})
+				}
+				giocatori = non_schierata;
+			} else {
+				for (let j = giocatori.length - 1; j >= 0; j--) {
+					giocatori[j].status = l_and_s.status[giocatori[j].t.toUpperCase()].status;
+				}				
 			}
 		}
 
