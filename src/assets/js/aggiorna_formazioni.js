@@ -52,7 +52,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 				for (let j = giocatori.length - 1; j >= 0; j--) {
 					giocatori[j].status = l_and_s.status[giocatori[j].t.toUpperCase()].status;
 				}				
-			}
+			} 
 		}
 
 		// Trova giocatori
