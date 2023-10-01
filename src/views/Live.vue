@@ -392,8 +392,9 @@
 					new Map([['function', async_cors_request], ['method', 'get']])
 					);
 				let giornata = timer['data']['giornata'] - 1; // adding the -1 since we started 1 week after 
-				if (new Date(timer.data.data_inizio_turno) > new Date()) {
-					giornata = giornata - 1;
+				// Compare the two times
+				if (new Date(timer.data.data_inizio_turno+'+0200') >= new Date()) {
+				    giornata = giornata - 1;
 				}
 				if (giornata == 99) {
 					giornata = 37;
@@ -442,7 +443,6 @@
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				let campionato = all_datasets.filter(x => x.url.includes('224135')).map(x => x.data)[0];
 				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('224135')).map(x => x.data);
-				console.log(campionato)
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
