@@ -57,6 +57,37 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 		// Trova giocatori
 		let titolari = giocatori.slice(0, 11);
 		let panchinari = giocatori.slice(11, 22);
+
+		// Attiva lo switch
+		let switch_out = s_f[0]['sq'][0]['sa'];
+		let switch_in = s_f[0]['sq'][0]['sb'];
+		// Controlla che ci sia uno switch
+		if(switch_out != 0){
+			// Controlla che lo switch non sia gia stato implementato
+			if(titolari.filter(x => x.id == switch_out)[0] != undefined){
+				// Controlla che la partita sia iniziata
+				let squadra_switch_out = giocatori.filter(x => x.id == switch_out)[0].t;
+				if(l_and_s.status[squadra_switch_out].status != 0){
+					// Controlla che il giocatore NON sia titolare
+					if(l_and_s.voti[switch_out] == undefined){
+						let to_switch_out_data = titolari.filter(x => x.id == switch_out)[0]
+						let to_switch_out_index = titolari.findIndex(x => x.id == switch_out)
+						let to_switch_in_index = panchinari.findIndex(x => x.id == switch_in)
+						titolari[to_switch_out_index] = panchinari[to_switch_in_index]
+						panchinari[to_switch_in_index] = to_switch_out_data
+					} else {
+						if(!l_and_s.voti[switch_out].titolare){
+							let to_switch_out_data = titolari.filter(x => x.id == switch_out)[0]
+							let to_switch_out_index = titolari.findIndex(x => x.id == switch_out)
+							let to_switch_in_index = panchinari.findIndex(x => x.id == switch_in)
+							titolari[to_switch_out_index] = panchinari[to_switch_in_index]
+							panchinari[to_switch_in_index] = to_switch_out_data
+						} 
+					}
+				}
+			}
+		}
+
 			
 		// Aggiorna voti
 		for (let j = 0; j < 11; j++) {

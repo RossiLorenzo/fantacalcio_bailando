@@ -27,7 +27,8 @@ export default function live_votes_status(d, e){
 		}
 		voti[p['id']] = {
 			'vt': p['v'],
-			'fv': p['v'] + bonus
+			'fv': p['v'] + bonus,
+			'titolare': p['id_sos'] == 0
 		}
 	};
 

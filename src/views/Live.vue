@@ -262,6 +262,11 @@
 														:text="giocatore.n" 
 														:secondary_text="mapping_roles[giocatore.r]"/>
 													</div>
+																			
+<!-- 														<LorenzoImageText 
+															:image="switch_f"
+															:text=" "
+														/> -->
 												</div>
 												<!-- Per i panchinari no -->
 												<div v-else class="d-flex flex-column justify-content-center">
@@ -332,6 +337,7 @@
 	import LorenzoColorPagella from "@/views/components/LorenzoColorPagella.vue";
 
 	import ban from "@/assets/img/ban-xxl.png";
+	// import switch_f from "@/assets/img/switching_xs.png";
 
 	export default {
 		name: "Live",
