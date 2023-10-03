@@ -262,7 +262,7 @@
 														:text="giocatore.n" 
 														:secondary_text="mapping_roles[giocatore.r]"/>
 													</div>
-																			
+
 <!-- 														<LorenzoImageText 
 															:image="switch_f"
 															:text=" "

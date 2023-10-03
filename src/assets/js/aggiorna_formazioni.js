@@ -18,6 +18,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 		// Metti dummy per squadre senza formazione
 		let giocatori
 		if (s_f.length == 0) {
+			console.log('Hola')
 			let non_schierata = [];
 			for (let k = 0; k < 22; k++) {
 				non_schierata.push({
@@ -59,8 +60,12 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 		let panchinari = giocatori.slice(11, 22);
 
 		// Attiva lo switch
-		let switch_out = s_f[0]['sq'][0]['sa'];
-		let switch_in = s_f[0]['sq'][0]['sb'];
+		let switch_out = 0
+		let switch_in = 0
+		if (s_f.length != 0) {
+			switch_out = s_f[0]['sq'][0]['sa'];
+			switch_in = s_f[0]['sq'][0]['sb'];
+		}
 		// Controlla che ci sia uno switch
 		if(switch_out != 0){
 			// Controlla che lo switch non sia gia stato implementato
