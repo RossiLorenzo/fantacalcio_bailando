@@ -1,12 +1,12 @@
 export default function live_votes_status(d, e){
 	// Materialize datasets
 	let live_stream = d.filter(x => x.url.includes('d2lhpso9w1g8dk.cloudfront.net')).map(x => x.data)[0];
-	
+
 	// Status delle partite
 	let status = {};
 	for (let i = live_stream['data']['inc'].length - 1; i >= 0; i--) {
-		let id_a = live_stream['data']['inc'][i]['n_a'].split('').slice(0, 3).join('').toUpperCase();
-		let id_b = live_stream['data']['inc'][i]['n_b'].split('').slice(0, 3).join('').toUpperCase();
+		let id_a = live_stream['data']['inc'][i]['id_a'];
+		let id_b = live_stream['data']['inc'][i]['id_b'];
 		status[id_a] = {
 			'status': live_stream['data']['inc'][i]['sto']
 		};

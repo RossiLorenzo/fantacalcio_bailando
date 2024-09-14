@@ -50,7 +50,7 @@
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
 												<LorenzoImageText 
-												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + squadra.Jersey" 
+												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + squadra.Jersey" 
 												:text="squadra.Name" 
 												:secondary_text="squadra.Coach"/>
 											</td>
@@ -143,14 +143,14 @@
 
 												<td style="padding: 0rem 0.0rem !important">
 													<LorenzoImageText 
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + formazioni[inc.ida].Jersey"
+													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + formazioni[inc.ida].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()" 
 													/>
 												</td>
 
 												<td style="padding: 0rem 0.0rem !important">
 													<LorenzoImageText 
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + formazioni[inc.idb].Jersey"
+													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + formazioni[inc.idb].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()" 
 													/>
 												</td>
@@ -173,7 +173,7 @@
 						<div class="card">
 							<div class="p-3 pb-0 card-header">
 								<LorenzoImageText 
-								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2023/' + formazione.Jersey"
+								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + formazione.Jersey"
 								:text="formazione.Name" 
 								:secondary_text="formazione.Coach"/>
 								<!-- 
@@ -397,7 +397,9 @@
 					'timer', 
 					new Map([['function', async_cors_request], ['method', 'get']])
 					);
-				let giornata = timer['data']['giornata'] - 1; // adding the -1 since we started 1 week after 
+				console.log(timer['data']['giornata']);timer['data']['giornata']
+				let delay = 3; //numero giornate saltate prima di cominciare
+				let giornata = timer['data']['giornata'] - delay; // adding the -4 since we started 4 weeks after 
 				// Compare the two times
 				if (new Date(timer.data.data_inizio_turno+'+0200') >= new Date()) {
 				    giornata = giornata - 1;
@@ -415,7 +417,7 @@
 				// Poi le chiamate per i dati statici
 				this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
 				let all_promises = [];
-				let competizioni = [224135, 224383, 224299, 224369];
+				let competizioni = [444767, 445001, 445048, 445072];
 				for (let i = competizioni.length - 1; i >= 0; i--) {
 					all_promises.push(
 						fantacalcio_apis(
@@ -441,12 +443,13 @@
 				all_promises.push(
 					fantacalcio_apis(
 						'giornata_live', 
-						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+1], ['year', year]])
+						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+delay], ['year', year]])
 						)
 					);
 				let all_datasets = await evaluate_promises(all_promises);
-				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];
+				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];	
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
+				squadre.data = squadre.data.filter(x => x.n != "New Riposo");
 				let campionato = all_datasets.filter(x => x.url.includes('224135')).map(x => x.data)[0];
 				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('224135')).map(x => x.data);
 
@@ -471,7 +474,7 @@
 					all_promises.push(
 						fantacalcio_apis(
 							'giornata_live', 
-							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+1], ['year', year]])
+							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+delay], ['year', year]])
 							)
 						);
 					all_datasets = await evaluate_promises(all_promises);

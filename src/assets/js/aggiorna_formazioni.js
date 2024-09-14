@@ -4,6 +4,7 @@ import sostituzioni from "@/assets/js/sostituzioni.js";
 export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats, prev_f){
 	// Calcola formazioni aggiornate
 	let f = formazioni['data']['formazioni'];
+	console.log(squadre['data'])
 	
 	// IDs delle squadre
 	let ids = squadre.data.map(x => x.id)
@@ -18,7 +19,6 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 		// Metti dummy per squadre senza formazione
 		let giocatori
 		if (s_f.length == 0) {
-			console.log('Hola')
 			let non_schierata = [];
 			for (let k = 0; k < 22; k++) {
 				non_schierata.push({
@@ -50,7 +50,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 				giocatori = non_schierata;
 			} else {
 				for (let j = giocatori.length - 1; j >= 0; j--) {
-					giocatori[j].status = l_and_s.status[giocatori[j].t.toUpperCase()].status;
+					giocatori[j].status = l_and_s.status[giocatori[j]['id_s']].status;
 				}				
 			} 
 		}
@@ -71,7 +71,7 @@ export default function aggiorna_formazioni(formazioni, l_and_s, completed, squa
 			// Controlla che lo switch non sia gia stato implementato
 			if(titolari.filter(x => x.id == switch_out)[0] != undefined){
 				// Controlla che la partita sia iniziata
-				let squadra_switch_out = giocatori.filter(x => x.id == switch_out)[0].t;
+				let squadra_switch_out = giocatori.filter(x => x.id == switch_out)[0].id_s;
 				if(l_and_s.status[squadra_switch_out].status != 0){
 					// Controlla che il giocatore NON sia titolare
 					if(l_and_s.voti[switch_out] == undefined){
