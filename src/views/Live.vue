@@ -450,8 +450,8 @@
 				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];	
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				squadre.data = squadre.data.filter(x => x.n != "New Riposo");
-				let campionato = all_datasets.filter(x => x.url.includes('224135')).map(x => x.data)[0];
-				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('224135')).map(x => x.data);
+				let campionato = all_datasets.filter(x => x.url.includes('444767')).map(x => x.data)[0];
+				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('444767')).map(x => x.data);
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
