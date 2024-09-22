@@ -14,7 +14,6 @@ export default function calcolo_classifica_lega(squadre, campionato, giornata, f
 	}
 
 	// Somma i punti di ogni giornata precedente
-	console.log(campionato)
 	for (let i = 0; i < (giornata-1); i++) {
 		let dati_giornata = campionato['data']['cale']['cinc'][i]['inc'];
 		for (let j = dati_giornata.length - 1; j >= 0; j--) {

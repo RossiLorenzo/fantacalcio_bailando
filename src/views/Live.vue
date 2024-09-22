@@ -397,7 +397,6 @@
 					'timer', 
 					new Map([['function', async_cors_request], ['method', 'get']])
 					);
-				console.log(timer['data']['giornata']);timer['data']['giornata']
 				let delay = 3; //numero giornate saltate prima di cominciare
 				let giornata = timer['data']['giornata'] - delay; // adding the -4 since we started 4 weeks after 
 				// Compare the two times

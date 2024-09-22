@@ -4,7 +4,6 @@ import sostituzioni from "@/assets/js/sostituzioni.js";
 export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats, prev_f){
 	// Calcola formazioni aggiornate
 	let f = formazioni['data']['formazioni'];
-	console.log(squadre['data'])
 	
 	// IDs delle squadre
 	let ids = squadre.data.map(x => x.id)
