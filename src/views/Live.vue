@@ -191,17 +191,6 @@
 								</thead>
 
 								<tbody>
-									<!--<tr>
-										<td style="padding: 0rem 0.5rem !important">
-											<h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">Fatti</h6>
-										</td>
-										<td class="align-middle text-left">
-											<ArgonBadge size="sm" variant="gradient" color="secondary"> {{ formazione.Punti }} </ArgonBadge>
-										</td>
-										<td class="align-middle text-left">
-											<ArgonBadge size="sm" variant="gradient" color="secondary"> {{ Math.max(Math.floor((formazione.Punti- 66)/4)+1, 0) }} </ArgonBadge>
-										</td>
-									</tr>-->
 									<tr>
 										<td style="padding: 0rem 0.5rem !important">
 											<h6 class="mb-0 text-xs" style="padding: 0rem 0.5rem !important;">Previsti</h6>
@@ -450,7 +439,7 @@
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				squadre.data = squadre.data.filter(x => x.n != "New Riposo");
 				let campionato = all_datasets.filter(x => x.url.includes('444767')).map(x => x.data)[0];
-				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('444767')).map(x => x.data);
+				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('444767')).map(x => x.data); 
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
