@@ -463,7 +463,7 @@
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
 				
 				// Infine aggiorna gli scontri diretti della giornata
-				this.scontri_diretti = scontri_diretti(coppe, giornata+1)
+				this.scontri_diretti = scontri_diretti(coppe, giornata+delay)
 
 
 				// Reload the data every minute
@@ -488,7 +488,7 @@
 					let prev_formazioni = this.formazioni;
 					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, prev_formazioni);
 					this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
-					this.scontri_diretti = scontri_diretti(coppe, giornata+1)
+					this.scontri_diretti = scontri_diretti(coppe, giornata+delay)
 				}, completed ? 120000 : 30000)
 
 				this.to_load = "Completato";
