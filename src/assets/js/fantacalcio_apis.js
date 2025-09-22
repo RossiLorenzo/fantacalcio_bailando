@@ -4,7 +4,7 @@ export default async function fantacalcio_apis(resource, params = new Map()){
 	// Mapping of all the available API endpoints
 	let mapping = {
 		'timer': 'https://appleghe.fantacalcio.it/api/v1/v1_lega/timer',
-		'formazioni': 'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=444767&giornata=' + params.get('giornata'),
+		'formazioni': 'https://appleghe.fantacalcio.it/api/v1/V2_LegaFormazioni/Formazioni?id_comp=661957&giornata=' + params.get('giornata'),
 		'squadre': 'https://appleghe.fantacalcio.it/api/v1/v1_lega/squadre',
 		'giornata_live': 'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/dati/live/' + params.get('year') + '/live_' + params.get('giornata') + '.json',
 		'competizioni': 'https://appleghe.fantacalcio.it/api/v1/V2_LegaCompetizioni/completa?id=' + params.get('competizione'),

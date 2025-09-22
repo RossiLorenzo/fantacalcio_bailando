@@ -50,8 +50,7 @@
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
 												<LorenzoImageText 
-												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + squadra.Jersey" 
-												:text="squadra.Name" 
+												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + squadra.Jersey"  
 												:secondary_text="squadra.Coach"/>
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
@@ -143,14 +142,14 @@
 
 												<td style="padding: 0rem 0.0rem !important">
 													<LorenzoImageText 
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + formazioni[inc.ida].Jersey"
+													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazioni[inc.ida].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()" 
 													/>
 												</td>
 
 												<td style="padding: 0rem 0.0rem !important">
 													<LorenzoImageText 
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + formazioni[inc.idb].Jersey"
+													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazioni[inc.idb].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()" 
 													/>
 												</td>
@@ -173,7 +172,7 @@
 						<div class="card">
 							<div class="p-3 pb-0 card-header">
 								<LorenzoImageText 
-								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2024/' + formazione.Jersey"
+								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazione.Jersey"
 								:text="formazione.Name" 
 								:secondary_text="formazione.Coach"/>
 								<!-- 
@@ -224,7 +223,7 @@
 													<div v-if="giocatore.fv == 100 && giocatore.status == 4">
 														<div class="d-flex flex-row justify-content-left">
 														<LorenzoImageText 
-														:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.immagine + '.png'"
+														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n"
 														:sub="true"
 														:secondary_text="mapping_roles[giocatore.r]"/>
@@ -236,7 +235,7 @@
 														</div>
 														<div v-else>
 															<LorenzoImageText 
-																:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.sostituto.immagine + '.png'"
+																:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.sostituto.immagine + '.png'"
 																:text="giocatore.sostituto.n"
 																:secondary_text="mapping_roles[giocatore.r]"
 															/>
@@ -247,7 +246,7 @@
 
 													<div v-else>
 														<LorenzoImageText 
-														:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.immagine + '.png'"
+														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n" 
 														:secondary_text="mapping_roles[giocatore.r]"/>
 													</div>
@@ -260,7 +259,7 @@
 												<!-- Per i panchinari no -->
 												<div v-else class="d-flex flex-column justify-content-center">
 														<LorenzoImageText 
-														:image="'https://content.fantacalcio.it/web/campioncini/small/' + giocatore.immagine + '.png'"
+														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n" 
 														:secondary_text="mapping_roles[giocatore.r]"/>
 												</div>
@@ -405,7 +404,7 @@
 				// Poi le chiamate per i dati statici
 				this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
 				let all_promises = [];
-				let competizioni = [444767, 445001, 445048, 445072];
+				let competizioni = [661957, 662201, 662006, 662106];
 				for (let i = competizioni.length - 1; i >= 0; i--) {
 					all_promises.push(
 						fantacalcio_apis(
@@ -438,8 +437,17 @@
 				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];	
 				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
 				squadre.data = squadre.data.filter(x => x.n != "New Riposo");
-				let campionato = all_datasets.filter(x => x.url.includes('444767')).map(x => x.data)[0];
-				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('444767')).map(x => x.data); 
+				let campionato = all_datasets.filter(x => x.url.includes('661957')).map(x => x.data)[0];
+				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('661957')).map(x => x.data); 
+
+				// console.log('Giocatori');
+				// console.log(all_players);
+				// console.log('Squadre');
+				// console.log(squadre);
+				// console.log('Campionato');
+				// console.log(campionato);
+				// console.log('Coppe');
+				// console.log(coppe);
 
 				// Usando i dati live calcoliamo voti aggiornati e status delle partite
 				this.to_load = "CALCOLO Risultati Live"
@@ -453,6 +461,15 @@
 				
 				// Infine aggiorna gli scontri diretti della giornata
 				this.scontri_diretti = scontri_diretti(coppe, giornata+delay)
+
+				// console.log('Voti');
+				// console.log(l_and_s);
+				// console.log('Formazioni');
+				// console.log(this.formazioni);
+				console.log('Classifica');
+				console.log(this.classifica);
+				// console.log('Scontri Diretti');
+				// console.log(this.scontri_diretti);
 
 
 				// Reload the data every minute
