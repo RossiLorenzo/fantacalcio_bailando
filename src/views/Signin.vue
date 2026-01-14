@@ -1,15 +1,4 @@
 <template>
-  <div class="container top-0 position-sticky z-index-sticky">
-    <div class="row">
-      <div class="col-12">
-        <navbar
-          isBlur="blur  border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow"
-          v-bind:darkMode="true"
-          isBtn="bg-gradient-success"
-        />
-      </div>
-    </div>
-  </div>
   <main class="mt-0 main-content">
     <section>
       <div class="page-header min-vh-100">
@@ -28,7 +17,7 @@
                   <div v-else-if="failed">
                     <br>
                     <argon-badge variant="gradient" color="danger"> Login fallito - Riprova </argon-badge>
-                  </div>              
+                  </div>
                   <div v-else-if="is_bailando_league">
                       <br>
                       <argon-badge variant="gradient" color="success"> Login riuscito </argon-badge>
@@ -38,7 +27,7 @@
                   <div>
                     <div class="mb-3">
                       <input v-model="email" type="email" placeholder="Email" name="email" class="form-control form-control-lg" />
-                      
+
                     </div>
                     <div class="mb-3">
                       <input v-model="password" type="password" placeholder="Password" name="password" class="form-control form-control-lg" />
@@ -46,11 +35,11 @@
                     <div class="text-center">
                       <div v-if="loading">
                         <br>
-                        <argon-badge 
-                          variant="gradient" 
-                          color="warning" 
-                          class="mt-4" 
-                          fullWidth 
+                        <argon-badge
+                          variant="gradient"
+                          color="warning"
+                          class="mt-4"
+                          fullWidth
                           size="lg"
                         > Autenticazione in Corso </argon-badge>
                       </div>
@@ -92,16 +81,17 @@
 </template>
 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
-import ArgonBadge from "@/components/ArgonBadge.vue";
+import ArgonButton from "@/components/ui/ArgonButton.vue";
+import ArgonBadge from "@/components/ui/ArgonBadge.vue";
 import Cookies from 'js-cookie';
 import router from "@/router/index.js"
+
+import login from "@/utils/login.js";
+
 const body = document.getElementsByTagName("body")[0];
 
-import login from "@/assets/js/login.js";
-
 export default {
-  name: "signin",
+  name: "Signin",
   components: {
     ArgonButton,
     ArgonBadge
@@ -133,13 +123,11 @@ export default {
   },
   methods: {
     async auth () {
-      // Fill form
-      this.loading = true; 
+      this.loading = true;
       Cookies.set('fanta_username', this.email, {expires: 31});
       Cookies.set('fanta_password', this.password, {expires: 31});
-      // Send request 
       let successful_login = await login(this.email, this.password);
-      this.loading = false; 
+      this.loading = false;
       if(successful_login){ router.push('/live') };
       if(!successful_login){ console.log('Failed') };
     }

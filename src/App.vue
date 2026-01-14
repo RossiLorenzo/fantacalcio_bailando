@@ -1,24 +1,9 @@
-<!--
-=========================================================
-* Vue Argon Dashboard 2 - v3.0.0
-=========================================================
-
-* Product Page: https://creative-tim.com/product/vue-argon-dashboard
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <template>
   <div
     v-show="this.$store.state.layout === 'landing'"
     class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
   ></div>
-  <!--<navbar></navbar>-->
-  <sidenav
+  <the-sidenav
     :custom_class="this.$store.state.mcolor"
     :class="[
       this.$store.state.isTransparent,
@@ -29,20 +14,17 @@ Coded by www.creative-tim.com
   <main
     class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
   >
-    <!-- nav -->
-
     <router-view />
   </main>
 </template>
+
 <script>
-import Sidenav from "./examples/Sidenav";
-//import navbar from "./examples/Navbar.vue";
+import TheSidenav from "@/components/layout/TheSidenav.vue";
 
 export default {
   name: "App",
   components: {
-    Sidenav,
-    //navbar
+    TheSidenav,
   },
   computed: {
     navClasses() {

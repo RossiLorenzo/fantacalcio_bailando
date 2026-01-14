@@ -3,12 +3,15 @@
 # abort on errors
 set -e
 
+# Use provided commit message or default to 'update code'
+COMMIT_MSG="${1:-update code}"
+
 # build
 npm run build
 
 # First commit the code
 git add -A
-git commit -m 'update code'
+git commit -m "$COMMIT_MSG"
 git push -f origin main
 
 # navigate into the build output directory

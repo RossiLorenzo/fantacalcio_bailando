@@ -1,15 +1,17 @@
-
 <template>
 	<div v-if="to_load!='Completato'">
 		<div class="row">
 			<div class="col-2 mt-3">
 			</div>
 			<div class="col-8 mt-3">
-				<default-info-card
+				<info-card
 				:title="to_load"
 				icon_bg='bg-gradient-success'
 				classIcon='fas fa-rocket'
 				/>
+				<div v-if="loadTime" class="text-center mt-2">
+					<small class="text-muted">Loading time: {{ loadTime }}ms</small>
+				</div>
 			</div>
 			<div class="col-2 mt-3">
 			</div>
@@ -43,14 +45,14 @@
 									<tbody>
 										<tr v-for="(squadra, index3) in classifica" :key="index3">
 											<td style="padding: 0rem 0.0rem !important">
-												<LorenzoRankingArrows 
+												<RankingArrows
 												:final_rank="squadra.new_rank"
 												:initial_rank="squadra.old_rank"
-												/> 
+												/>
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
-												<LorenzoImageText 
-												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + squadra.Jersey"  
+												<ImageText
+												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + squadra.Jersey"
 												:secondary_text="squadra.Coach"/>
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
@@ -90,23 +92,23 @@
 									<tbody>
 										<tr v-for="(inc, index4) in played" :key="index4">
 											<td style="padding: 0rem 0rem !important">
-												<LorenzoImageText v-if="inc['n_a'] == 'Juventus'"
+												<ImageText v-if="inc['n_a'] == 'Juventus'"
 												:image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
-												:text="inc['g_a'].toString()" 
+												:text="inc['g_a'].toString()"
 												/>
-												<LorenzoImageText v-else
+												<ImageText v-else
 												:image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_a'].toLowerCase() + '.png'"
-												:text="inc['g_a'].toString()" 
+												:text="inc['g_a'].toString()"
 												/>
 											</td>
 											<td style="padding: 0rem 0rem !important">
-												<LorenzoImageText v-if="inc['n_b'] == 'Juventus'"
+												<ImageText v-if="inc['n_b'] == 'Juventus'"
 												:image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/juventus_black.png'"
-												:text="inc['g_b'].toString()" 
+												:text="inc['g_b'].toString()"
 												/>
-												<LorenzoImageText v-else
+												<ImageText v-else
 												:image="'https://components2.gazzettaobjects.it/rcs_gaz_gazzetta-layout/v2/assets/img/ext/loghi-squadre/' + inc['n_b'].toLowerCase() + '.png'"
-												:text="inc['g_b'].toString()" 
+												:text="inc['g_b'].toString()"
 												/>
 											</td>
 											<td style="padding: 0rem 0rem !important">
@@ -141,16 +143,16 @@
 											<tr v-for="(inc, index5) in incontri" :key="index5">
 
 												<td style="padding: 0rem 0.0rem !important">
-													<LorenzoImageText 
+													<ImageText
 													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazioni[inc.ida].Jersey"
-													:text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()" 
+													:text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()"
 													/>
 												</td>
 
 												<td style="padding: 0rem 0.0rem !important">
-													<LorenzoImageText 
+													<ImageText
 													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazioni[inc.idb].Jersey"
-													:text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()" 
+													:text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()"
 													/>
 												</td>
 
@@ -167,19 +169,13 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="row">
-					<!-- <div v-if=""></div> -->
 					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 mb-4" v-for="(formazione, index) in formazioni" :key="index">
 						<div class="card">
 							<div class="p-3 pb-0 card-header">
-								<LorenzoImageText 
+								<ImageText
 								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazione.Jersey"
-								:text="formazione.Name" 
+								:text="formazione.Name"
 								:secondary_text="formazione.Coach"/>
-								<!-- 
-								<div class="d-flex flex-column justify-content-center">
-									<p class="text-secondary text-xs font-weight-bolder opacity-7">Modulo: <b>{{ formazione.Modulo }}</b> - Aggiornata: <b>{{ formazione.Ultimo_Aggiornamento }}H</b></p>
-								</div>
-							-->
 						</div>
 						<div class="table-responsive">
 							<table class="table align-items-center mb-0">
@@ -222,19 +218,19 @@
 												<div v-if="formazione.Mostra == 'Titolari'" class="d-flex flex-row">
 													<div v-if="giocatore.fv == 100 && giocatore.status == 4">
 														<div class="d-flex flex-row justify-content-left">
-														<LorenzoImageText 
+														<ImageText
 														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
 														:text="giocatore.n"
 														:sub="true"
 														:secondary_text="mapping_roles[giocatore.r]"/>
 														<div v-if="giocatore.sostituto.immagine == undefined">
-															<LorenzoImageText 
+															<ImageText
 																:image="ban"
 																:text="giocatore.sostituto.n"
 															/>
 														</div>
 														<div v-else>
-															<LorenzoImageText 
+															<ImageText
 																:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.sostituto.immagine + '.png'"
 																:text="giocatore.sostituto.n"
 																:secondary_text="mapping_roles[giocatore.r]"
@@ -245,22 +241,18 @@
 													</div>
 
 													<div v-else>
-														<LorenzoImageText 
+														<ImageText
 														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
-														:text="giocatore.n" 
+														:text="giocatore.n"
 														:secondary_text="mapping_roles[giocatore.r]"/>
 													</div>
 
-<!-- 														<LorenzoImageText 
-															:image="switch_f"
-															:text=" "
-														/> -->
 												</div>
 												<!-- Per i panchinari no -->
 												<div v-else class="d-flex flex-column justify-content-center">
-														<LorenzoImageText 
+														<ImageText
 														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
-														:text="giocatore.n" 
+														:text="giocatore.n"
 														:secondary_text="mapping_roles[giocatore.r]"/>
 												</div>
 											</div>
@@ -272,14 +264,8 @@
 											<div v-else-if="giocatore.voto_finale == 100 && formazione.Mostra == 'Panchinari' && giocatore.status==4">
 												<ArgonBadge size="sm" variant="gradient" color="danger"> S.V. </ArgonBadge>
 											</div>
-											<LorenzoColorPagella v-else :voto="giocatore.voto_finale"/>
+											<ColorPagella v-else :voto="giocatore.voto_finale"/>
 										</td>
-											<!--<td class="text-sm align-middle">
-												<div class="text-center col">
-													<p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-													<h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
-												</div>
-											</td>-->
 										</tr>
 									</tbody>
 								</table>
@@ -288,10 +274,22 @@
 							<div class="container-fluid pb-2">
 								<div class="row">
 									<div class="col-lg-6">
-										<argon-button :class="'bottone_Titolari_' + index" color="success" size="xs" variant="outline" v-on:click="switch_tit_panca">Titolari</argon-button>
+										<argon-button
+											:color="activeView[index] === 'Titolari' ? 'success' : 'secondary'"
+											size="xs"
+											variant="outline"
+											@click="switchView(index, 'Titolari')">
+											Titolari
+										</argon-button>
 									</div>
 									<div class="col-lg-6">
-										<argon-button :class="'bottone_Panchinari_' + index" color="secondary" size="xs" variant="outline" v-on:click="switch_tit_panca">Panca</argon-button>
+										<argon-button
+											:color="activeView[index] === 'Panchinari' ? 'success' : 'secondary'"
+											size="xs"
+											variant="outline"
+											@click="switchView(index, 'Panchinari')">
+											Panca
+										</argon-button>
 									</div>
 								</div>
 							</div>
@@ -306,36 +304,34 @@
 </template>
 
 <script>
-	import ArgonButton from "@/components/ArgonButton.vue";
-	import ArgonBadge from "@/components/ArgonBadge.vue";
-	import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
+	import ArgonButton from "@/components/ui/ArgonButton.vue";
+	import ArgonBadge from "@/components/ui/ArgonBadge.vue";
+	import InfoCard from "@/components/cards/InfoCard.vue";
 
-	import fantacalcio_apis from "@/assets/js/fantacalcio_apis.js";
-	import cors_request from "@/assets/js/cors_request.js";
-	import async_cors_request from "@/assets/js/async_cors_request.js";
-	import evaluate_promises from "@/assets/js/evaluate_promises.js";
+	import fantacalcio_apis from "@/utils/api.js";
+	import async_cors_request from "@/utils/asyncCors.js";
 
-	import live_votes_status from "@/assets/js/live_votes_status.js";
-	import aggiorna_formazioni from "@/assets/js/aggiorna_formazioni.js";
-	import calcolo_classifica_lega from "@/assets/js/calcolo_classifica_lega.js";
-	import scontri_diretti from "@/assets/js/scontri_diretti.js";
+	import live_votes_status from "@/utils/calculations/voti.js";
+	import aggiorna_formazioni from "@/utils/calculations/formazioni.js";
+	import calcolo_classifica_lega from "@/utils/calculations/classifiche.js";
+	import scontri_diretti from "@/utils/calculations/scontri.js";
+	import dataCache from "@/utils/cache.js";
 
-	import LorenzoImageText from "@/views/components/LorenzoImageText.vue";
-	import LorenzoRankingArrows from "@/views/components/LorenzoRankingArrows.vue";
-	import LorenzoColorPagella from "@/views/components/LorenzoColorPagella.vue";
+	import ImageText from "@/components/fantacalcio/ImageText.vue";
+	import RankingArrows from "@/components/fantacalcio/RankingArrows.vue";
+	import ColorPagella from "@/components/fantacalcio/ColorPagella.vue";
 
 	import ban from "@/assets/img/ban-xxl.png";
-	// import switch_f from "@/assets/img/switching_xs.png";
 
 	export default {
 		name: "Live",
 		components: {
 			ArgonButton,
 			ArgonBadge,
-			DefaultInfoCard,
-			LorenzoImageText,
-			LorenzoRankingArrows,
-			LorenzoColorPagella
+			InfoCard,
+			ImageText,
+			RankingArrows,
+			ColorPagella
 		},
 		data() {
 			return {
@@ -367,155 +363,235 @@
 					'10': {'Event_Name': 'Autogoal', 'Bonus': -2},
 					'21': {'Event Name': 'Assist', 'Bonus': 1},
 					'22': {'Event Name': 'Assist', 'Bonus': 1},
-					'23': {'Event Name': 'Assist', 'Bonus': 1}	
+					'23': {'Event Name': 'Assist', 'Bonus': 1}
 				},
 				classifica: {},
 				to_load: 'CARICAMENTO Giornata Attiva',
 				played: {},
 				scontri_diretti: {},
-				ban
+				ban,
+				delay: 3,
+				year: null,
+				squadre: null,
+				campionato: null,
+				coppe: null,
+				all_players: null,
+				refreshInterval: null,
+				loadTime: null,
+				activeView: {}
 			};
 		},
+		computed: {
+			storeGiornata() {
+				return this.$store.state.giornata;
+			}
+		},
+		watch: {
+			storeGiornata(newGiornata, oldGiornata) {
+				if (newGiornata !== null && oldGiornata !== null && newGiornata !== oldGiornata) {
+					this.loadGiornataData(newGiornata);
+				}
+			}
+		},
 		async beforeCreate() {
+			const startTime = performance.now();
 			let completed = false;
 
-				// Prima le chiamate che vanno aspettate per forza cosi da sapere la giornata da mostrare
-				this.to_load = "CARICAMENTO Opzioni Lega";
-				let timer = await fantacalcio_apis(
-					'timer', 
+			try {
+				this.to_load = "CARICAMENTO Dati...";
+
+				const competizioni = [661957, 662201, 662006, 662106];
+
+				// Fetch timer and all cacheable data in parallel
+				const timerPromise = fantacalcio_apis(
+					'timer',
 					new Map([['function', async_cors_request], ['method', 'get']])
-					);
-				let delay = 3; //numero giornate saltate prima di cominciare
-				let giornata = timer['data']['giornata'] - delay; // adding the -4 since we started 4 weeks after 
-				// Compare the two times
-				if (new Date(timer.data.data_inizio_turno+'+0200') >= new Date()) {
-				    giornata = giornata - 1;
+				);
+
+				// Check cache for static data
+				const cachedSquadre = dataCache.get('squadre');
+				const cachedPlayers = dataCache.get('all_players');
+				const cachedCoppe = dataCache.get('coppe');
+				const cachedCampionato = dataCache.get('campionato');
+
+				// Use cached data or fetch
+				const squadrePromise = cachedSquadre ? Promise.resolve(cachedSquadre) :
+					fantacalcio_apis('squadre', new Map([['function', async_cors_request], ['method', 'get']]));
+
+				const playersPromise = cachedPlayers ? Promise.resolve(cachedPlayers) :
+					fantacalcio_apis('lista_calciatori', new Map([['function', async_cors_request], ['method', 'get']]));
+
+				const campionatoPromise = cachedCampionato ? Promise.resolve(cachedCampionato) :
+					fantacalcio_apis('competizioni', new Map([['function', async_cors_request], ['method', 'get'], ['competizione', 661957]]));
+
+				const coppePromises = cachedCoppe ? Promise.resolve(cachedCoppe) :
+					Promise.all(competizioni.slice(1).map(comp =>
+						fantacalcio_apis('competizioni', new Map([['function', async_cors_request], ['method', 'get'], ['competizione', comp]]))
+					));
+
+				// Execute all in parallel
+				const [timer, squadreData, playersData, campionatoData, coppeData] = await Promise.all([
+					timerPromise,
+					squadrePromise,
+					playersPromise,
+					campionatoPromise,
+					coppePromises
+				]);
+
+				let delay = 3;
+				let giornata = timer['data']['giornata'] - delay;
+				if (new Date(timer.data.data_inizio_turno + '+0200') >= new Date()) {
+					giornata = giornata - 1;
 				}
 				if (giornata == 99) {
 					giornata = 37;
 				}
 				let year = timer['data']['id_stagione'];
-				this.to_load = "CARICAMENTO Formazioni"
-				let formazioni = await fantacalcio_apis(
-					'formazioni', 
-					new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
-				);
 
-				// Poi le chiamate per i dati statici
-				this.to_load = "CARICAMENTO Classifiche & Scontri Diretti"
-				let all_promises = [];
-				let competizioni = [661957, 662201, 662006, 662106];
-				for (let i = competizioni.length - 1; i >= 0; i--) {
-					all_promises.push(
-						fantacalcio_apis(
-							'competizioni', 
-							new Map([['function', cors_request], ['method', 'get'], ['competizione', competizioni[i]]])
-							)
-						)
+				this.$store.commit('setGiornata', giornata);
+				this.$store.commit('setGiornataAttuale', giornata);
+
+				this.delay = delay;
+				this.year = year;
+
+				let squadre, all_players, campionato, coppe;
+
+				// Process and cache data
+				if (cachedSquadre) {
+					squadre = squadreData;
+				} else {
+					squadre = squadreData;
+					squadre.data = squadre.data.filter(x => x.n != "New Riposo");
+					dataCache.set('squadre', squadre);
 				}
-				all_promises.push(
+
+				if (cachedPlayers) {
+					all_players = playersData;
+				} else {
+					all_players = playersData;
+					dataCache.set('all_players', all_players);
+				}
+
+				if (cachedCampionato) {
+					campionato = campionatoData;
+				} else {
+					campionato = campionatoData;
+					dataCache.set('campionato', campionato);
+				}
+
+				if (cachedCoppe) {
+					coppe = coppeData;
+				} else {
+					coppe = coppeData;
+					dataCache.set('coppe', coppe);
+				}
+
+				this.squadre = squadre;
+				this.campionato = campionato;
+				this.coppe = coppe;
+				this.all_players = all_players;
+
+				// Initialize activeView for all teams
+				const squadreIds = squadre.data.map(x => x.id);
+				const activeViewInit = {};
+				squadreIds.forEach(id => {
+					activeViewInit[id] = 'Titolari';
+				});
+				this.activeView = activeViewInit;
+
+				// Fetch formazioni and live data in parallel
+				const [formazioni, giornataLive] = await Promise.all([
 					fantacalcio_apis(
-						'squadre', 
-						new Map([['function', cors_request], ['method', 'get']])
-						)
-					);
-				all_promises.push(
-					fantacalcio_apis(
-						'lista_calciatori', 
-						new Map([['function', cors_request], ['method', 'get']])
-						)
-					);
-
-				// E le chiamate per il Live. Queste verranno poi aggiornate di continuo
-				all_promises.push(
-					fantacalcio_apis(
-						'giornata_live', 
-						new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+delay], ['year', year]])
-						)
-					);
-				let all_datasets = await evaluate_promises(all_promises);
-				let all_players = all_datasets.filter(x => x.url.includes('v1_calciatori/lista')).map(x => x.data)[0];	
-				let squadre = all_datasets.filter(x => x.url.includes('v1_lega/squadre')).map(x => x.data)[0];
-				squadre.data = squadre.data.filter(x => x.n != "New Riposo");
-				let campionato = all_datasets.filter(x => x.url.includes('661957')).map(x => x.data)[0];
-				let coppe = all_datasets.filter(x => x.url.includes('V2_LegaCompetizioni') && !x.url.includes('661957')).map(x => x.data); 
-
-				// console.log('Giocatori');
-				// console.log(all_players);
-				// console.log('Squadre');
-				// console.log(squadre);
-				// console.log('Campionato');
-				// console.log(campionato);
-				// console.log('Coppe');
-				// console.log(coppe);
-
-				// Usando i dati live calcoliamo voti aggiornati e status delle partite
-				this.to_load = "CALCOLO Risultati Live"
-				let l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
-				this.played = l_and_s.played
-
-				// Con i voti aggiornati calcoliamo le formazioni aggiornate
-				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, undefined);
-				// Aggiorna la classifica di campionato
-				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
-				
-				// Infine aggiorna gli scontri diretti della giornata
-				this.scontri_diretti = scontri_diretti(coppe, giornata+delay)
-
-				// console.log('Voti');
-				// console.log(l_and_s);
-				// console.log('Formazioni');
-				// console.log(this.formazioni);
-				console.log('Classifica');
-				console.log(this.classifica);
-				// console.log('Scontri Diretti');
-				// console.log(this.scontri_diretti);
-
-
-				// Reload the data every minute
-				setInterval(async () => {
-					all_promises = [];
-					// Chiama nuovamente le API per il Live
-					all_promises.push(
-						fantacalcio_apis(
-							'giornata_live', 
-							new Map([['function', cors_request], ['method', 'get'], ['giornata', giornata+delay], ['year', year]])
-							)
-						);
-					all_datasets = await evaluate_promises(all_promises);
-					// E chiama anche le formazioni
-					formazioni = await fantacalcio_apis(
-						'formazioni', 
+						'formazioni',
 						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
-					);
-					// Aggiorna tutto
-					l_and_s = live_votes_status(all_datasets, this.mapping_match_events);
-					this.played = l_and_s.played
+					),
+					fantacalcio_apis(
+						'giornata_live',
+						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata + delay], ['year', year]])
+					)
+				]);
+
+				const liveData = [{url: 'https://d2lhpso9w1g8dk.cloudfront.net', data: giornataLive}];
+				const l_and_s = live_votes_status(liveData, this.mapping_match_events);
+				this.played = l_and_s.played;
+
+				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, undefined);
+				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni);
+				this.scontri_diretti = scontri_diretti(coppe, giornata + delay);
+
+				// Set up refresh interval with parallel fetching
+				this.refreshInterval = setInterval(async () => {
+					const currentGiornata = this.$store.state.giornata;
+
+					const [newFormazioni, newGiornataLive] = await Promise.all([
+						fantacalcio_apis(
+							'formazioni',
+							new Map([['function', async_cors_request], ['method', 'get'], ['giornata', currentGiornata]])
+						),
+						fantacalcio_apis(
+							'giornata_live',
+							new Map([['function', async_cors_request], ['method', 'get'], ['giornata', currentGiornata + this.delay], ['year', this.year]])
+						)
+					]);
+
+					const newLiveData = [{url: 'https://d2lhpso9w1g8dk.cloudfront.net', data: newGiornataLive}];
+					const new_l_and_s = live_votes_status(newLiveData, this.mapping_match_events);
+					this.played = new_l_and_s.played;
+
 					let prev_formazioni = this.formazioni;
-					this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, prev_formazioni);
-					this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni)
-					this.scontri_diretti = scontri_diretti(coppe, giornata+delay)
-				}, completed ? 120000 : 30000)
+					this.formazioni = aggiorna_formazioni(newFormazioni, new_l_and_s, completed, this.squadre, this.all_players, prev_formazioni);
+					this.classifica = calcolo_classifica_lega(this.squadre, this.campionato, currentGiornata, this.formazioni);
+					this.scontri_diretti = scontri_diretti(this.coppe, currentGiornata + this.delay);
+				}, completed ? 120000 : 30000);
+
+				const endTime = performance.now();
+				this.loadTime = Math.round(endTime - startTime);
+				console.log(`⚡ Page loaded in ${this.loadTime}ms`);
 
 				this.to_load = "Completato";
+			} catch (error) {
+				console.error('Error loading data:', error);
+				this.to_load = "Errore nel caricamento";
+			}
+		},
+		methods: {
+			async loadGiornataData(giornata) {
+				const startTime = performance.now();
+				this.to_load = "CARICAMENTO Giornata " + giornata;
 
-	},
-	methods: {
-		switch_tit_panca(event) {
-						// Guarda cosa e' stato pigiato
-						let clicked_item = event.srcElement.className.split(' ').filter(y => y.includes('bottone'))[0];
-						let clicked_option = clicked_item.split('_')[1];
-						let other_option = clicked_option == 'Titolari' ? 'Panchinari' : 'Titolari';
-						let clicked_index = clicked_item.split('_')[2];
-						// Cambia CSS
-						document.getElementsByClassName(clicked_item)[0].classList.remove('btn-outline-secondary')
-						document.getElementsByClassName(clicked_item)[0].classList.add('btn-outline-success');
-						document.getElementsByClassName(clicked_item.replace(clicked_option, other_option))[0].classList.remove('btn-outline-success');
-						document.getElementsByClassName(clicked_item.replace(clicked_option, other_option))[0].classList.add('btn-outline-secondary');
+				const [formazioni, giornataLive] = await Promise.all([
+					fantacalcio_apis(
+						'formazioni',
+						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
+					),
+					fantacalcio_apis(
+						'giornata_live',
+						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata + this.delay], ['year', this.year]])
+					)
+				]);
 
-						// Cambia table
-						this.formazioni[clicked_index]['Mostra'] = clicked_option;
-					}
-				}
-			};
-		</script>
+				const liveData = [{url: 'https://d2lhpso9w1g8dk.cloudfront.net', data: giornataLive}];
+				const l_and_s = live_votes_status(liveData, this.mapping_match_events);
+				this.played = l_and_s.played;
+
+				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, false, this.squadre, this.all_players, undefined);
+				this.classifica = calcolo_classifica_lega(this.squadre, this.campionato, giornata, this.formazioni);
+				this.scontri_diretti = scontri_diretti(this.coppe, giornata + this.delay);
+
+				const endTime = performance.now();
+				this.loadTime = Math.round(endTime - startTime);
+
+				this.to_load = "Completato";
+			},
+			switchView(index, view) {
+				this.activeView[index] = view;
+				this.formazioni[index]['Mostra'] = view;
+			}
+		},
+		beforeUnmount() {
+			if (this.refreshInterval) {
+				clearInterval(this.refreshInterval);
+			}
+		}
+	};
+</script>

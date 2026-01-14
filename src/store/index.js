@@ -17,7 +17,9 @@ export default createStore({
     showFooter: true,
     showMain: true,
     layout: "default",
-    calciatori: {}
+    calciatori: {},
+    giornata: null,
+    giornataAttuale: null
   },
   mutations: {
     toggleConfigurator(state) {
@@ -25,7 +27,6 @@ export default createStore({
     },
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
-
       if (sidenav_show.classList.contains("g-sidenav-hidden")) {
         sidenav_show.classList.remove("g-sidenav-hidden");
         sidenav_show.classList.add("g-sidenav-pinned");
@@ -40,15 +41,17 @@ export default createStore({
       state.sidebarType = payload;
     },
     navbarFixed(state) {
-      if (state.isNavFixed === false) {
-        state.isNavFixed = true;
-      } else {
-        state.isNavFixed = false;
-      }
+      state.isNavFixed = !state.isNavFixed;
     },
     getData(state, newData) {
       state.data = newData;
     },
+    setGiornata(state, giornata) {
+      state.giornata = giornata;
+    },
+    setGiornataAttuale(state, giornata) {
+      state.giornataAttuale = giornata;
+    }
   },
   actions: {
     toggleSidebarColor({ commit }, payload) {
