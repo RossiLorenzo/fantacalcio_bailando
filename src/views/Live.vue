@@ -124,9 +124,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-5 col-sm-6">
+			<div class="col-lg-4 col-md-5 col-sm-6" :class="{ 'd-none d-md-block': !hasScontriDiretti }">
 
-				<div class="mt-4 mb-3 card mt-lg-0">
+				<div class="mb-3 card mt-lg-0 mt-md-4 mt-0">
 					<div class="p-3 pb-0 card-header">
 						<div class="mb-1 row align-items-center">
 							<h6 class="mb-0 text-sm">Scontri Diretti</h6>
@@ -381,9 +381,15 @@
 				activeView: {}
 			};
 		},
-		computed: {
+computed: {
 			storeGiornata() {
 				return this.$store.state.giornata;
+			},
+			hasScontriDiretti() {
+				if (!this.scontri_diretti || typeof this.scontri_diretti !== 'object') {
+					return false;
+				}
+				return Object.keys(this.scontri_diretti).length > 0;
 			}
 		},
 		watch: {

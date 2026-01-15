@@ -11,8 +11,9 @@
     ]"
     v-if="this.$store.state.showSidenav"
   />
-  <main
+<main
     class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+    :class="{ 'main-content-desktop': this.$store.state.showSidenav }"
   >
     <router-view />
   </main>
@@ -44,3 +45,17 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@media (min-width: 1200px) {
+  .main-content-desktop {
+    margin-left: 244px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .main-content {
+    padding-top: 26px;
+  }
+}
+</style>

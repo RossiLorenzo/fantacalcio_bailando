@@ -4,7 +4,7 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li class="nav-item" @click="$emit('item-clicked')">
         <sidenav-item
           url="/live"
           :class="getRoute() === 'live' ? 'active' : ''"
@@ -17,7 +17,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" @click="$emit('item-clicked')">
         <sidenav-item
           url="/signin"
           :class="getRoute() === 'signin' ? 'active' : ''"
@@ -40,6 +40,7 @@ export default {
   props: {
     cardBg: String
   },
+  emits: ["item-clicked"],
   data() {
     return {
       title: "Fantacalcio Bailando",
