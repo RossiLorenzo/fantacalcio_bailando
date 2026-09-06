@@ -1,0 +1,198 @@
+giornata,team_id,team_name,coach,slot,slot_index,player_id,player_name,role,role_full,serie_a_team,match_status,voto_iniziale,voto_finale,live_voto_iniziale,live_voto_finale,live_bonus,in_calcolo,played_as_starter,was_replaced,replaced_by_player_id,replaced_by_player_name,came_in_for_player_id,came_in_for_player_name,actually_used_as_sub,modulo,final_voto_after_sub,contributes_points,in_current_rosa,team_not_schierata,goal,pen_goal,assist,yellow_card,red_card,pen_saved,pen_missed,own_goal,goal_conceded
+1,3346647,Spiazenza,Gianluca,Titolare,1,6462,Okoye,P,Portiere,Udinese,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,2,6217,Bisseck,D,Difensore,Inter,Finita,7,7,6.5,6.5,0,false,true,false,,,,,,343,7,7,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,3,4657,Celik,D,Difensore,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,4,4159,Akanji,D,Difensore,Inter,Finita,6.5,7.5,6.5,7.5,1,false,true,false,,,,,,343,7.5,7.5,,false,0,0,1,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,5,5119,Samardzic,C,Centrocampista,Atalanta,Finita,5.5,5.5,6,6,0,false,true,false,,,,,,343,5.5,5.5,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,6,5559,Da Cunha,C,Centrocampista,Como,Finita,6.5,6.5,6.5,6.5,0,false,true,false,,,,,,343,6.5,6.5,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,7,6875,Paz N.,C,Centrocampista,Como,Finita,7,10,7,10,3,false,true,false,,,,,,343,10,10,,false,1,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,8,6274,Diouf,C,Centrocampista,Inter,Finita,6.5,6.5,6,6,0,false,true,false,,,,,,343,6.5,6.5,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,9,6646,Adams C.,A,Attaccante,Torino,Finita,7,10,7,10,3,false,true,false,,,,,,343,10,10,,false,1,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,10,5951,Kolo Muani,A,Attaccante,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Titolare,11,7071,Esposito F.P.,A,Attaccante,Inter,Finita,5.5,5.5,6,6,0,false,true,false,,,,,,343,5.5,5.5,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,1,6534,Perri,P,Portiere,Torino,Finita,5,4,5.5,4.5,-1,false,true,false,,,,,false,343,4,0,,false,0,0,0,0,0,0,0,0,1
+1,3346647,Spiazenza,Gianluca,Panchina,2,6415,Palmisani,P,Portiere,Frosinone,PrimoTempo,56,100,6,6,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,3,6766,Kelly L.,D,Difensore,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,4,5678,Holm,D,Difensore,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,5,6042,Lucumì,D,Difensore,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,6,5680,Sarr P.,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,7,5823,Baldanzi,C,Centrocampista,Genoa,Finita,6,6,6,6,0,false,true,false,,,,,false,343,6,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,8,530,Pellegrini Lo.,C,Centrocampista,Roma,Finita,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,9,2832,Boga,A,Attaccante,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,10,7347,Bowie,A,Attaccante,Sassuolo,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Panchina,11,2012,Milik,A,Attaccante,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Fuori_Lista,,4777,McTominay,,,Napoli,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Fuori_Lista,,4705,Balerdi,,,Roma,,,,6.5,6.5,0,false,false,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3346647,Spiazenza,Gianluca,Fuori_Lista,,4502,Gallo,,,Lecce,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,1,5841,Svilar,P,Portiere,Roma,Finita,6,5,6,5,-1,false,true,false,,,,,,433,5,5,,false,0,0,0,0,0,0,0,0,1
+1,3347033,ManesKean,Paola,Titolare,2,2296,Mancini,D,Difensore,Roma,Finita,5,5,5,5,0,false,true,false,,,,,,433,5,5,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,3,5022,Pavlovic,D,Difensore,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,4,2816,Di Lorenzo,D,Difensore,Napoli,Finita,6,7,6,7,1,false,true,false,,,,,,433,7,7,,false,0,0,1,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,5,6869,Ramon,D,Difensore,Como,Finita,6,6,6,6,0,false,true,false,,,,,,433,6,6,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,6,5792,Ederson D.S.,C,Centrocampista,Atalanta,Finita,6.5,9.5,7,10,3,false,true,false,,,,,,433,9.5,9.5,,false,1,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,7,6666,Bernabè,C,Centrocampista,Parma,PrimoTempo,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,8,2379,Rabiot,C,Centrocampista,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,9,2155,Cutrone,A,Attaccante,Monza,PrimoTempo,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,10,5995,De Ketelaere,A,Attaccante,Atalanta,Finita,6,6,6,6,0,false,true,false,,,,,,433,6,6,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Titolare,11,2764,Martinez L.,A,Attaccante,Inter,Finita,7.5,13,7.5,13,5.5,false,true,false,,,,,,433,13,13,,false,2,0,0,1,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,1,4312,Maignan,P,Portiere,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,2,4431,Carnesecchi,P,Portiere,Atalanta,Finita,6.5,4.5,7,5,-2,false,true,false,,,,,false,433,4.5,0,,false,0,0,0,0,0,0,0,0,2
+1,3347033,ManesKean,Paola,Panchina,3,4409,Rrahmani,D,Difensore,Napoli,Finita,5.5,5.5,5.5,5.5,0,false,true,false,,,,,false,433,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,4,4887,Bellanova,D,Difensore,Atalanta,Finita,6,5.5,5.5,5,-0.5,false,true,false,,,,,false,433,5.5,0,,false,0,0,0,1,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,5,554,Zappacosta,D,Difensore,Atalanta,Finita,5.5,5.5,5.5,5.5,0,false,false,false,,,,,false,433,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,6,1850,Kessiè,C,Centrocampista,Atalanta,Finita,55,100,55,55,0,false,false,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,7,2517,De Bruyne,C,Centrocampista,Napoli,Finita,6,6,6,6,0,false,false,false,,,,,false,433,6,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,8,4465,Fagioli,C,Centrocampista,Fiorentina,Finita,5.5,5.5,5.5,5.5,0,false,true,false,,,,,false,433,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,9,7023,Pellegrino M.,A,Attaccante,Fiorentina,Finita,6.5,9.5,6.5,9.5,3,false,true,false,,,,,false,433,9.5,0,,false,1,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,10,6669,Bonny,A,Attaccante,Inter,Finita,6,6,55,55,0,false,false,false,,,,,false,433,6,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Panchina,11,7547,Kevin Carlos,A,Attaccante,Cagliari,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Fuori_Lista,,6151,Perrone,,,Como,,,,6.5,6.5,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Fuori_Lista,,5885,Dodò,,,Fiorentina,,,,56,56,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3347033,ManesKean,Paola,Fuori_Lista,,4973,McKennie,,,Juventus,,,,56,56,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,1,6966,Butez,P,Portiere,Como,Finita,6,5,6,5,-1,false,true,false,,,,,,343,5,5,,false,0,0,0,0,0,0,0,0,1
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,2,5641,Chalobah T.,D,Difensore,Como,Finita,6,6,6,6,0,false,true,false,,,,,,343,6,6,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,3,5555,Kamara H.,D,Difensore,Udinese,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,4,7181,Wesley,D,Difensore,Roma,Finita,6.5,6.5,7,7,0,false,true,false,,,,,,343,6.5,6.5,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,5,5878,Colpani,C,Centrocampista,Monza,PrimoTempo,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,6,2194,Calhanoglu,C,Centrocampista,Inter,Finita,6,6,6,6,0,false,false,false,,,,,,343,6,6,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,7,7126,Baturina,C,Centrocampista,Como,Finita,7,9.5,7,9.5,2.5,false,true,false,,,,,,343,9.5,9.5,,false,1,0,0,1,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,8,4856,Chukwueze,C,Centrocampista,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,9,7017,Douvikas,A,Attaccante,Como,Finita,5.5,5.5,5.5,5.5,0,false,true,false,,,,,,343,5.5,5.5,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,10,6967,Diao,A,Attaccante,Como,Finita,7.5,13.5,7.5,13.5,6,false,true,false,,,,,,343,13.5,13.5,,false,2,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Titolare,11,5436,Raimondo,A,Attaccante,Frosinone,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,1,4360,Caprile,P,Portiere,Cagliari,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,2,7332,Bijlow,P,Portiere,Genoa,Finita,5,1,5.5,1.5,-4,false,true,false,,,,,false,343,1,0,,false,0,0,0,0,0,0,0,0,4
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,3,4998,Molina N.,D,Difensore,Roma,Finita,6,6,6,6,0,false,false,false,,,,,false,343,6,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,4,4952,Monterisi,D,Difensore,Frosinone,PrimoTempo,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,5,6495,Comuzzo,D,Difensore,Torino,Finita,6,6,6,6,0,false,true,false,,,,,false,343,6,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,6,779,Cristante,C,Centrocampista,Roma,Finita,6.5,6.5,6,6,0,false,true,false,,,,,false,343,6.5,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,7,6010,Fazzini,C,Centrocampista,Cagliari,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,8,6593,Akinsanmiro,C,Centrocampista,Monza,PrimoTempo,56,100,6,6,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,9,7351,Santos A.,A,Attaccante,Napoli,Finita,6,6,6,6,0,false,true,false,,,,,false,343,6,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,10,4371,Raspadori,A,Attaccante,Atalanta,Finita,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Panchina,11,608,Zapata D.,A,Attaccante,Torino,Finita,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Fuori_Lista,,7469,Bracaglia,,,Frosinone,,,,6,6,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Fuori_Lista,,7414,Kaiki,,,Como,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,3347119,Dinamo Last Minute,Gabryamaranto97,Fuori_Lista,,6678,Liberali,,,Como,,,,55,55,0,false,false,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,1,4964,Vicario,P,Portiere,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,2,6867,Valle,D,Difensore,Como,Finita,7,8,7,8,1,false,true,false,,,,,,343,8,8,,false,0,0,1,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,3,5862,Valeri,D,Difensore,Parma,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,4,5620,Tavares N.,D,Difensore,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,5,7556,Mora,C,Centrocampista,Roma,Finita,6,6,6,6,0,false,true,false,,,,,,343,6,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,6,4179,Gonzalez N.,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,7,6884,Conceicao,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,8,184,Bernardeschi,C,Centrocampista,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,9,2137,Scamacca,A,Attaccante,Atalanta,Finita,5.5,5.5,6,6,0,false,true,false,,,,,,343,5.5,5.5,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,10,6752,Woltemade,A,Attaccante,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Titolare,11,6397,Ramos G.,A,Attaccante,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,1,572,Meret,P,Portiere,Napoli,Finita,7,4,7,4,-3,false,true,false,,,,,false,343,4,0,,false,0,0,0,0,0,0,0,0,3
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,2,2170,Milinkovic-Savic V.,P,Portiere,Napoli,Finita,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,3,4433,Zortea,D,Difensore,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,4,7220,Belghali,D,Difensore,Torino,Finita,6.5,7.5,6.5,7.5,1,false,false,false,,,,,false,343,7.5,0,,false,0,0,1,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,5,4994,Vojvoda,D,Difensore,Udinese,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,6,827,Locatelli,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,7,6618,Cissè A.,C,Centrocampista,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,8,2423,Pulisic,C,Centrocampista,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,9,6164,Vitinha O.,A,Attaccante,Genoa,Finita,5.5,5.5,5.5,5.5,0,false,false,false,,,,,false,343,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,10,5694,Beto,A,Attaccante,Fiorentina,Finita,5.5,5.5,5.5,5.5,0,false,false,false,,,,,false,343,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Panchina,11,6434,Yildiz,A,Attaccante,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Fuori_Lista,,7625,Goncalves P.,,,Fiorentina,,,,55,55,0,false,false,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Fuori_Lista,,5982,Spence,,,Inter,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,4522508,Il Diavolo Veste Pata,Pathouse,Fuori_Lista,,5520,Cambiaso,,,Juventus,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,1,133,Skorupski,P,Portiere,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,2,4807,Hermoso,D,Difensore,Roma,Finita,7,10,7,10,3,false,true,false,,,,,,343,10,10,,false,1,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,3,6238,Oyono A.,D,Difensore,Frosinone,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,4,5750,Ostigard,D,Difensore,Genoa,Finita,4.5,4,4.5,4,-0.5,false,true,false,,,,,,343,4,4,,false,0,0,0,1,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,5,1870,Barella,C,Centrocampista,Inter,Finita,5.5,5.5,5.5,5.5,0,false,true,false,,,,,,343,5.5,5.5,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,6,7472,Calò,C,Centrocampista,Frosinone,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,7,6684,Ekkelenkamp,C,Centrocampista,Udinese,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,8,2765,Odgaard,C,Centrocampista,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,9,5585,Malen,A,Attaccante,Roma,Finita,6,6,6,6,0,false,true,false,,,,,,343,6,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,10,4923,Colombo,A,Attaccante,Genoa,Finita,6,7,6.5,7.5,1,false,true,false,,,,,,343,7,7,,false,0,0,1,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Titolare,11,7484,Adams A.,A,Attaccante,Venezia,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,343,100,6,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,1,6482,Mandas,P,Portiere,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,2,4485,Thiam,P,Portiere,Monza,PrimoTempo,56,100,6,6,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,3,7219,Bernasconi,D,Difensore,Atalanta,Finita,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,4,6727,Couto,D,Difensore,Como,Finita,6.5,7.5,7,8,1,false,true,false,,,,,false,343,7.5,0,,false,0,0,1,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,5,6893,Kempf,D,Difensore,Como,Finita,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,6,6398,Isaksen,C,Centrocampista,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,7,5685,Koopmeiners,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,8,7436,Alajbegovic,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,9,6435,Krstovic,A,Attaccante,Atalanta,Finita,5.5,5.5,5,5,0,false,false,false,,,,,false,343,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,10,4463,Esposito Se.,A,Attaccante,Sassuolo,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,343,100,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Panchina,11,6572,Castro S.,A,Attaccante,Roma,Finita,7,7,6.5,6.5,0,false,false,false,,,,,false,343,7,0,,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Fuori_Lista,,7529,Koulierakis,,,Roma,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Fuori_Lista,,4317,N'Dicka,,,Roma,,,,5.5,5.5,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,6976879,Tax The Rich,Lo Smilzo,Fuori_Lista,,2167,Orsolini,,,Bologna,,,,56,56,0,false,true,false,,,,,,343,,0,true,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,1,6662,Corvi,P,Portiere,Parma,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,2,7485,Mangas,D,Difensore,Monza,PrimoTempo,56,100,6,6,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,3,2120,Bastoni,D,Difensore,Inter,Finita,6,6,5.5,5.5,0,false,true,false,,,,,,433,6,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,4,2788,Bremer,D,Difensore,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,5,254,Dimarco,D,Difensore,Inter,Finita,6.5,7.5,6.5,7.5,1,false,true,false,,,,,,433,7.5,7.5,,false,0,0,1,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,6,2848,Frattesi,C,Centrocampista,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,7,7078,Mastantuono,C,Centrocampista,Fiorentina,Finita,5,5,5.5,5.5,0,false,true,false,,,,,,433,5,5,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,8,5687,Vlasic,C,Centrocampista,Torino,Finita,6,6,5.5,5.5,0,false,true,false,,,,,,433,6,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,9,6060,Laurientè,A,Attaccante,Sassuolo,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,10,2061,Simeone,A,Attaccante,Torino,Finita,6.5,6.5,6,6,0,false,false,false,,,,,,433,6.5,6.5,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Titolare,11,5637,Davis K.,A,Attaccante,Udinese,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,1,2134,Falcone,P,Portiere,Lecce,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,2,4236,Muric,P,Portiere,Sassuolo,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,3,7069,Fortini,D,Difensore,Torino,Finita,6.5,6.5,6.5,6.5,0,false,true,false,,,,,false,433,6.5,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,4,2514,Stones,D,Difensore,Inter,Finita,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,5,5526,Scalvini,D,Difensore,Atalanta,Finita,6,6,6.5,6.5,0,false,true,false,,,,,false,433,6,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,6,5800,Gudmundsson A.,C,Centrocampista,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,7,4364,Gaetano,C,Centrocampista,Atalanta,Finita,5.5,4.5,5.5,4.5,-1,false,true,false,,,,,false,433,4.5,0,,false,0,0,0,0,1,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,8,152,Zielinski,C,Centrocampista,Inter,Finita,6,6,6.5,6.5,0,false,true,false,,,,,false,433,6,0,,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,9,309,Dybala,A,Attaccante,Roma,Finita,7,8,7,8,1,false,true,false,,,,,false,433,8,0,,false,0,0,1,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,10,4871,Thuram,A,Attaccante,Inter,Finita,7,10,7,10,3,false,false,false,,,,,false,433,10,0,,false,1,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Panchina,11,5734,Soulè,A,Attaccante,Roma,Finita,7.5,11.5,7.5,11.5,4,false,false,false,,,,,false,433,11.5,0,,false,1,0,1,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Fuori_Lista,,6372,Moreira,,,Milan,,,,56,56,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Fuori_Lista,,4210,Mina,,,Cagliari,,,,56,56,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,8831890,Overfitting FC,lorenzorossi88,Fuori_Lista,,2766,Zaniolo,,,Udinese,,,,56,56,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,1,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,2,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,3,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,4,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,5,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,6,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,7,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,8,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,9,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,10,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Titolare,11,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,1,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,2,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,3,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,4,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,5,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,6,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,7,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,8,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,9,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,10,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,10972609,Scarsenal,Pif1984,Panchina,11,219,Non Schierato,NA,NA,Genoa,Finita,0,0,56,56,0,false,true,false,,,,,false,,0,0,,true,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,1,5116,Martinez Jo.,P,Portiere,Inter,Finita,6.5,4.5,6.5,4.5,-2,false,true,false,,,,,,433,4.5,4.5,,false,0,0,0,0,0,0,0,0,2
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,2,6956,Solet,D,Difensore,Udinese,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,3,4976,Kalulu,D,Difensore,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,4,6531,Jimenez A.,D,Difensore,Fiorentina,Finita,56,100,56,56,0,false,true,true,1852,Spinazzola,,,,433,5.5,5.5,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,5,4734,Miranda J.,D,Difensore,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,6,632,Zaccagni,C,Centrocampista,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,7,4436,Cambiaghi,C,Centrocampista,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,8,5589,Konè M.,C,Centrocampista,Roma,Finita,6.5,6.5,6,6,0,false,true,false,,,,,,433,6.5,6.5,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,9,531,Berardi,A,Attaccante,Sassuolo,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,10,2038,Pinamonti,A,Attaccante,Lazio,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Titolare,11,4359,Piccoli,A,Attaccante,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,,433,100,6,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,1,2814,Provedel,P,Portiere,Inter,Finita,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,2,2521,De Gea,P,Portiere,Fiorentina,Finita,6,4,6,4,-2,false,true,false,,,,,false,433,4,0,,false,0,0,0,0,0,0,0,0,2
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,3,6496,Bartesaghi,D,Difensore,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,4,5833,Gila,D,Difensore,Milan,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,5,1852,Spinazzola,D,Difensore,Napoli,Finita,5.5,5.5,5.5,5.5,0,false,true,false,,,6531,Jimenez A.,true,433,5.5,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,6,6844,Rowe,C,Centrocampista,Atalanta,Finita,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,7,6908,Atta,C,Centrocampista,Fiorentina,Finita,6,6,6,6,0,false,false,false,,,,,false,433,6,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,8,4911,Douglas Luiz,C,Centrocampista,Juventus,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,9,6052,Hojlund,A,Attaccante,Napoli,Finita,7,10,7,10,3,false,true,false,,,,,false,433,10,0,,false,1,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,10,2097,Kean,A,Attaccante,Como,Finita,6.5,7.5,6.5,7.5,1,false,false,false,,,,,false,433,7.5,0,,false,0,0,1,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Panchina,11,6675,Dovbyk,A,Attaccante,Bologna,NonIniziata,56,100,56,56,0,false,true,false,,,,,false,433,100,0,,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Fuori_Lista,,7060,Cacciamani,,,Torino,,,,6.5,6.5,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Fuori_Lista,,5840,Olivera,,,Napoli,,,,56,56,0,false,true,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0
+1,17071673,BRRR BRRR BODO GLIMT,Samuel,Fuori_Lista,,5172,Jones C.,,,Inter,,,,6,6,0,false,false,false,,,,,,433,,0,true,false,0,0,0,0,0,0,0,0,0

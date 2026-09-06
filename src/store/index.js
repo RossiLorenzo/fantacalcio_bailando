@@ -19,7 +19,11 @@ export default createStore({
     layout: "default",
     calciatori: {},
     giornata: null,
-    giornataAttuale: null
+    giornataAttuale: null,
+    stagione: null,
+    // Serie A giornata = lega giornata + delay. The lega starts a few Serie A
+    // giornate late, so the two numberings differ all season.
+    delay: 0
   },
   mutations: {
     toggleConfigurator(state) {
@@ -51,6 +55,12 @@ export default createStore({
     },
     setGiornataAttuale(state, giornata) {
       state.giornataAttuale = giornata;
+    },
+    setStagione(state, stagione) {
+      state.stagione = stagione;
+    },
+    setDelay(state, delay) {
+      state.delay = delay;
     }
   },
   actions: {

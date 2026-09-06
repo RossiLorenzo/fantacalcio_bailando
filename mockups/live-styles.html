@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fantacalcio Live — 6 stili visivi</title>
+<style>
+/* ==========================================================================
+   Same content everywhere: Classifica · Scontri diretti · Formazioni.
+   Only the visual language changes between themes.
+   Shared markup skeleton, six independent stylesheets below.
+   ========================================================================== */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#0d1017;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer}
+ol,ul{margin:0;padding:0;list-style:none}
+
+/* ---- switcher chrome (not part of any design) ---- */
+#chrome{position:sticky;top:0;z-index:200;background:#0d1017;border-bottom:1px solid #212838;
+  padding:9px 12px;font:13px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#fff}
+#chrome .t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#66718c;margin-bottom:8px}
+#tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+#tabs::-webkit-scrollbar{display:none}
+#tabs button{flex:0 0 auto;border:0;background:#1a2132;color:#aab4c8;padding:7px 13px;border-radius:999px;
+  font-size:12.5px;font-weight:600;white-space:nowrap}
+#tabs button[aria-selected="true"]{background:#fff;color:#0d1017}
+#note{margin-top:8px;font-size:12px;color:#7d879e;line-height:1.45}
+.theme{display:none}
+.theme.on{display:block}
+
+/* ==========================================================================
+   S1 · AURORA GLASS — dark, frosted cards, gradient accents
+   ========================================================================== */
+#s1{
+  --ink:#eef1f8; --dim:#98a3bd; --faint:#67718c;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  color:var(--ink); background:#080a14;
+  background-image:
+    radial-gradient(70% 55% at 8% 0%,rgba(120,90,255,.42),transparent 60%),
+    radial-gradient(60% 50% at 95% 8%,rgba(0,220,190,.32),transparent 62%),
+    radial-gradient(80% 60% at 50% 100%,rgba(255,70,140,.20),transparent 65%);
+  background-attachment:fixed;
+  min-height:100vh;
+}
+#s1 .page{max-width:1180px;margin:0 auto;padding:22px 14px 60px}
+#s1 .hero h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.03em;
+  background:linear-gradient(92deg,#fff,#a9b6ff 55%,#5ff0d0);-webkit-background-clip:text;background-clip:text;color:transparent}
+#s1 .hero p{margin:6px 0 0;font-size:13px;color:var(--dim)}
+#s1 .block{margin-top:26px}
+#s1 .block > h2{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 10px 2px;font-weight:700}
+#s1 .card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);
+  border-radius:22px;backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.14);overflow:hidden}
+#s1 .rank{display:flex;align-items:center;gap:12px;padding:12px 16px}
+#s1 .rank + .rank{border-top:1px solid rgba(255,255,255,.07)}
+#s1 .rank .pos{width:20px;font-size:13px;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums}
+#s1 .rank:nth-child(1) .pos,#s1 .rank:nth-child(2) .pos,#s1 .rank:nth-child(3) .pos{color:#5ff0d0}
+#s1 .who{flex:1;min-width:0}
+#s1 .who b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s1 .who span{font-size:11.5px;color:var(--faint)}
+#s1 .pts{text-align:right}
+#s1 .pts b{display:block;font-size:17px;font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+#s1 .pts span{font-size:10.5px;color:#5ff0d0;letter-spacing:.04em}
+#s1 .vsgrid{display:grid;gap:10px}
+#s1 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:15px 14px;
+  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);border-radius:20px;backdrop-filter:blur(22px)}
+#s1 .vs .side{display:flex;align-items:center;gap:8px;min-width:0}
+#s1 .vs .side.r{flex-direction:row-reverse}
+#s1 .vs .side b{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s1 .vs .score{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;padding:3px 12px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(120,90,255,.55),rgba(0,220,190,.4));border:1px solid rgba(255,255,255,.18)}
+#s1 .comp{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:14px 0 8px 2px;font-weight:700}
+#s1 .fgrid{display:grid;gap:12px}
+#s1 .fcard{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);border-radius:22px;
+  backdrop-filter:blur(22px);overflow:hidden}
+#s1 .fcard > header{display:flex;align-items:center;gap:10px;padding:14px 16px 10px}
+#s1 .fcard > header .tot{margin-left:auto;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+#s1 .pl{display:flex;align-items:center;gap:9px;padding:6px 16px;font-size:13px}
+#s1 .pl + .pl{border-top:1px solid rgba(255,255,255,.055)}
+#s1 .pl .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#dbe2f2}
+#s1 .role{width:19px;height:19px;border-radius:7px;display:grid;place-items:center;font-size:9px;font-weight:800;color:#080a14}
+#s1 .crest{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff;flex:0 0 28px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+#s1 .vote{min-width:42px;text-align:center;padding:3px 7px;border-radius:9px;font-size:12px;font-weight:750;font-variant-numeric:tabular-nums}
+@media(min-width:820px){ #s1 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  #s1 .vsgrid{grid-template-columns:1fr 1fr} #s1 .fgrid{grid-template-columns:repeat(4,1fr)} }
+
+/* ==========================================================================
+   S2 · BOLD SPORT — neo-brutalist, hard shadows, condensed caps
+   ========================================================================== */
+#s2{ --ink:#0a0a0a; --pap:#f4f1e8; --hot:#ff3b1f; --blu:#1b3bff;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; color:var(--ink); background:var(--pap); min-height:100vh}
+#s2 .page{max-width:1180px;margin:0 auto;padding:18px 12px 60px}
+#s2 .hero{border:3px solid #0a0a0a;background:var(--hot);color:#fff;padding:16px;box-shadow:7px 7px 0 #0a0a0a}
+#s2 .hero h1{margin:0;font-size:38px;line-height:.92;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;font-stretch:condensed}
+#s2 .hero p{margin:8px 0 0;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+#s2 .block{margin-top:26px}
+#s2 .block > h2{margin:0 0 12px;font-size:22px;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;
+  display:inline-block;background:#0a0a0a;color:var(--pap);padding:3px 10px;transform:rotate(-1.2deg)}
+#s2 .card{border:3px solid #0a0a0a;background:#fff;box-shadow:7px 7px 0 #0a0a0a}
+#s2 .rank{display:flex;align-items:center;gap:11px;padding:9px 12px}
+#s2 .rank + .rank{border-top:2px solid #0a0a0a}
+#s2 .rank .pos{font-size:26px;font-weight:900;width:34px;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+#s2 .rank:nth-child(1) .pos{color:var(--hot)}
+#s2 .who{flex:1;min-width:0}
+#s2 .who b{display:block;font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s2 .who span{font-size:11px;font-weight:700;color:#7a7568;text-transform:uppercase;letter-spacing:.08em}
+#s2 .pts{text-align:right}
+#s2 .pts b{display:block;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+#s2 .pts span{font-size:10px;font-weight:800;color:var(--blu);text-transform:uppercase;letter-spacing:.08em}
+#s2 .comp{margin:16px 0 8px;font-size:12px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+#s2 .vsgrid{display:grid;gap:12px}
+#s2 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:12px;
+  border:3px solid #0a0a0a;background:#fff;box-shadow:5px 5px 0 #0a0a0a}
+#s2 .vs .side{display:flex;align-items:center;gap:8px;min-width:0}
+#s2 .vs .side.r{flex-direction:row-reverse}
+#s2 .vs .side b{font-size:12.5px;font-weight:800;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s2 .vs .score{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;background:#0a0a0a;color:#fff;padding:2px 10px}
+#s2 .fgrid{display:grid;gap:14px}
+#s2 .fcard{border:3px solid #0a0a0a;background:#fff;box-shadow:6px 6px 0 #0a0a0a}
+#s2 .fcard > header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:3px solid #0a0a0a;background:#ffe600}
+#s2 .fcard > header b{font-size:14px;font-weight:900;text-transform:uppercase}
+#s2 .fcard > header .tot{margin-left:auto;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
+#s2 .pl{display:flex;align-items:center;gap:9px;padding:5px 12px;font-size:13px;font-weight:600}
+#s2 .pl + .pl{border-top:1px solid #e3ded1}
+#s2 .pl .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s2 .role{width:20px;height:20px;display:grid;place-items:center;font-size:9px;font-weight:900;border:2px solid #0a0a0a;color:#0a0a0a}
+#s2 .crest{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;font-size:10px;font-weight:900;color:#fff;border:2px solid #0a0a0a}
+#s2 .vote{min-width:42px;text-align:center;padding:2px 6px;font-size:12px;font-weight:900;border:2px solid #0a0a0a;font-variant-numeric:tabular-nums}
+@media(min-width:820px){ #s2 .vsgrid{grid-template-columns:1fr 1fr} #s2 .fgrid{grid-template-columns:repeat(4,1fr)}
+  #s2 .hero h1{font-size:64px} }
+
+/* ==========================================================================
+   S3 · EDITORIAL — broadsheet serif, hairlines, one ink colour
+   ========================================================================== */
+#s3{ --ink:#16130f; --dim:#6e675e; --rule:#ded7ca; --hot:#b3123c; --pap:#fbf9f4;
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; color:var(--ink); background:var(--pap); min-height:100vh}
+#s3 .page{max-width:1080px;margin:0 auto;padding:26px 18px 70px}
+#s3 .hero{border-bottom:3px double var(--ink);padding-bottom:14px}
+#s3 .hero h1{margin:0;font-size:34px;font-weight:400;letter-spacing:-.02em;line-height:1.05}
+#s3 .hero h1 em{font-style:italic;color:var(--hot)}
+#s3 .hero p{margin:8px 0 0;font-family:-apple-system,Helvetica,sans-serif;font-size:10.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--dim)}
+#s3 .block{margin-top:30px}
+#s3 .block > h2{margin:0 0 4px;font-family:-apple-system,Helvetica,sans-serif;font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--hot);font-weight:700}
+#s3 .block > h2 + .rule{border-top:1px solid var(--ink);margin-bottom:10px}
+#s3 .card{background:none}
+#s3 .rank{display:flex;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule)}
+#s3 .rank .pos{font-size:15px;width:24px;color:var(--dim);font-variant-numeric:tabular-nums}
+#s3 .rank:nth-child(1) .pos{color:var(--hot);font-weight:700}
+#s3 .who{flex:1;min-width:0}
+#s3 .who b{display:block;font-size:17px;font-weight:400;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s3 .who span{font-family:-apple-system,Helvetica,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+#s3 .pts{text-align:right}
+#s3 .pts b{display:block;font-size:19px;font-variant-numeric:tabular-nums}
+#s3 .pts span{font-family:-apple-system,Helvetica,sans-serif;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+#s3 .comp{margin:18px 0 6px;font-family:-apple-system,Helvetica,sans-serif;font-size:9.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--dim)}
+#s3 .vsgrid{display:grid;gap:0}
+#s3 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--rule)}
+#s3 .vs .side{display:flex;align-items:center;gap:9px;min-width:0}
+#s3 .vs .side.r{flex-direction:row-reverse}
+#s3 .vs .side b{font-size:15px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s3 .vs .score{font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+#s3 .fgrid{columns:1;column-gap:26px}
+#s3 .fcard{break-inside:avoid;margin-bottom:22px;border-top:2px solid var(--ink);padding-top:8px}
+#s3 .fcard > header{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+#s3 .fcard > header b{font-size:16px;font-weight:400}
+#s3 .fcard > header .tot{margin-left:auto;font-size:17px;font-variant-numeric:tabular-nums}
+#s3 .pl{display:flex;align-items:baseline;gap:8px;padding:3.5px 0;font-size:14px;border-bottom:1px dotted var(--rule)}
+#s3 .pl .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s3 .role{font-family:-apple-system,Helvetica,sans-serif;font-size:8.5px;letter-spacing:.12em;color:var(--dim);width:14px}
+#s3 .crest{width:24px;height:24px;flex:0 0 24px;border-radius:50%;display:grid;place-items:center;color:#fff;
+  font-family:-apple-system,Helvetica,sans-serif;font-size:8.5px;font-weight:700}
+#s3 .vote{font-family:-apple-system,Helvetica,sans-serif;font-size:11.5px;font-weight:700;min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+#s3 .vote.v-top,#s3 .vote.v-ok{color:#1a7a48}
+#s3 .vote.v-bad,#s3 .vote.v-low{color:var(--hot)}
+#s3 .vote.v-mid{color:var(--dim)}
+#s3 .vote.v-sv{color:#b7b0a4}
+@media(min-width:820px){ #s3 .hero h1{font-size:56px} #s3 .cols{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:start}
+  #s3 .fgrid{columns:3} }
+
+/* ==========================================================================
+   S4 · SOFT PASTEL — airy, rounded, low-contrast calm
+   ========================================================================== */
+#s4{ --ink:#3b4256; --dim:#8b93a8; --bg:#eef1f7; --card:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh}
+#s4 .page{max-width:1140px;margin:0 auto;padding:22px 14px 60px}
+#s4 .hero{background:linear-gradient(135deg,#dfe7ff,#ffe6f0 55%,#dcf7ee);border-radius:26px;padding:20px}
+#s4 .hero h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em}
+#s4 .hero p{margin:6px 0 0;font-size:12.5px;color:#6d768e}
+#s4 .block{margin-top:24px}
+#s4 .block > h2{margin:0 0 10px 4px;font-size:13px;font-weight:700;color:var(--dim);letter-spacing:.01em}
+#s4 .card{background:var(--card);border-radius:26px;padding:6px 4px;
+  box-shadow:0 1px 2px rgba(38,50,80,.05),0 14px 34px -18px rgba(38,50,80,.35)}
+#s4 .rank{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:20px}
+#s4 .rank:nth-child(odd){background:#f7f9fd}
+#s4 .rank .pos{width:24px;height:24px;border-radius:50%;background:#eef1f7;display:grid;place-items:center;
+  font-size:11.5px;font-weight:700;color:var(--dim);flex:0 0 24px}
+#s4 .rank:nth-child(1) .pos{background:#d7f5e6;color:#1c8a5c}
+#s4 .who{flex:1;min-width:0}
+#s4 .who b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s4 .who span{font-size:11.5px;color:var(--dim)}
+#s4 .pts{text-align:right}
+#s4 .pts b{display:block;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+#s4 .pts span{font-size:10.5px;color:#5ac08e;font-weight:600}
+#s4 .comp{margin:16px 0 8px 4px;font-size:11.5px;font-weight:700;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+#s4 .vsgrid{display:grid;gap:12px}
+#s4 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:16px 14px;
+  background:var(--card);border-radius:24px;box-shadow:0 1px 2px rgba(38,50,80,.05),0 14px 34px -20px rgba(38,50,80,.32)}
+#s4 .vs .side{display:flex;align-items:center;gap:9px;min-width:0}
+#s4 .vs .side.r{flex-direction:row-reverse}
+#s4 .vs .side b{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s4 .vs .score{font-size:19px;font-weight:750;font-variant-numeric:tabular-nums;background:#f2f5fb;
+  border-radius:14px;padding:5px 13px;color:#4b5570}
+#s4 .fgrid{display:grid;gap:14px}
+#s4 .fcard{background:var(--card);border-radius:26px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(38,50,80,.05),0 14px 34px -20px rgba(38,50,80,.32)}
+#s4 .fcard > header{display:flex;align-items:center;gap:10px;padding:15px 16px 10px}
+#s4 .fcard > header b{font-size:14px;font-weight:650}
+#s4 .fcard > header .tot{margin-left:auto;font-size:18px;font-weight:750;font-variant-numeric:tabular-nums}
+#s4 .pl{display:flex;align-items:center;gap:10px;padding:6px 16px;font-size:13.5px}
+#s4 .pl:nth-child(odd){background:#f8fafd}
+#s4 .pl .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s4 .role{width:22px;height:22px;border-radius:8px;display:grid;place-items:center;font-size:9px;font-weight:800;color:#fff;opacity:.85}
+#s4 .crest{width:34px;height:34px;flex:0 0 34px;border-radius:13px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:750}
+#s4 .vote{min-width:44px;text-align:center;padding:4px 8px;border-radius:11px;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+@media(min-width:820px){ #s4 .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  #s4 .vsgrid{grid-template-columns:1fr 1fr} #s4 .fgrid{grid-template-columns:repeat(4,1fr)} }
+
+/* ==========================================================================
+   S5 · NEON NIGHT — near-black, mono numerals, glow accents
+   ========================================================================== */
+#s5{ --ink:#dbe6ff; --dim:#67789c; --neon:#00ffa3; --pink:#ff2e93;
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;color:var(--ink);background:#04060c;min-height:100vh;
+  background-image:linear-gradient(rgba(0,255,163,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,163,.045) 1px,transparent 1px);
+  background-size:34px 34px}
+#s5 .page{max-width:1180px;margin:0 auto;padding:20px 12px 60px}
+#s5 .hero{border:1px solid rgba(0,255,163,.3);padding:16px;background:rgba(0,255,163,.045);
+  box-shadow:0 0 40px -12px rgba(0,255,163,.4) inset}
+#s5 .hero h1{margin:0;font-size:24px;font-weight:700;letter-spacing:.02em;color:var(--neon);text-shadow:0 0 18px rgba(0,255,163,.55)}
+#s5 .hero p{margin:7px 0 0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+#s5 .block{margin-top:24px}
+#s5 .block > h2{margin:0 0 9px;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--pink)}
+#s5 .block > h2::before{content:"// "}
+#s5 .card{border:1px solid #17203a;background:#080c16}
+#s5 .rank{display:flex;align-items:center;gap:11px;padding:9px 12px}
+#s5 .rank + .rank{border-top:1px solid #121a2e}
+#s5 .rank:hover{background:rgba(0,255,163,.05)}
+#s5 .rank .pos{width:24px;font-size:12px;color:var(--dim)}
+#s5 .rank .pos::before{content:"0"}
+#s5 .rank:nth-child(1) .pos{color:var(--neon)}
+#s5 .who{flex:1;min-width:0}
+#s5 .who b{display:block;font-size:13px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s5 .who span{font-size:10px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+#s5 .pts{text-align:right}
+#s5 .pts b{display:block;font-size:16px;font-weight:700;color:var(--neon);text-shadow:0 0 14px rgba(0,255,163,.45)}
+#s5 .pts span{font-size:9.5px;color:var(--dim);letter-spacing:.1em}
+#s5 .comp{margin:15px 0 7px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+#s5 .vsgrid{display:grid;gap:8px}
+#s5 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:12px;
+  border:1px solid #17203a;background:#080c16}
+#s5 .vs .side{display:flex;align-items:center;gap:8px;min-width:0}
+#s5 .vs .side.r{flex-direction:row-reverse}
+#s5 .vs .side b{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s5 .vs .score{font-size:19px;font-weight:700;color:var(--pink);text-shadow:0 0 16px rgba(255,46,147,.5);letter-spacing:.02em}
+#s5 .fgrid{display:grid;gap:10px}
+#s5 .fcard{border:1px solid #17203a;background:#080c16}
+#s5 .fcard > header{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid #17203a;background:rgba(0,255,163,.04)}
+#s5 .fcard > header b{font-size:12.5px;font-weight:700;letter-spacing:.02em}
+#s5 .fcard > header .tot{margin-left:auto;font-size:16px;font-weight:700;color:var(--neon)}
+#s5 .pl{display:flex;align-items:center;gap:8px;padding:4px 12px;font-size:11.5px}
+#s5 .pl + .pl{border-top:1px solid #101728}
+#s5 .pl .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#b8c6e6}
+#s5 .role{width:17px;height:17px;display:grid;place-items:center;font-size:8px;font-weight:700;color:#04060c}
+#s5 .crest{width:26px;height:26px;flex:0 0 26px;display:grid;place-items:center;color:#04060c;font-size:9px;font-weight:800}
+#s5 .vote{min-width:40px;text-align:center;padding:2px 6px;font-size:11px;font-weight:700;border:1px solid currentColor;background:none!important}
+#s5 .vote.v-top,#s5 .vote.v-ok{color:var(--neon)}
+#s5 .vote.v-mid{color:#8fa0c4}
+#s5 .vote.v-low{color:#ffb54a}
+#s5 .vote.v-bad{color:#ff4d6d}
+#s5 .vote.v-sv{color:#3d4a68}
+@media(min-width:820px){ #s5 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  #s5 .vsgrid{grid-template-columns:1fr 1fr} #s5 .fgrid{grid-template-columns:repeat(4,1fr)} }
+
+/* ==========================================================================
+   S6 · PRODUCT MINIMAL — Linear/iOS-grade restraint, one accent
+   ========================================================================== */
+#s6{ --ink:#0f1115; --dim:#6b7280; --faint:#9aa1ad; --line:#e8eaee; --bg:#f7f8fa; --acc:#3355ff;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,sans-serif;
+  color:var(--ink);background:var(--bg);min-height:100vh;letter-spacing:-.005em}
+#s6 .page{max-width:1160px;margin:0 auto;padding:20px 14px 60px}
+#s6 .hero{display:flex;align-items:flex-end;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+#s6 .hero h1{margin:0;font-size:21px;font-weight:640;letter-spacing:-.025em}
+#s6 .hero p{margin:0 0 1px;font-size:12.5px;color:var(--faint)}
+#s6 .hero .pill{margin-left:auto;font-size:11px;font-weight:650;color:var(--acc);background:#eef1ff;
+  border:1px solid #dde3ff;border-radius:7px;padding:4px 9px}
+#s6 .block{margin-top:22px}
+#s6 .block > h2{margin:0 0 9px;font-size:11px;font-weight:650;color:var(--faint);letter-spacing:.02em}
+#s6 .card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+#s6 .rank{display:flex;align-items:center;gap:11px;padding:9px 13px}
+#s6 .rank + .rank{border-top:1px solid var(--line)}
+#s6 .rank .pos{width:17px;font-size:12px;font-weight:600;color:var(--faint);font-variant-numeric:tabular-nums}
+#s6 .who{flex:1;min-width:0}
+#s6 .who b{display:block;font-size:13.5px;font-weight:560;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s6 .who span{font-size:11.5px;color:var(--faint)}
+#s6 .pts{text-align:right;display:flex;align-items:baseline;gap:8px}
+#s6 .pts b{font-size:14.5px;font-weight:640;font-variant-numeric:tabular-nums}
+#s6 .pts span{font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums;min-width:34px}
+#s6 .comp{margin:14px 0 7px;font-size:11px;font-weight:650;color:var(--faint)}
+#s6 .vsgrid{display:grid;gap:8px}
+#s6 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:12px 13px;
+  background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+#s6 .vs .side{display:flex;align-items:center;gap:8px;min-width:0}
+#s6 .vs .side.r{flex-direction:row-reverse}
+#s6 .vs .side b{font-size:12.5px;font-weight:560;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s6 .vs .score{font-size:15px;font-weight:640;font-variant-numeric:tabular-nums;color:var(--ink);
+  background:#f2f4f7;border-radius:7px;padding:3px 9px}
+#s6 .fgrid{display:grid;gap:10px}
+#s6 .fcard{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+#s6 .fcard > header{display:flex;align-items:center;gap:9px;padding:11px 13px;border-bottom:1px solid var(--line)}
+#s6 .fcard > header b{font-size:13px;font-weight:600}
+#s6 .fcard > header .tot{margin-left:auto;font-size:14px;font-weight:640;font-variant-numeric:tabular-nums}
+#s6 .pl{display:flex;align-items:center;gap:9px;padding:5.5px 13px;font-size:12.5px}
+#s6 .pl + .pl{border-top:1px solid #f1f2f5}
+#s6 .pl .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#s6 .role{width:18px;height:18px;border-radius:5px;display:grid;place-items:center;font-size:8.5px;font-weight:700;color:#fff;opacity:.9}
+#s6 .crest{width:26px;height:26px;flex:0 0 26px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:9.5px;font-weight:700}
+#s6 .vote{min-width:38px;text-align:center;padding:2px 6px;border-radius:6px;font-size:11.5px;font-weight:640;font-variant-numeric:tabular-nums}
+@media(min-width:820px){ #s6 .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  #s6 .vsgrid{grid-template-columns:1fr 1fr} #s6 .fgrid{grid-template-columns:repeat(4,1fr)} }
+
+/* the "In diretta" pill is a S6-only detail */
+.hero .pill{display:none}
+#s6 .hero .pill{display:inline-block}
+
+/* default vote colours (S1/S2/S4/S6 use filled pills) */
+.v-bad{background:#f5365c;color:#fff}
+.v-low{background:#fb6340;color:#fff}
+.v-mid{background:#8898aa;color:#fff}
+.v-ok{background:#2dce89;color:#fff}
+.v-top{background:#0f9b7a;color:#fff}
+.v-sv{background:#d3d9e2;color:#5b6478}
+</style>
+</head>
+<body>
+
+<div id="chrome">
+  <div class="t">Fantacalcio Live — 6 stili visivi · stesso contenuto · dati fittizi</div>
+  <div id="tabs" role="tablist"></div>
+  <div id="note"></div>
+</div>
+
+<main>
+  <section class="theme" id="s1"></section>
+  <section class="theme" id="s2"></section>
+  <section class="theme" id="s3"></section>
+  <section class="theme" id="s4"></section>
+  <section class="theme" id="s5"></section>
+  <section class="theme" id="s6"></section>
+</main>
+
+<script>
+/* ---------------------------------------------------------------
+   Mock data — same shape as the Live view (classifica, scontri,
+   formazioni with titolari + voti).
+   --------------------------------------------------------------- */
+const COLORS=["#5e72e4","#f5365c","#2dce89","#fb6340","#11cdef","#8965e0","#e8b400","#344767"];
+const TEAMS=[
+ {n:"Real Ubriaconi",c:"Marco",col:0},{n:"AC Pippo",c:"Giulia",col:1},
+ {n:"Bailando FC",c:"Lorenzo",col:2},{n:"Sporting Divano",c:"Andrea",col:3},
+ {n:"Dinamo Spritz",c:"Chiara",col:4},{n:"Atletico Ritardo",c:"Paolo",col:5},
+ {n:"Panchina United",c:"Sara",col:6},{n:"Old Boys Nonni",c:"Davide",col:7},
+];
+const NAMES=["Sommer","Bastoni","Dimarco","Calafiori","Bremer","Barella","Zaccagni","Koopmeiners","Pulisic","Lautaro","Vlahovic","Thuram","Orsolini","Politano","Leao","Dybala","Lookman","Retegui","Kean","Frattesi","Provedel","Carnesecchi","Di Lorenzo","Theo","Cambiaso","Ederson"];
+const ROLES=["P","D","D","D","C","C","C","C","A","A","A"];
+let seed=7; const rnd=()=>((seed=seed*1103515245+12345&0x7fffffff)/0x7fffffff);
+function mkPlayer(r,i){
+  const played=rnd()>0.25, v=played?Math.round((4.5+rnd()*3)*2)/2:null;
+  const bonus=played?(rnd()>0.82?3:rnd()>0.9?-1:0):0;
+  return {r,n:NAMES[(i*3+Math.floor(rnd()*26))%NAMES.length],fv:played?+(v+bonus).toFixed(1):null,live:played&&rnd()>0.6};
+}
+const DATA=TEAMS.map((t,i)=>{
+  const tit=ROLES.map((r,j)=>mkPlayer(r,i+j));
+  const prev=+tit.reduce((s,p)=>s+(p.fv??6),0).toFixed(1);
+  const live=+tit.reduce((s,p)=>s+(p.fv??0),0).toFixed(1);
+  return {...t,tit,prev,live,fatti:Math.round(6+rnd()*12),old:i+1,neu:0};
+});
+DATA.sort((a,b)=>b.prev-a.prev).forEach((t,i)=>t.neu=i+1);
+const COMPS=[
+  {name:"Campionato · giornata 5",pairs:[[0,1],[2,3],[4,5],[6,7]]},
+  {name:"Coppa Bailando · quarti",pairs:[[0,3],[2,6],[1,7],[4,null]]},
+];
+const roleColor={P:"#e8b400",D:"#11cdef",C:"#2dce89",A:"#f5365c"};
+const col=i=>COLORS[i%COLORS.length];
+const ini=n=>n.split(" ").map(w=>w[0]).join("").slice(0,3).toUpperCase();
+const goals=t=>Math.max(Math.floor((t.prev-66)/4)+1,0);
+const vClass=v=>v==null?"v-sv":v<5?"v-bad":v<5.5?"v-low":v<6.5?"v-mid":v<7?"v-ok":"v-top";
+const vote=p=>`<span class="vote ${vClass(p.fv)}">${p.fv==null?"S.V.":p.fv.toFixed(1)+(p.live?"*":"")}</span>`;
+const crest=t=>`<span class="crest" style="background:${col(t.col)}">${ini(t.n)}</span>`;
+
+/* ---------------------------------------------------------------
+   One markup skeleton, reused by every theme.
+   --------------------------------------------------------------- */
+function markup(title,kicker){
+  const classifica=`
+    <section class="block">
+      <h2>Classifica</h2><div class="rule"></div>
+      <div class="card">${DATA.map(t=>`
+        <div class="rank"><span class="pos">${t.neu}</span>${crest(t)}
+          <div class="who"><b>${t.n}</b><span>${t.c}</span></div>
+          <div class="pts"><b>${t.prev.toFixed(1)}</b><span>live ${t.live.toFixed(1)}</span></div>
+        </div>`).join("")}
+      </div>
+    </section>`;
+  const scontri=`
+    <section class="block">
+      <h2>Scontri diretti</h2><div class="rule"></div>
+      ${COMPS.map(cp=>`<div class="comp">${cp.name}</div>
+        <div class="vsgrid">${cp.pairs.map(([a,b])=>{
+          const A=DATA[a],B=b==null?null:DATA[b];
+          return `<div class="vs">
+            <div class="side">${crest(A)}<b>${A.n}</b></div>
+            <div class="score">${goals(A)}–${B?goals(B):"–"}</div>
+            <div class="side r">${B?crest(B)+`<b>${B.n}</b>`:"<b>Riposo</b>"}</div>
+          </div>`;}).join("")}
+        </div>`).join("")}
+    </section>`;
+  const formazioni=`
+    <section class="block">
+      <h2>Formazioni</h2><div class="rule"></div>
+      <div class="fgrid">${DATA.map(t=>`
+        <article class="fcard">
+          <header>${crest(t)}<b>${t.n}</b><span class="tot">${t.prev.toFixed(1)}</span></header>
+          ${t.tit.map(p=>`<div class="pl">
+            <span class="role" style="background:${roleColor[p.r]}">${p.r}</span>
+            <span class="nm">${p.n}</span>${vote(p)}</div>`).join("")}
+        </article>`).join("")}
+      </div>
+    </section>`;
+  return `<div class="page">
+    <header class="hero">${title}<p>${kicker}</p><span class="pill">In diretta</span></header>
+    <div class="cols">${classifica}${scontri}</div>
+    ${formazioni}
+  </div>`;
+}
+
+const THEMES=[
+ ["s1","1 · Aurora glass","<h1>Live</h1>","Giornata 5 · 4 partite in corso",
+  "Sfondo a gradienti aurora, card in vetro smerigliato con blur, numeri in gradient. Scuro, contemporaneo, molto “app premium”. Attenzione: backdrop-filter costa in performance su Android vecchi."],
+ ["s2","2 · Bold sport","<h1>Fanta<br>Live</h1>","Giornata 5 · in diretta",
+  "Neo-brutalista da rivista sportiva: bordi neri spessi, ombre dure offset, maiuscole compresse, rosso/giallo/blu pieni. Ad alto impatto e riconoscibilissimo, poco “generic dashboard”."],
+ ["s3","3 · Editoriale","<h1>La <em>Giornata</em></h1>","Domenica · Giornata 5 · Lega Bailando",
+  "Impaginazione da quotidiano: serif in display, filetti sottili, niente ombre, un solo colore d’inchiostro (rosso Gazzetta). Elegante e leggibilissimo, formazioni su colonne stile giornale."],
+ ["s4","4 · Soft pastel","<h1>Live</h1>","Giornata 5 · aggiornato ora",
+  "Chiaro, arioso, angoli molto arrotondati, ombre morbide e diffuse, righe alternate tenui. Il più riposante per gli occhi durante una domenica lunga davanti al telefono."],
+ ["s5","5 · Neon night","<h1>LIVE_FEED</h1>","Giornata 5 // 4 match attivi",
+  "Terminale notturno: quasi nero, griglia di fondo, monospace ovunque, verde/rosa al neon con glow. Massima leggibilità dei numeri al buio, estetica “broadcast”."],
+ ["s6","6 · Product minimal","<h1>Live</h1>","Giornata 5",
+  "Restrizione stile Linear/iOS: bianco, bordi 1px, raggio 12, un solo blu d’accento, tipografia stretta e tabellare. Il più sobrio e il più facile da mantenere — invecchia bene."],
+];
+THEMES.forEach(([id,,title,kicker])=>{
+  document.getElementById(id).innerHTML=markup(title,kicker);
+});
+
+const tabs=document.getElementById("tabs"),note=document.getElementById("note");
+tabs.innerHTML=THEMES.map(([id,label],i)=>
+  `<button role="tab" data-t="${id}" aria-selected="${i===0}">${label}</button>`).join("");
+function show(id){
+  document.querySelectorAll(".theme").forEach(s=>s.classList.toggle("on",s.id===id));
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===id));
+  note.textContent=THEMES.find(t=>t[0]===id)[4];
+  location.hash=id;
+}
+tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.t)});
+show(THEMES.some(t=>t[0]===location.hash.slice(1))?location.hash.slice(1):"s1");
+</script>
+</body>
+</html>

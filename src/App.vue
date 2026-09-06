@@ -3,12 +3,10 @@
     v-show="this.$store.state.layout === 'landing'"
     class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
   ></div>
+  <!-- No :class here: TheSidenav has multiple roots so Vue never applied it
+       anyway, and the sidebar already sets fixed-start on its own <aside>. -->
   <the-sidenav
     :custom_class="this.$store.state.mcolor"
-    :class="[
-      this.$store.state.isTransparent,
-      this.$store.state.isRTL ? 'fixed-end' : 'fixed-start'
-    ]"
     v-if="this.$store.state.showSidenav"
   />
 <main
@@ -39,9 +37,6 @@ export default {
         "px-0 mx-4": !this.$store.state.isAbsolute
       };
     }
-  },
-  async beforeCreate() {
-    this.$store.state.isTransparent = "bg-transparent";
   }
 };
 </script>

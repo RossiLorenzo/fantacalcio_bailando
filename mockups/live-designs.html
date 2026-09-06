@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fantacalcio Live — 5 design alternativi</title>
+<style>
+/* ============================================================
+   SHARED TOKENS
+   ============================================================ */
+:root{
+  --bg:#f4f5f7;
+  --surface:#ffffff;
+  --surface-2:#fafbfc;
+  --line:#e6e8eb;
+  --ink:#1b2233;
+  --ink-2:#5b6478;
+  --ink-3:#93a0b5;
+  --brand:#2dce89;
+  --brand-2:#11cdef;
+  --accent:#fb6340;
+  --danger:#f5365c;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(20,30,60,.06), 0 6px 20px rgba(20,30,60,.06);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-size:15px;
+  line-height:1.35;
+}
+button{font-family:inherit}
+.muted{color:var(--ink-2)}
+.tiny{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+
+/* team crest stand-in */
+.crest{
+  width:26px;height:26px;border-radius:50%;flex:0 0 26px;
+  display:grid;place-items:center;color:#fff;font-size:10px;font-weight:800;letter-spacing:.02em;
+}
+.crest.lg{width:38px;height:38px;flex-basis:38px;font-size:13px}
+.crest.sm{width:20px;height:20px;flex-basis:20px;font-size:8px}
+
+/* vote pill */
+.vote{
+  display:inline-grid;place-items:center;min-width:40px;padding:2px 6px;border-radius:8px;
+  font-weight:800;font-size:12px;font-variant-numeric:tabular-nums;color:#fff;
+}
+.v-bad{background:#f5365c}.v-low{background:#fb6340}.v-mid{background:#8898aa}
+.v-ok{background:#2dce89}.v-top{background:#11998e}.v-sv{background:#cbd3dd;color:#5b6478}
+
+/* ============================================================
+   CHROME (switcher) — not part of the designs
+   ============================================================ */
+#chrome{
+  position:sticky;top:0;z-index:100;background:#12172a;color:#fff;
+  padding:10px 12px calc(10px);box-shadow:0 2px 14px rgba(0,0,0,.25);
+}
+#chrome h1{font-size:13px;margin:0 0 8px;font-weight:700;letter-spacing:.02em;opacity:.75}
+#tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#tabs::-webkit-scrollbar{display:none}
+#tabs button{
+  flex:0 0 auto;background:rgba(255,255,255,.08);color:#c8cfe0;border:0;
+  padding:8px 12px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+#tabs button[aria-selected="true"]{background:#fff;color:#12172a}
+#desc{font-size:12px;opacity:.7;margin-top:8px;line-height:1.4}
+.design{display:none}
+.design.on{display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:12px 12px 90px}
+
+/* ============================================================
+   D1 — CARD STACK  (evolution of today's Argon layout)
+   ============================================================ */
+#d1 .grid{display:grid;gap:12px}
+#d1 .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+#d1 .card > h3{
+  margin:0;padding:12px 14px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--ink-2);border-bottom:1px solid var(--line);background:var(--surface-2);
+  position:sticky;top:0;
+}
+#d1 table{width:100%;border-collapse:collapse;font-size:13.5px}
+#d1 th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);text-align:left;padding:8px 10px;font-weight:800}
+#d1 td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:middle}
+#d1 .team{display:flex;align-items:center;gap:8px;min-width:0}
+#d1 .team b{font-weight:650;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#d1 .num{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+#d1 .live{color:var(--brand)}
+#d1 .arrow{font-size:10px;width:14px;display:inline-block}
+#d1 .up{color:var(--brand)}#d1 .down{color:var(--danger)}#d1 .flat{color:var(--ink-3)}
+#d1 details.form{border-top:1px solid var(--line)}
+#d1 details.form summary{
+  list-style:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;gap:10px;
+}
+#d1 details.form summary::-webkit-details-marker{display:none}
+#d1 details.form summary .pts{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums}
+#d1 .playerrow{display:flex;align-items:center;gap:8px;padding:6px 14px;font-size:13px;border-top:1px solid #f1f3f6}
+#d1 .playerrow .r{font-size:9px;font-weight:800;color:#fff;background:var(--ink-3);border-radius:4px;padding:1px 4px;width:18px;text-align:center}
+#d1 .playerrow .n{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#d1 .seg{display:flex;gap:6px;padding:8px 14px}
+#d1 .seg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;color:var(--ink-2);cursor:pointer}
+#d1 .seg button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+@media(min-width:900px){
+  #d1 .top{display:grid;grid-template-columns:1.2fr .8fr 1fr;gap:12px}
+  #d1 .forms{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+}
+
+/* ============================================================
+   D2 — TAB SECTIONS + BOTTOM BAR
+   ============================================================ */
+#d2 .panel{display:none}
+#d2 .panel.on{display:block}
+#d2 .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+#d2 .card h3{margin:0;padding:12px 14px 4px;font-size:15px;font-weight:750}
+#d2 .rank{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+#d2 .rank .pos{width:22px;font-weight:800;color:var(--ink-3);font-variant-numeric:tabular-nums}
+#d2 .rank .meta{flex:1;min-width:0}
+#d2 .rank .meta b{display:block;font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#d2 .rank .meta span{font-size:11.5px;color:var(--ink-3)}
+#d2 .rank .pts{text-align:right}
+#d2 .rank .pts b{display:block;font-size:16px;font-variant-numeric:tabular-nums}
+#d2 .rank .pts span{font-size:11px;color:var(--ink-3)}
+#d2 .bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:4px}
+#d2 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand-2),var(--brand))}
+#d2 .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:12px 14px;border-top:1px solid var(--line)}
+#d2 .vs .side{display:flex;align-items:center;gap:8px;min-width:0}
+#d2 .vs .side.r{flex-direction:row-reverse;text-align:right}
+#d2 .vs .side b{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#d2 .vs .score{font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;padding:2px 10px;background:var(--surface-2);border-radius:8px}
+#d2 .fcard{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+#d2 .fcard header{display:flex;align-items:center;gap:10px;padding:12px 14px}
+#d2 .fcard header .pts{margin-left:auto;font-weight:800}
+#d2 nav.bottom{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(180%) blur(12px);border-top:1px solid var(--line);
+  display:flex;padding-bottom:var(--safe-b);
+}
+#d2 nav.bottom button{
+  flex:1;border:0;background:none;padding:9px 2px 8px;font-size:10px;font-weight:700;color:var(--ink-3);
+  display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;
+}
+#d2 nav.bottom button .ic{font-size:17px;line-height:1}
+#d2 nav.bottom button.on{color:var(--brand)}
+@media(min-width:900px){
+  #d2 nav.bottom{position:sticky;top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);
+    max-width:1240px;margin:0 auto;border-radius:0 0 var(--radius) var(--radius)}
+  #d2 nav.bottom button{flex-direction:row;gap:8px;font-size:13px;padding:12px}
+  #d2 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+  #d2 .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+}
+
+/* ============================================================
+   D3 — MATCH-CENTRIC FEED
+   ============================================================ */
+#d3 .strip{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+#d3 .strip::-webkit-scrollbar{display:none}
+#d3 .chip{flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:650;display:flex;gap:6px;align-items:center;box-shadow:var(--shadow)}
+#d3 .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--brand)}
+#d3 .chip .dot.off{background:var(--ink-3)}
+#d3 .match{background:#fff;border-radius:18px;box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+#d3 .match .comp{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#fff;
+  background:linear-gradient(90deg,#5e72e4,#825ee4);padding:5px 14px}
+#d3 .match .comp.coppa{background:linear-gradient(90deg,#fb6340,#fbb140)}
+#d3 .head{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;padding:16px 14px 12px}
+#d3 .head .t{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+#d3 .head .t b{font-size:13px;font-weight:650;line-height:1.2}
+#d3 .head .t span{font-size:11px;color:var(--ink-3)}
+#d3 .head .sc{font-size:30px;font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+#d3 .head .sc small{display:block;font-size:10px;font-weight:700;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+#d3 .fp{display:flex;height:6px;background:var(--line)}
+#d3 .fp i{display:block;height:100%}
+#d3 .expand{width:100%;border:0;border-top:1px solid var(--line);background:var(--surface-2);
+  padding:10px;font-size:12px;font-weight:700;color:var(--ink-2);cursor:pointer}
+#d3 .lineups{display:none;grid-template-columns:1fr 1fr;gap:0}
+#d3 .lineups.on{display:grid}
+#d3 .lineups > div{padding:8px 0}
+#d3 .lineups > div:first-child{border-right:1px solid var(--line)}
+#d3 .pl{display:flex;align-items:center;gap:6px;padding:4px 10px;font-size:12px}
+#d3 .pl .n{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#d3 .pl .vote{min-width:34px;font-size:11px}
+@media(min-width:900px){ #d3 .feed{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start} }
+
+/* ============================================================
+   D4 — DENSE BOARD (dark, data-first)
+   ============================================================ */
+#d4{background:#0e1220;color:#e6ebf5;margin:-12px -12px 0;padding:12px 12px 90px;border-radius:0}
+#d4 .board{display:grid;gap:10px}
+#d4 .blk{background:#161c2f;border:1px solid #232b45;border-radius:10px;overflow:hidden}
+#d4 .blk h3{margin:0;padding:8px 10px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7c89a8;border-bottom:1px solid #232b45}
+#d4 table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+#d4 th{font-size:9px;letter-spacing:.08em;color:#6b7794;text-align:right;padding:6px 8px;font-weight:600;cursor:pointer;user-select:none}
+#d4 th:first-child,#d4 th:nth-child(2){text-align:left}
+#d4 th.sorted{color:var(--brand)}
+#d4 td{padding:6px 8px;border-top:1px solid #1d2438;text-align:right;font-variant-numeric:tabular-nums}
+#d4 td:first-child,#d4 td:nth-child(2){text-align:left}
+#d4 tr:hover td{background:#1b2237}
+#d4 .tname{display:flex;align-items:center;gap:6px;font-family:var(--font);font-weight:600}
+#d4 .spark{display:inline-flex;align-items:flex-end;gap:1px;height:14px}
+#d4 .spark i{width:3px;background:#3d4a6b;display:block;border-radius:1px}
+#d4 .spark i.hi{background:var(--brand)}
+#d4 .delta.up{color:var(--brand)}#d4 .delta.down{color:#ff6b81}#d4 .delta.flat{color:#5c688a}
+#d4 .vote{min-width:32px;font-family:var(--mono)}
+#d4 .fgrid{display:grid;gap:10px}
+#d4 .fblk .row{display:flex;gap:6px;align-items:center;padding:3px 8px;border-top:1px solid #1d2438;font-size:11.5px}
+#d4 .fblk .row .n{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#d4 .legend{font-size:10px;color:#6b7794;padding:6px 10px}
+@media(min-width:900px){
+  #d4 .board{grid-template-columns:1.4fr 1fr;align-items:start}
+  #d4 .fgrid{grid-template-columns:repeat(4,1fr)}
+  #d4 .span{grid-column:1/-1}
+}
+
+/* ============================================================
+   D5 — SWIPE CARDS + PITCH
+   ============================================================ */
+#d5 .rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 0 12px;scrollbar-width:none}
+#d5 .rail::-webkit-scrollbar{display:none}
+#d5 .tcard{
+  flex:0 0 78%;max-width:280px;scroll-snap-align:center;background:#fff;border-radius:18px;
+  box-shadow:var(--shadow);padding:14px;cursor:pointer;border:2px solid transparent;
+}
+#d5 .tcard.on{border-color:var(--brand)}
+#d5 .tcard .top{display:flex;align-items:center;gap:10px}
+#d5 .tcard .top b{font-size:14px;font-weight:700;line-height:1.15}
+#d5 .tcard .top span{font-size:11px;color:var(--ink-3)}
+#d5 .tcard .big{font-size:34px;font-weight:850;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-top:8px}
+#d5 .tcard .big small{font-size:12px;font-weight:700;color:var(--ink-3);margin-left:6px}
+#d5 .tcard .kv{display:flex;gap:14px;margin-top:8px;font-size:11.5px;color:var(--ink-2)}
+#d5 .tcard .kv b{display:block;font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums}
+#d5 .pitchwrap{background:#fff;border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+#d5 .pitchhead{display:flex;align-items:center;gap:10px;padding:12px 14px}
+#d5 .pitchhead .pts{margin-left:auto;text-align:right}
+#d5 .pitchhead .pts b{font-size:20px;font-weight:850;font-variant-numeric:tabular-nums}
+#d5 .pitch{
+  position:relative;aspect-ratio:3/4;max-height:520px;margin:0 auto;
+  background:
+    repeating-linear-gradient(0deg,#2f9e5f 0 8%,#2b9459 8% 16%);
+  border-top:1px solid var(--line);
+}
+#d5 .pitch .lines{position:absolute;inset:8px;border:2px solid rgba(255,255,255,.35);border-radius:4px}
+#d5 .pitch .lines::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid rgba(255,255,255,.35)}
+#d5 .pitch .lines::after{content:"";position:absolute;left:50%;top:50%;width:64px;height:64px;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,.35);border-radius:50%}
+#d5 .slot{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;width:64px}
+#d5 .slot .tok{width:32px;height:32px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:10px;font-weight:800;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+#d5 .slot .nm{font-size:9.5px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:64px}
+#d5 .slot .vote{min-width:30px;font-size:10px;padding:1px 4px}
+#d5 .bench{padding:10px 14px 14px}
+#d5 .bench .tiny{margin-bottom:6px}
+#d5 .bench .b{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid var(--line);font-size:12.5px}
+#d5 .bench .b .n{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:900px){
+  #d5 .split{display:grid;grid-template-columns:1fr 380px;gap:12px;align-items:start}
+  #d5 .rail{flex-wrap:wrap;overflow:visible}
+  #d5 .tcard{flex:0 0 calc(50% - 5px);max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div id="chrome">
+  <h1>FANTACALCIO LIVE — confronto design (dati fittizi)</h1>
+  <div id="tabs" role="tablist"></div>
+  <div id="desc"></div>
+</div>
+
+<main>
+  <section class="design" id="d1"><div class="wrap">
+    <div class="top">
+      <div class="card">
+        <h3>Classifica campionato</h3>
+        <table>
+          <thead><tr><th></th><th>Squadra</th><th class="num">Fatti</th><th class="num">Live</th><th class="num">Prev.</th></tr></thead>
+          <tbody id="d1-classifica"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Partite giocate</h3>
+        <table><tbody id="d1-partite"></tbody></table>
+      </div>
+      <div class="card">
+        <h3>Scontri diretti</h3>
+        <table><tbody id="d1-scontri"></tbody></table>
+      </div>
+    </div>
+    <div class="forms" id="d1-forms"></div>
+  </div></section>
+
+  <section class="design" id="d2">
+    <nav class="bottom" id="d2-nav"></nav>
+    <div class="wrap" id="d2-panels"></div>
+  </section>
+
+  <section class="design" id="d3"><div class="wrap">
+    <div class="strip" id="d3-strip"></div>
+    <div class="feed" id="d3-feed"></div>
+  </div></section>
+
+  <section class="design" id="d4"><div class="wrap">
+    <div class="board">
+      <div class="blk">
+        <h3>Classifica · live</h3>
+        <table>
+          <thead><tr id="d4-head"></tr></thead>
+          <tbody id="d4-classifica"></tbody>
+        </table>
+        <div class="legend">Tocca un'intestazione per ordinare · * = voto provvisorio</div>
+      </div>
+      <div class="blk">
+        <h3>Serie A · stato partite</h3>
+        <table><tbody id="d4-partite"></tbody></table>
+      </div>
+      <div class="blk span">
+        <h3>Formazioni</h3>
+        <div class="fgrid" id="d4-forms"></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="design" id="d5"><div class="wrap">
+    <div class="split">
+      <div>
+        <div class="tiny" style="margin-bottom:6px">Classifica live — scorri</div>
+        <div class="rail" id="d5-rail"></div>
+      </div>
+      <div class="pitchwrap" id="d5-pitchwrap"></div>
+    </div>
+  </div></section>
+</main>
+
+<script>
+/* ============================================================
+   MOCK DATA
+   ============================================================ */
+const COLORS=["#5e72e4","#f5365c","#2dce89","#fb6340","#11cdef","#8965e0","#ffd600","#344767"];
+const TEAMS=[
+ {n:"Real Ubriaconi",c:"Marco",col:0},
+ {n:"AC Pippo",c:"Giulia",col:1},
+ {n:"Bailando FC",c:"Lorenzo",col:2},
+ {n:"Sporting Divano",c:"Andrea",col:3},
+ {n:"Dinamo Spritz",c:"Chiara",col:4},
+ {n:"Atletico Ritardo",c:"Paolo",col:5},
+ {n:"Panchina United",c:"Sara",col:6},
+ {n:"Old Boys Nonni",c:"Davide",col:7},
+];
+const NAMES=["Sommer","Bastoni","Dimarco","Calafiori","Bremer","Barella","Zaccagni","Koopmeiners","Pulisic","Lautaro","Vlahovic","Thuram","Orsolini","Politano","Leao","Dybala","Lookman","Retegui","Kean","Frattesi","Provedel","Carnesecchi","Di Lorenzo","Theo","Cambiaso","Ederson"];
+const ROLES=["P","D","D","D","C","C","C","C","A","A","A"];
+const BENCH_ROLES=["P","D","C","A"];
+let seed=7; const rnd=()=>((seed=seed*1103515245+12345&0x7fffffff)/0x7fffffff);
+function mkPlayer(r,i){
+  const played=rnd()>0.28;
+  const v=played?Math.round((4.5+rnd()*3)*2)/2:null;
+  const bonus=played?(rnd()>0.82?3:rnd()>0.9?-1:0):0;
+  return {r,n:NAMES[(i*3+Math.floor(rnd()*26))%NAMES.length],v,fv:played?+(v+bonus).toFixed(1):null,live:played&&rnd()>0.6};
+}
+const DATA=TEAMS.map((t,i)=>{
+  const tit=ROLES.map((r,j)=>mkPlayer(r,i+j));
+  const pan=BENCH_ROLES.map((r,j)=>mkPlayer(r,i+j+40));
+  const prev=+(tit.reduce((s,p)=>s+(p.fv??6),0)).toFixed(1);
+  const live=+(tit.reduce((s,p)=>s+(p.fv??0),0)).toFixed(1);
+  return {...t,tit,pan,prev,live,fatti:Math.round(6+rnd()*12),
+          old:i+1,neu:0,goals:Math.max(Math.floor((prev-66)/4)+1,0)};
+});
+DATA.sort((a,b)=>b.prev-a.prev).forEach((t,i)=>t.neu=i+1);
+const MAX_PREV=Math.max(...DATA.map(t=>t.prev));
+const PARTITE=[["Inter","Milan","2","1° tempo"],["Juventus","Napoli","1","Finita"],["Roma","Lazio","0","Non iniziata"],["Atalanta","Bologna","3","2° tempo"],["Fiorentina","Torino","1","Intervallo"]];
+const COMPS=[
+  {name:"Campionato",coppa:false,pairs:[[0,1],[2,3],[4,5],[6,7]]},
+  {name:"Coppa Bailando",coppa:true,pairs:[[0,3],[2,6],[1,7],[4,null]]},
+];
+const roleColor={P:"#ffd600",D:"#11cdef",C:"#2dce89",A:"#f5365c"};
+const c=i=>COLORS[i%COLORS.length];
+const initials=n=>n.split(" ").map(w=>w[0]).join("").slice(0,3).toUpperCase();
+function voteClass(v){if(v==null)return"v-sv";if(v<5)return"v-bad";if(v<5.5)return"v-low";if(v<6.5)return"v-mid";if(v<7)return"v-ok";return"v-top";}
+function voteEl(p,mono){
+  const cls=voteClass(p.fv);
+  const txt=p.fv==null?"S.V.":p.fv.toFixed(1)+(p.live?"*":"");
+  return `<span class="vote ${cls}">${txt}</span>`;
+}
+const crest=(t,sz="")=>`<span class="crest ${sz}" style="background:${c(t.col)}">${initials(t.n)}</span>`;
+const goals=t=>Math.max(Math.floor((t.prev-66)/4)+1,0);
+
+/* ============================================================
+   D1 — CARD STACK
+   ============================================================ */
+(function(){
+  document.getElementById("d1-classifica").innerHTML=DATA.map(t=>{
+    const d=t.old-t.neu, cls=d>0?"up":d<0?"down":"flat", ar=d>0?"▲":d<0?"▼":"—";
+    return `<tr>
+      <td><span class="arrow ${cls}">${ar}</span></td>
+      <td><div class="team">${crest(t)}<b>${t.n}</b></div></td>
+      <td class="num">${t.fatti}</td>
+      <td class="num live">${t.live.toFixed(1)}</td>
+      <td class="num">${t.prev.toFixed(1)}</td></tr>`;
+  }).join("");
+  document.getElementById("d1-partite").innerHTML=PARTITE.map(p=>
+    `<tr><td><b>${p[0]}</b> – <b>${p[1]}</b></td><td class="num">${p[2]}</td><td class="muted" style="font-size:11.5px">${p[3]}</td></tr>`).join("");
+  document.getElementById("d1-scontri").innerHTML=COMPS.flatMap(cp=>
+    cp.pairs.map(([a,b])=>`<tr>
+      <td class="tiny" style="padding-left:10px">${cp.name.slice(0,4)}</td>
+      <td><div class="team">${crest(DATA[a],"sm")}<b>${DATA[a].n}</b></div></td>
+      <td class="num">${goals(DATA[a])}</td>
+      <td class="num">${b==null?"—":goals(DATA[b])}</td>
+      <td><div class="team">${b==null?'<span class="muted" style="font-size:12px">Riposo</span>':crest(DATA[b],"sm")+`<b>${DATA[b].n}</b>`}</div></td>
+    </tr>`)).join("");
+  document.getElementById("d1-forms").innerHTML=DATA.map((t,i)=>`
+    <div class="card">
+      <details class="form" ${i<2?"open":""}>
+        <summary>${crest(t,"lg")}<div><b style="font-size:13.5px">${t.n}</b><div class="tiny" style="text-transform:none">${t.c}</div></div>
+          <span class="pts">${t.prev.toFixed(1)}</span></summary>
+        <div class="seg" data-team="${i}">
+          <button class="on" data-v="tit">Titolari</button><button data-v="pan">Panca</button>
+        </div>
+        <div id="d1-pl-${i}"></div>
+      </details>
+    </div>`).join("");
+  const renderPl=(i,v)=>{
+    document.getElementById("d1-pl-"+i).innerHTML=DATA[i][v==="tit"?"tit":"pan"].map(p=>
+      `<div class="playerrow"><span class="r" style="background:${roleColor[p.r]}">${p.r}</span>
+       <span class="n">${p.n}</span>${voteEl(p)}</div>`).join("");
+  };
+  DATA.forEach((_,i)=>renderPl(i,"tit"));
+  document.getElementById("d1-forms").addEventListener("click",e=>{
+    const b=e.target.closest(".seg button"); if(!b)return;
+    const i=b.parentElement.dataset.team;
+    [...b.parentElement.children].forEach(x=>x.classList.toggle("on",x===b));
+    renderPl(i,b.dataset.v);
+  });
+})();
+
+/* ============================================================
+   D2 — TABS + BOTTOM BAR
+   ============================================================ */
+(function(){
+  const panels={
+    classifica:{ic:"🏆",label:"Classifica",html:()=>`<div class="card"><h3>Classifica live</h3>${
+      DATA.map(t=>`<div class="rank"><span class="pos">${t.neu}</span>${crest(t,"lg")}
+        <div class="meta"><b>${t.n}</b><span>${t.c} · ${t.fatti} pt</span>
+          <div class="bar"><i style="width:${(t.prev/MAX_PREV*100).toFixed(0)}%"></i></div></div>
+        <div class="pts"><b>${t.prev.toFixed(1)}</b><span>live ${t.live.toFixed(1)}</span></div></div>`).join("")
+    }</div>`},
+    scontri:{ic:"⚔️",label:"Scontri",html:()=>COMPS.map(cp=>`<div class="card"><h3>${cp.name}</h3>${
+      cp.pairs.map(([a,b])=>`<div class="vs">
+        <div class="side">${crest(DATA[a])}<b>${DATA[a].n}</b></div>
+        <div class="score">${goals(DATA[a])}–${b==null?"–":goals(DATA[b])}</div>
+        <div class="side r">${b==null?'<b class="muted">Riposo</b>':crest(DATA[b])+`<b>${DATA[b].n}</b>`}</div></div>`).join("")
+    }</div>`).join("")},
+    partite:{ic:"⚽️",label:"Serie A",html:()=>`<div class="card"><h3>Partite giocate</h3>${
+      PARTITE.map(p=>`<div class="vs"><div class="side"><b>${p[0]}</b></div>
+        <div class="score">${p[2].split("").join("–")}</div>
+        <div class="side r"><b>${p[1]}</b></div></div>
+        <div style="padding:0 14px 8px;font-size:11px;color:var(--ink-3);text-align:center">${p[3]}</div>`).join("")
+    }</div>`},
+    formazioni:{ic:"👥",label:"Formazioni",html:()=>`<div class="fgrid">${DATA.map(t=>`
+      <div class="fcard"><header>${crest(t,"lg")}<div><b>${t.n}</b><div class="tiny" style="text-transform:none">${t.c}</div></div>
+      <span class="pts">${t.prev.toFixed(1)}</span></header>${
+      t.tit.map(p=>`<div class="rank" style="padding:5px 14px"><span class="crest sm" style="background:${roleColor[p.r]}">${p.r}</span>
+        <div class="meta"><b style="font-size:13px">${p.n}</b></div>${voteEl(p)}</div>`).join("")
+      }</div>`).join("")}</div>`},
+  };
+  const keys=Object.keys(panels);
+  document.getElementById("d2-nav").innerHTML=keys.map((k,i)=>
+    `<button class="${i?"":"on"}" data-p="${k}"><span class="ic">${panels[k].ic}</span>${panels[k].label}</button>`).join("");
+  document.getElementById("d2-panels").innerHTML=keys.map((k,i)=>
+    `<div class="panel ${i?"":"on"}" data-p="${k}">${panels[k].html()}</div>`).join("");
+  document.getElementById("d2-nav").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b)return;
+    document.querySelectorAll("#d2-nav button").forEach(x=>x.classList.toggle("on",x===b));
+    document.querySelectorAll("#d2-panels .panel").forEach(p=>p.classList.toggle("on",p.dataset.p===b.dataset.p));
+    window.scrollTo({top:0});
+  });
+})();
+
+/* ============================================================
+   D3 — MATCH FEED
+   ============================================================ */
+(function(){
+  document.getElementById("d3-strip").innerHTML=PARTITE.map(p=>
+    `<div class="chip"><span class="dot ${p[3]==="Non iniziata"?"off":""}"></span>${p[0].slice(0,3)}–${p[1].slice(0,3)} <b>${p[2]}</b></div>`).join("");
+  document.getElementById("d3-feed").innerHTML=COMPS.flatMap((cp,ci)=>
+    cp.pairs.map(([a,b],pi)=>{
+      const A=DATA[a],B=b==null?null:DATA[b];
+      const pa=A.prev, pb=B?B.prev:0, tot=pa+pb||1;
+      const id=`m${ci}${pi}`;
+      return `<article class="match">
+        <div class="comp ${cp.coppa?"coppa":""}">${cp.name} · giornata 5</div>
+        <div class="head">
+          <div class="t">${crest(A,"lg")}<b>${A.n}</b><span>${A.c}</span></div>
+          <div class="sc">${goals(A)}–${B?goals(B):"–"}<small>${B?A.prev.toFixed(1)+" / "+B.prev.toFixed(1):"riposo"}</small></div>
+          <div class="t">${B?crest(B,"lg")+`<b>${B.n}</b><span>${B.c}</span>`:'<b class="muted">Riposo</b>'}</div>
+        </div>
+        <div class="fp"><i style="width:${pa/tot*100}%;background:${c(A.col)}"></i><i style="width:${pb/tot*100}%;background:${B?c(B.col):"transparent"}"></i></div>
+        ${B?`<button class="expand" data-t="${id}">Mostra formazioni ▾</button>
+        <div class="lineups" id="${id}">
+          <div>${A.tit.map(p=>`<div class="pl"><span class="crest sm" style="background:${roleColor[p.r]}">${p.r}</span><span class="n">${p.n}</span>${voteEl(p)}</div>`).join("")}</div>
+          <div>${B.tit.map(p=>`<div class="pl"><span class="crest sm" style="background:${roleColor[p.r]}">${p.r}</span><span class="n">${p.n}</span>${voteEl(p)}</div>`).join("")}</div>
+        </div>`:""}
+      </article>`;
+    })).join("");
+  document.getElementById("d3-feed").addEventListener("click",e=>{
+    const b=e.target.closest(".expand"); if(!b)return;
+    const el=document.getElementById(b.dataset.t);
+    const on=el.classList.toggle("on");
+    b.textContent=on?"Nascondi formazioni ▴":"Mostra formazioni ▾";
+  });
+})();
+
+/* ============================================================
+   D4 — DENSE BOARD
+   ============================================================ */
+(function(){
+  const cols=[["#","neu"],["Squadra","n"],["FT","fatti"],["LIVE","live"],["PREV","prev"],["GOL","goals"],["Δ","delta"],["TREND",null]];
+  let sortKey="prev", desc=true;
+  document.getElementById("d4-head").innerHTML=cols.map(([l,k])=>
+    `<th data-k="${k||""}" class="${k===sortKey?"sorted":""}">${l}</th>`).join("");
+  function render(){
+    const rows=[...DATA].sort((a,b)=>{
+      if(sortKey==="n")return desc?b.n.localeCompare(a.n):a.n.localeCompare(b.n);
+      if(sortKey==="delta")return desc?(b.old-b.neu)-(a.old-a.neu):(a.old-a.neu)-(b.old-b.neu);
+      return desc?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];
+    });
+    document.getElementById("d4-classifica").innerHTML=rows.map(t=>{
+      const d=t.old-t.neu, cls=d>0?"up":d<0?"down":"flat";
+      const bars=t.tit.slice(0,8).map(p=>`<i style="height:${Math.max(2,((p.fv??3)/9)*14)}px" class="${(p.fv??0)>=7?"hi":""}"></i>`).join("");
+      return `<tr><td>${t.neu}</td>
+        <td><span class="tname">${crest(t,"sm")}${t.n}</span></td>
+        <td>${t.fatti}</td><td style="color:#2dce89">${t.live.toFixed(1)}</td>
+        <td><b>${t.prev.toFixed(1)}</b></td><td>${goals(t)}</td>
+        <td class="delta ${cls}">${d>0?"+"+d:d||"·"}</td>
+        <td><span class="spark">${bars}</span></td></tr>`;
+    }).join("");
+    document.querySelectorAll("#d4-head th").forEach(th=>th.classList.toggle("sorted",th.dataset.k===sortKey));
+  }
+  document.getElementById("d4-head").addEventListener("click",e=>{
+    const th=e.target.closest("th"); if(!th||!th.dataset.k)return;
+    if(sortKey===th.dataset.k)desc=!desc;else{sortKey=th.dataset.k;desc=true}
+    render();
+  });
+  render();
+  document.getElementById("d4-partite").innerHTML=PARTITE.map(p=>
+    `<tr><td>${p[0]}</td><td style="text-align:right">${p[2]}</td><td style="color:#7c89a8;font-size:10px">${p[3]}</td></tr>`).join("");
+  document.getElementById("d4-forms").innerHTML=DATA.map(t=>`
+    <div class="blk fblk"><h3>${t.n} · ${t.prev.toFixed(1)}</h3>
+    ${t.tit.map(p=>`<div class="row"><span class="crest sm" style="background:${roleColor[p.r]};width:16px;height:16px;flex-basis:16px;font-size:7px">${p.r}</span>
+      <span class="n">${p.n}</span>${voteEl(p)}</div>`).join("")}
+    <div class="legend">Panca: ${t.pan.map(p=>p.n).join(", ")}</div></div>`).join("");
+})();
+
+/* ============================================================
+   D5 — SWIPE CARDS + PITCH
+   ============================================================ */
+(function(){
+  const POS=[[50,90],[20,72],[40,74],[60,74],[80,72],[18,50],[40,52],[60,52],[82,50],[32,25],[68,25]];
+  document.getElementById("d5-rail").innerHTML=DATA.map((t,i)=>`
+    <div class="tcard ${i?"":"on"}" data-i="${i}">
+      <div class="top">${crest(t,"lg")}<div><b>${t.n}</b><br><span>${t.c} · ${t.neu}º</span></div></div>
+      <div class="big">${t.prev.toFixed(1)}<small>previsti</small></div>
+      <div class="kv"><div>Live<b>${t.live.toFixed(1)}</b></div><div>Fatti<b>${t.fatti}</b></div><div>Gol<b>${goals(t)}</b></div></div>
+    </div>`).join("");
+  function pitch(i){
+    const t=DATA[i];
+    document.getElementById("d5-pitchwrap").innerHTML=`
+      <div class="pitchhead">${crest(t,"lg")}<div><b>${t.n}</b><div class="tiny" style="text-transform:none">${t.c}</div></div>
+        <div class="pts"><b>${t.prev.toFixed(1)}</b><div class="tiny">previsti</div></div></div>
+      <div class="pitch"><div class="lines"></div>
+        ${t.tit.map((p,j)=>`<div class="slot" style="left:${POS[j][0]}%;top:${POS[j][1]}%">
+          <div class="tok" style="color:${roleColor[p.r]}">${p.r}</div>
+          <div class="nm">${p.n}</div>${voteEl(p)}</div>`).join("")}
+      </div>
+      <div class="bench"><div class="tiny">Panchina</div>
+        ${t.pan.map(p=>`<div class="b"><span class="crest sm" style="background:${roleColor[p.r]}">${p.r}</span>
+          <span class="n">${p.n}</span>${voteEl(p)}</div>`).join("")}</div>`;
+  }
+  pitch(0);
+  document.getElementById("d5-rail").addEventListener("click",e=>{
+    const card=e.target.closest(".tcard"); if(!card)return;
+    document.querySelectorAll("#d5-rail .tcard").forEach(x=>x.classList.toggle("on",x===card));
+    pitch(+card.dataset.i);
+  });
+})();
+
+/* ============================================================
+   SWITCHER
+   ============================================================ */
+const DESIGNS=[
+ ["d1","1 · Card stack","Evoluzione dell'attuale Argon: card impilate a tutta larghezza su mobile, header sticky, formazioni in accordion con toggle Titolari/Panca. Minimo cambio di codice, massima continuità."],
+ ["d2","2 · Tab + bottom bar","Una sezione alla volta (Classifica / Scontri / Serie A / Formazioni) con tab bar in basso su mobile, che diventa barra in alto su desktop. Niente scroll infinito, ogni schermata ha un solo scopo."],
+ ["d3","3 · Feed partite","Gli scontri diretti diventano l'elemento principale: card versus grandi, barra di possesso punti, formazioni espandibili a confronto. Ottimo se la lega vive dei duelli settimanali."],
+ ["d4","4 · Board densa (dark)","Massima densità informativa: tabella ordinabile, sparkline dei voti, monospace, tema scuro. Pensata per chi guarda il live mentre segue le partite e vuole tutto in una schermata."],
+ ["d5","5 · Carosello + campo","Classifica come carosello swipeable di card squadra; toccando una squadra si apre la formazione disegnata sul campo con i voti sui giocatori. Il più \"app\", il più visuale."],
+];
+const tabs=document.getElementById("tabs"), desc=document.getElementById("desc");
+tabs.innerHTML=DESIGNS.map(([id,label],i)=>
+  `<button role="tab" data-d="${id}" aria-selected="${i===0}">${label}</button>`).join("");
+function show(id){
+  document.querySelectorAll(".design").forEach(s=>s.classList.toggle("on",s.id===id));
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.d===id));
+  desc.textContent=DESIGNS.find(d=>d[0]===id)[2];
+  location.hash=id;
+}
+tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.d)});
+show(location.hash.slice(1)||"d1");
+</script>
+</body>
+</html>

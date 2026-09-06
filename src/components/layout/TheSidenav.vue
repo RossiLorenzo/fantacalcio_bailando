@@ -7,11 +7,10 @@
   />
   <aside
     class="my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl fixed-start ms-3 d-none d-xl-block"
-    :class="`${
-      this.$store.state.layout === 'landing'
-        ? 'bg-transparent shadow-none'
-        : ' '
-    } ${this.$store.state.sidebarType}`"
+    :class="[
+      this.$store.state.layout === 'landing' ? 'bg-transparent shadow-none' : '',
+      this.$store.state.sidebarType
+    ]"
     id="sidenav-main"
   >
     <div class="sidenav-header">
@@ -21,7 +20,7 @@
           class="navbar-brand-img h-100"
           alt="main_logo"
         />
-        <span class="ms-2 font-weight-bold me-2">Fantacalcio 2025</span>
+        <span class="ms-2 font-weight-bold me-2">Fantacalcio {{ seasonLabel }}</span>
       </div>
     </div>
     <hr class="mt-0 horizontal dark" />
@@ -37,7 +36,7 @@
           :key="g"
           :value="g"
         >
-          Giornata {{ g }}{{ g === this.$store.state.giornataAttuale ? ' (attuale)' : '' }}
+          Giornata {{ g + this.$store.state.delay }}{{ g === this.$store.state.giornataAttuale ? ' (attuale)' : '' }}
         </option>
       </select>
     </div>
@@ -55,7 +54,7 @@
           alt="main_logo"
           style="height: 28px;"
         />
-        <span class="font-weight-bold text-sm">Fantacalcio 2025</span>
+        <span class="font-weight-bold text-sm">Fantacalcio {{ seasonLabel }}</span>
       </div>
       <button
         class="navbar-toggler border-0 p-1"
@@ -92,7 +91,7 @@
           :key="g"
           :value="g"
         >
-          Giornata {{ g }}{{ g === this.$store.state.giornataAttuale ? ' (attuale)' : '' }}
+          Giornata {{ g + this.$store.state.delay }}{{ g === this.$store.state.giornataAttuale ? ' (attuale)' : '' }}
         </option>
       </select>
     </div>
@@ -103,12 +102,17 @@
 
 <script>
 import SidenavList from "./SidenavList.vue";
+import { jerseyYear } from "@/config/season.js";
 
 export default {
   name: "TheSidenav",
   components: {
     SidenavList
   },
+  // Several roots (desktop aside, mobile navbar, overlay), so Vue has nowhere
+  // to auto-apply inherited attributes and warns about any it's given. The
+  // sidebar sets its own classes below; nothing should be inherited.
+  inheritAttrs: false,
   props: ["custom_class", "layout"],
   data() {
     return {
@@ -116,6 +120,10 @@ export default {
     };
   },
   computed: {
+    seasonLabel() {
+      const stagione = this.$store.state.stagione;
+      return stagione ? jerseyYear(stagione) : "";
+    },
     giornateOptions() {
       const attuale = this.$store.state.giornataAttuale;
       if (!attuale) return [];

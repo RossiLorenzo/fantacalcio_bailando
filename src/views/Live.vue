@@ -52,7 +52,7 @@
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
 												<ImageText
-												:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + squadra.Jersey"
+												:image="jerseyBase + squadra.Jersey"
 												:secondary_text="squadra.Coach"/>
 											</td>
 											<td style="padding: 0rem 0.0rem !important">
@@ -144,16 +144,18 @@
 
 												<td style="padding: 0rem 0.0rem !important">
 													<ImageText
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazioni[inc.ida].Jersey"
+													:image="jerseyBase + formazioni[inc.ida].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.ida].Punti_Previsti - 66)/4)+1, 0).toString()"
 													/>
 												</td>
 
 												<td style="padding: 0rem 0.0rem !important">
-													<ImageText
-													:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazioni[inc.idb].Jersey"
+													<ImageText v-if="!inc.bye"
+													:image="jerseyBase + formazioni[inc.idb].Jersey"
 													:text="Math.max(Math.floor((formazioni[inc.idb].Punti_Previsti - 66)/4)+1, 0).toString()"
 													/>
+													<!-- text-dark: the light gradient would swallow the badge's default white -->
+													<ArgonBadge v-else size="sm" variant="gradient" color="light" class="text-dark ms-2"> Riposo </ArgonBadge>
 												</td>
 
 											</tr>
@@ -173,7 +175,7 @@
 						<div class="card">
 							<div class="p-3 pb-0 card-header">
 								<ImageText
-								:image="'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_2025/' + formazione.Jersey"
+								:image="jerseyBase + formazione.Jersey"
 								:text="formazione.Name"
 								:secondary_text="formazione.Coach"/>
 						</div>
@@ -219,7 +221,7 @@
 													<div v-if="giocatore.fv == 100 && giocatore.status == 4">
 														<div class="d-flex flex-row justify-content-left">
 														<ImageText
-														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
+														:image="campioncinoBase + giocatore.immagine + '.png'"
 														:text="giocatore.n"
 														:sub="true"
 														:secondary_text="mapping_roles[giocatore.r]"/>
@@ -231,7 +233,7 @@
 														</div>
 														<div v-else>
 															<ImageText
-																:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.sostituto.immagine + '.png'"
+																:image="campioncinoBase + giocatore.sostituto.immagine + '.png'"
 																:text="giocatore.sostituto.n"
 																:secondary_text="mapping_roles[giocatore.r]"
 															/>
@@ -242,7 +244,7 @@
 
 													<div v-else>
 														<ImageText
-														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
+														:image="campioncinoBase + giocatore.immagine + '.png'"
 														:text="giocatore.n"
 														:secondary_text="mapping_roles[giocatore.r]"/>
 													</div>
@@ -251,7 +253,7 @@
 												<!-- Per i panchinari no -->
 												<div v-else class="d-flex flex-column justify-content-center">
 														<ImageText
-														:image="'https://content.fantacalcio.it/web/campioncini/20/small/' + giocatore.immagine + '.png'"
+														:image="campioncinoBase + giocatore.immagine + '.png'"
 														:text="giocatore.n"
 														:secondary_text="mapping_roles[giocatore.r]"/>
 												</div>
@@ -310,12 +312,14 @@
 
 	import fantacalcio_apis from "@/utils/api.js";
 	import async_cors_request from "@/utils/asyncCors.js";
+	import async_gaming_request from "@/utils/asyncGaming.js";
 
 	import live_votes_status from "@/utils/calculations/voti.js";
 	import aggiorna_formazioni from "@/utils/calculations/formazioni.js";
 	import calcolo_classifica_lega from "@/utils/calculations/classifiche.js";
 	import scontri_diretti from "@/utils/calculations/scontri.js";
 	import dataCache from "@/utils/cache.js";
+	import { competizioni_attive, jerseyYear } from "@/config/season.js";
 
 	import ImageText from "@/components/fantacalcio/ImageText.vue";
 	import RankingArrows from "@/components/fantacalcio/RankingArrows.vue";
@@ -370,7 +374,8 @@
 				played: {},
 				scontri_diretti: {},
 				ban,
-				delay: 3,
+				delay: null,
+				campionatoId: null,
 				year: null,
 				squadre: null,
 				campionato: null,
@@ -384,6 +389,16 @@
 computed: {
 			storeGiornata() {
 				return this.$store.state.giornata;
+			},
+			campioncinoBase() {
+				// Player mugshots are filed under the season id, not the year.
+				return 'https://content.fantacalcio.it/web/campioncini/' + this.year + '/small/';
+			},
+			jerseyBase() {
+				// `year` is the timer's id_stagione (20 = 2025/26, 21 = 2026/27);
+				// the CDN folder is keyed by the calendar year the season starts in.
+				return 'https://d2lhpso9w1g8dk.cloudfront.net/web/risorse/maglietta_'
+					+ jerseyYear(this.year) + '/';
 			},
 			hasScontriDiretti() {
 				if (!this.scontri_diretti || typeof this.scontri_diretti !== 'object') {
@@ -406,19 +421,25 @@ computed: {
 			try {
 				this.to_load = "CARICAMENTO Dati...";
 
-				const competizioni = [661957, 662201, 662006, 662106];
-
-				// Fetch timer and all cacheable data in parallel
-				const timerPromise = fantacalcio_apis(
-					'timer',
-					new Map([['function', async_cors_request], ['method', 'get']])
-				);
-
 				// Check cache for static data
 				const cachedSquadre = dataCache.get('squadre');
 				const cachedPlayers = dataCache.get('all_players');
 				const cachedCoppe = dataCache.get('coppe');
 				const cachedCampionato = dataCache.get('campionato');
+				const cachedProfilo = dataCache.get('lega_profilo');
+
+				// Which competitions this season uses is read off the lega profilo,
+				// so a new season needs no code change. Everything else depends on
+				// those ids, so this round trip has to come first.
+				const [timer, profilo] = await Promise.all([
+					fantacalcio_apis('timer', new Map([['function', async_cors_request], ['method', 'get']])),
+					cachedProfilo ? Promise.resolve(cachedProfilo) :
+						fantacalcio_apis('lega_profilo', new Map([['function', async_cors_request], ['method', 'get']]))
+				]);
+				if (!cachedProfilo) dataCache.set('lega_profilo', profilo);
+
+				const { campionato: campionatoId, coppe: coppeIds, delay, squadre: squadreAttive } = competizioni_attive(profilo);
+				this.campionatoId = campionatoId;
 
 				// Use cached data or fetch
 				const squadrePromise = cachedSquadre ? Promise.resolve(cachedSquadre) :
@@ -428,23 +449,21 @@ computed: {
 					fantacalcio_apis('lista_calciatori', new Map([['function', async_cors_request], ['method', 'get']]));
 
 				const campionatoPromise = cachedCampionato ? Promise.resolve(cachedCampionato) :
-					fantacalcio_apis('competizioni', new Map([['function', async_cors_request], ['method', 'get'], ['competizione', 661957]]));
+					fantacalcio_apis('competizioni', new Map([['function', async_cors_request], ['method', 'get'], ['competizione', campionatoId]]));
 
 				const coppePromises = cachedCoppe ? Promise.resolve(cachedCoppe) :
-					Promise.all(competizioni.slice(1).map(comp =>
+					Promise.all(coppeIds.map(comp =>
 						fantacalcio_apis('competizioni', new Map([['function', async_cors_request], ['method', 'get'], ['competizione', comp]]))
 					));
 
 				// Execute all in parallel
-				const [timer, squadreData, playersData, campionatoData, coppeData] = await Promise.all([
-					timerPromise,
+				const [squadreData, playersData, campionatoData, coppeData] = await Promise.all([
 					squadrePromise,
 					playersPromise,
 					campionatoPromise,
 					coppePromises
 				]);
 
-				let delay = 3;
 				let giornata = timer['data']['giornata'] - delay;
 				if (new Date(timer.data.data_inizio_turno + '+0200') >= new Date()) {
 					giornata = giornata - 1;
@@ -452,10 +471,15 @@ computed: {
 				if (giornata == 99) {
 					giornata = 37;
 				}
+				// Before the lega's first giornata is played there is nothing to show;
+				// clamp so the calendar lookups stay in range.
+				giornata = Math.max(giornata, 1);
 				let year = timer['data']['id_stagione'];
 
 				this.$store.commit('setGiornata', giornata);
 				this.$store.commit('setGiornataAttuale', giornata);
+				this.$store.commit('setStagione', year);
+				this.$store.commit('setDelay', delay);
 
 				this.delay = delay;
 				this.year = year;
@@ -467,7 +491,9 @@ computed: {
 					squadre = squadreData;
 				} else {
 					squadre = squadreData;
-					squadre.data = squadre.data.filter(x => x.n != "New Riposo");
+					// Keep only the teams entered in this season's campionato: that
+					// drops both retired teams and the "New Riposo" bye placeholder.
+					squadre.data = squadre.data.filter(x => squadreAttive.includes(x.id));
 					dataCache.set('squadre', squadre);
 				}
 
@@ -507,10 +533,7 @@ computed: {
 
 				// Fetch formazioni and live data in parallel
 				const [formazioni, giornataLive] = await Promise.all([
-					fantacalcio_apis(
-						'formazioni',
-						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
-					),
+					this.fetchLineups(giornata),
 					fantacalcio_apis(
 						'giornata_live',
 						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata + delay], ['year', year]])
@@ -523,17 +546,14 @@ computed: {
 
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, completed, squadre, all_players, undefined);
 				this.classifica = calcolo_classifica_lega(squadre, campionato, giornata, this.formazioni);
-				this.scontri_diretti = scontri_diretti(coppe, giornata + delay);
+				this.scontri_diretti = scontri_diretti(coppe, giornata + delay, this.formazioni);
 
 				// Set up refresh interval with parallel fetching
 				this.refreshInterval = setInterval(async () => {
 					const currentGiornata = this.$store.state.giornata;
 
 					const [newFormazioni, newGiornataLive] = await Promise.all([
-						fantacalcio_apis(
-							'formazioni',
-							new Map([['function', async_cors_request], ['method', 'get'], ['giornata', currentGiornata]])
-						),
+						this.fetchLineups(currentGiornata),
 						fantacalcio_apis(
 							'giornata_live',
 							new Map([['function', async_cors_request], ['method', 'get'], ['giornata', currentGiornata + this.delay], ['year', this.year]])
@@ -547,7 +567,7 @@ computed: {
 					let prev_formazioni = this.formazioni;
 					this.formazioni = aggiorna_formazioni(newFormazioni, new_l_and_s, completed, this.squadre, this.all_players, prev_formazioni);
 					this.classifica = calcolo_classifica_lega(this.squadre, this.campionato, currentGiornata, this.formazioni);
-					this.scontri_diretti = scontri_diretti(this.coppe, currentGiornata + this.delay);
+					this.scontri_diretti = scontri_diretti(this.coppe, currentGiornata + this.delay, this.formazioni);
 				}, completed ? 120000 : 30000);
 
 				const endTime = performance.now();
@@ -561,15 +581,36 @@ computed: {
 			}
 		},
 		methods: {
+			// The gaming API serves one lineup per request, so a giornata is one
+			// call per team. `avversario` 0 asks for the one-vs-all view, which is
+			// what the campionato is; the cups' head-to-head pairings come from
+			// scontri_diretti, which reads the competition calendar instead.
+			async fetchLineups(giornata) {
+				const ids = this.squadre.data.map(x => x.id);
+				const lineups = await Promise.all(ids.map(id =>
+					fantacalcio_apis('lineup_live', new Map([
+						['function', async_gaming_request],
+						['method', 'get'],
+						['competizione', this.campionatoId],
+						['giornata', giornata],
+						['giornata_serie_a', giornata + this.delay],
+						['squadra', id],
+						['avversario', 0]
+					]))
+				));
+				const by_team = {};
+				ids.forEach((id, i) => {
+					// The endpoint echoes the requested team back as `home`.
+					by_team[id] = lineups[i] ? lineups[i].home : undefined;
+				});
+				return by_team;
+			},
 			async loadGiornataData(giornata) {
 				const startTime = performance.now();
-				this.to_load = "CARICAMENTO Giornata " + giornata;
+				this.to_load = "CARICAMENTO Giornata " + (giornata + this.delay);
 
 				const [formazioni, giornataLive] = await Promise.all([
-					fantacalcio_apis(
-						'formazioni',
-						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata]])
-					),
+					this.fetchLineups(giornata),
 					fantacalcio_apis(
 						'giornata_live',
 						new Map([['function', async_cors_request], ['method', 'get'], ['giornata', giornata + this.delay], ['year', this.year]])
@@ -582,7 +623,7 @@ computed: {
 
 				this.formazioni = aggiorna_formazioni(formazioni, l_and_s, false, this.squadre, this.all_players, undefined);
 				this.classifica = calcolo_classifica_lega(this.squadre, this.campionato, giornata, this.formazioni);
-				this.scontri_diretti = scontri_diretti(this.coppe, giornata + this.delay);
+				this.scontri_diretti = scontri_diretti(this.coppe, giornata + this.delay, this.formazioni);
 
 				const endTime = performance.now();
 				this.loadTime = Math.round(endTime - startTime);

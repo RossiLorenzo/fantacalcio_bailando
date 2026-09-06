@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 
 import fantacalcio_apis from "@/utils/api.js";
 import async_cors_request from "@/utils/asyncCors.js";
+import { LEGA_ID } from "@/config/season.js";
 
 export default async function login(username, password){
 	// Send request
@@ -14,10 +15,13 @@ export default async function login(username, password){
     );
     // Save cookie
     if (login_data['success']) {
-    	let is_bailando_league = login_data['data']['leghe'].map(y => y.id).includes(1113631);
-        if (is_bailando_league) {
+    	let bailando = login_data['data']['leghe'].find(y => y.id === LEGA_ID);
+        if (bailando) {
           Cookies.set('utente_token', login_data['data']['utente']['utente_token'], {expires: 31});
-          Cookies.set('lega_token', login_data['data']['leghe'][0]['token'], {expires: 31});
+          Cookies.set('lega_token', bailando['token'], {expires: 31});
+          // The gaming API (apileague) authenticates with the lega JWT as a
+          // bearer token instead of the legacy lega_token header.
+          Cookies.set('lega_jwt', bailando['jwt'], {expires: 31});
         }
         else { return false; }
     } else { return false; }

@@ -1,148 +1,122 @@
 import mod_difesa from "@/utils/calculations/difesa.js";
 import sostituzioni from "@/utils/calculations/sostituzioni.js";
 
-export default function aggiorna_formazioni(formazioni, l_and_s, completed, squadre, p_stats, prev_f){
-	// Calcola formazioni aggiornate
-	let f = formazioni['data']['formazioni'];
+// Sentinel the API uses for "no fantavoto yet" (and 56 / 55 for senza voto).
+const NO_VOTE = 100;
 
-	// IDs delle squadre
-	let ids = squadre.data.map(x => x.id)
+function non_schierata(){
+	let giocatori = [];
+	for (let k = 0; k < 22; k++) {
+		giocatori.push({
+			id: 219,
+			fv: 0,
+			vt: 0,
+			r: 'NA',
+			n: 'Non Schierato',
+			t: null,
+			status: 4,
+			immagine: null,
+			voto_finale: 0,
+			voto_iniziale: 0,
+			in_calcolo: false
+		});
+	}
+	return giocatori;
+}
+
+// The gaming API returns lineups as bare player ids plus the scores it has
+// already calculated (`scr` = voto, `cscr` = fantavoto, both 100 until the
+// player's Serie A match has been played). Everything else about the player —
+// name, role, image, which Serie A side he plays for — comes from the listone.
+function costruisci_giocatore(p, p_index, l_and_s){
+	let anagrafica = p_index[p.pid];
+	let id_s = anagrafica ? anagrafica.id_s : null;
+	let status = (id_s != null && l_and_s.status[id_s] != undefined) ? l_and_s.status[id_s].status : 4;
+
+	let giocatore = {
+		id: p.pid,
+		id_s: id_s,
+		n: anagrafica ? anagrafica.n : 'Sconosciuto',
+		r: anagrafica ? anagrafica.r_f : 'NA',
+		immagine: anagrafica ? anagrafica.img : null,
+		vt: p.scr,
+		fv: p.cscr,
+		bonus: p.b,
+		status: status,
+		voto_iniziale: p.scr,
+		voto_finale: p.cscr,
+		in_calcolo: false
+	};
+
+	// The gaming API only publishes a fantavoto once the match is over: while
+	// one is running every cscr is still 100. So for a player whose match has
+	// kicked off but has no server score yet, fall back to the Gazzetta live
+	// feed, which updates in real time. `in_calcolo` marks it as provisional
+	// and the UI renders it with an asterisk.
+	if (status > 0 && p.cscr == NO_VOTE) {
+		let live = l_and_s.voti[p.pid];
+		// vt above 10 is a sentinel (56/55 = senza voto), not a real vote.
+		if (live != undefined && live.vt <= 10) {
+			giocatore.voto_finale = live.fv;
+			giocatore.voto_iniziale = live.vt;
+			giocatore.fv = live.fv;
+			giocatore.vt = live.vt;
+			giocatore.in_calcolo = true;
+		}
+	}
+
+	return giocatore;
+}
+
+// `lineups` is { [team id]: gaming/v1 teamLineup live response }.
+export default function aggiorna_formazioni(lineups, l_and_s, completed, squadre, p_stats, prev_f){
+
+	// Index the listone once instead of scanning it per player.
+	let p_index = {};
+	for (let i = 0; i < p_stats.data.length; i++) {
+		p_index[p_stats.data[i].id] = p_stats.data[i];
+	}
+
+	let ids = squadre.data.map(x => x.id);
 
 	let f_u = {};
 	for (let i = 0; i < ids.length; i++) {
-
-		// Setta squadre
 		let s_id = ids[i];
-		let s_f = f.filter(x => x['sq'][0]['id'] == s_id);
+		let lineup = lineups[s_id];
 
-		// Metti dummy per squadre senza formazione
-		let giocatori
-		if (s_f.length == 0) {
-			let non_schierata = [];
-			for (let k = 0; k < 22; k++) {
-				non_schierata.push({
-					id: 219,
-					fv: 0,
-					vt: 0,
-					r: 'NA',
-					n: 'Non Schierato',
-					t: null,
-					status: 4
-				})
-			}
-			giocatori = non_schierata;
+		let titolari, panchinari, punti_server;
+		if (lineup == undefined || lineup.act != 1 || !lineup.starts || lineup.starts.length == 0) {
+			let giocatori = non_schierata();
+			titolari = giocatori.slice(0, 11);
+			panchinari = giocatori.slice(11, 22);
+			punti_server = 0;
 		} else {
-			giocatori = s_f[0]['sq'][0]['pl'];
-			if(giocatori == null){
-				let non_schierata = [];
-				for (let k = 0; k < 22; k++) {
-					non_schierata.push({
-						id: 219,
-						fv: 0,
-						vt: 0,
-						r: 'NA',
-						n: 'Non Schierato',
-						t: null,
-						status: 4
-					})
-				}
-				giocatori = non_schierata;
-			} else {
-				for (let j = giocatori.length - 1; j >= 0; j--) {
-					giocatori[j].status = l_and_s.status[giocatori[j]['id_s']].status;
-				}
-			}
+			titolari = lineup.starts.map(p => costruisci_giocatore(p, p_index, l_and_s));
+			panchinari = lineup.bench.map(p => costruisci_giocatore(p, p_index, l_and_s));
+			punti_server = lineup.tot;
 		}
 
-		// Trova giocatori
-		let titolari = giocatori.slice(0, 11);
-		let panchinari = giocatori.slice(11, 22);
-
-		// Attiva lo switch
-		let switch_out = 0
-		let switch_in = 0
-		if (s_f.length != 0) {
-			switch_out = s_f[0]['sq'][0]['sa'];
-			switch_in = s_f[0]['sq'][0]['sb'];
-		}
-		// Controlla che ci sia uno switch
-		if(switch_out != 0){
-			// Controlla che lo switch non sia gia stato implementato
-			if(titolari.filter(x => x.id == switch_out)[0] != undefined){
-				// Controlla che la partita sia iniziata
-				let squadra_switch_out = giocatori.filter(x => x.id == switch_out)[0].id_s;
-				if(l_and_s.status[squadra_switch_out].status != 0){
-					// Controlla che il giocatore NON sia titolare
-					if(l_and_s.voti[switch_out] == undefined){
-						let to_switch_out_data = titolari.filter(x => x.id == switch_out)[0]
-						let to_switch_out_index = titolari.findIndex(x => x.id == switch_out)
-						let to_switch_in_index = panchinari.findIndex(x => x.id == switch_in)
-						titolari[to_switch_out_index] = panchinari[to_switch_in_index]
-						panchinari[to_switch_in_index] = to_switch_out_data
-					} else {
-						if(!l_and_s.voti[switch_out].titolare){
-							let to_switch_out_data = titolari.filter(x => x.id == switch_out)[0]
-							let to_switch_out_index = titolari.findIndex(x => x.id == switch_out)
-							let to_switch_in_index = panchinari.findIndex(x => x.id == switch_in)
-							titolari[to_switch_out_index] = panchinari[to_switch_in_index]
-							panchinari[to_switch_in_index] = to_switch_out_data
-						}
-					}
-				}
-			}
-		}
-
-
-		// Aggiorna voti
-		for (let j = 0; j < 11; j++) {
-
-			// Crea categoria voto finale
-			titolari[j]['voto_finale'] = titolari[j]['fv'];
-			titolari[j]['voto_iniziale'] = titolari[j]['vt'];
-			titolari[j]['in_calcolo'] = false;
-			panchinari[j]['voto_finale'] = panchinari[j]['fv'];
-			panchinari[j]['voto_iniziale'] = panchinari[j]['vt'];
-			panchinari[j]['in_calcolo'] = false;
-
-			// Aggiungi immagine
-			titolari[j]['immagine'] = p_stats.data.filter(x => x.id == titolari[j].id)[0].img;
-			panchinari[j]['immagine'] = p_stats.data.filter(x => x.id == panchinari[j].id)[0].img;
-
-			// Aggiorna voti con live
-			if (titolari[j].status > 0 && titolari[j].fv == 100) {
-				if (l_and_s.voti[titolari[j]['id']] != undefined && l_and_s.voti[titolari[j]['id']].vt <= 10) {
-					titolari[j]['voto_finale'] = l_and_s.voti[titolari[j]['id']].fv;
-					titolari[j]['voto_iniziale'] = l_and_s.voti[titolari[j]['id']].vt;
-					titolari[j]['fv'] = l_and_s.voti[titolari[j]['id']].fv;
-					titolari[j]['in_calcolo'] = true;
-				}
-			}
-
-			if (panchinari[j].status > 0 && panchinari[j].fv == 100) {
-				if (l_and_s.voti[panchinari[j]['id']] != undefined && l_and_s.voti[panchinari[j]['id']].vt <= 10) {
-					panchinari[j]['voto_finale'] = l_and_s.voti[panchinari[j]['id']].fv;
-					panchinari[j]['voto_iniziale'] = l_and_s.voti[panchinari[j]['id']].vt;
-					panchinari[j]['fv'] = l_and_s.voti[panchinari[j]['id']].fv;
-					panchinari[j]['in_calcolo'] = true;
-				}
-			}
-		}
+		// The manual switch the old API exposed as sa/sb is already reflected in
+		// the order the gaming API returns, so there is nothing to swap here.
 
 		// Effettua sostituzioni
 		titolari = sostituzioni(titolari, panchinari, completed);
 
-		// Calculate expected points
-		let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['voto_finale'] == 100 ? 6 : x['voto_finale']), 0);
-		// Popola dati puliti
+		// Calculate expected points: a player still without a fantavoto is
+		// projected at 6, same as before.
+		let exp_points = titolari.reduce((partialSum, x) => partialSum + (x['voto_finale'] == NO_VOTE ? 6 : x['voto_finale']), 0);
+
+		let squadra = squadre['data'].filter(y => y.id == s_id)[0];
 		f_u[s_id] = {
-			'Name': squadre['data'].filter(y => y.id == s_id)[0]['n'],
-			'Coach': squadre['data'].filter(y => y.id == s_id)[0]['nu'],
-			'Jersey': squadre['data'].filter(y => y.id == s_id)[0]['ms'],
-			// 'Modulo': f[i]['sq'][0]['m'].split(';')[0],
-			// 'Ultimo_Aggiornamento': Math.floor((Date.parse(Date()) - Date.parse(f[i]['sq'][0]['dt'])) / (1000 * 60 * 60)),
+			'Name': squadra['n'],
+			'Coach': squadra['nu'],
+			'Jersey': squadra['ms'],
+			'Modulo': lineup != undefined ? lineup.mdl : null,
 			'Titolari': titolari,
 			'Panchinari': panchinari,
-			// 'Punti': f[i]['sq'][0]['t'],
+			// What the official app shows as the live total: the server's own
+			// sum over starters who already have a fantavoto, no projection.
+			'Punti_Server': punti_server,
 			'Punti_Previsti': exp_points + mod_difesa(titolari),
 			'Mostra': prev_f == undefined ? 'Titolari' : prev_f[s_id]['Mostra']
 		}
